@@ -1,0 +1,1222 @@
+[
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-001",
+    "url": "https://example.com/p/seed-001",
+    "title": "Black Oversized Cotton Hoodie",
+    "brand": "H&M",
+    "category": "hoodies",
+    "description": "Relaxed-fit pullover hoodie in heavyweight brushed cotton with kangaroo pocket and drawcord hood.",
+    "price": "39.99",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1633292750937-120a94f5c2bb?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "black"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "attributes": {
+      "fit": "oversized",
+      "material": "cotton",
+      "pocket_count": 1
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-002",
+    "url": "https://example.com/p/seed-002",
+    "title": "Minimalist Grey Hoodie with Hidden Zip Pocket",
+    "brand": "Uniqlo",
+    "category": "hoodies",
+    "description": "Slim-fit fleece hoodie in heather grey with internal zipped chest pocket and ribbed cuffs.",
+    "price": "49.90",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1564557287817-3785e38ec1f5?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "grey"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "attributes": {
+      "fit": "slim",
+      "material": "fleece",
+      "pocket_count": 2,
+      "hidden_pockets": true
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-003",
+    "url": "https://example.com/p/seed-003",
+    "title": "Navy Tech Fleece Full-Zip Hoodie",
+    "brand": "Nike",
+    "category": "hoodies",
+    "description": "Lightweight Tech Fleece with full-length zip and side pockets. Tapered fit, ideal for layering.",
+    "price": "120.00",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1729780922545-8e940500c172?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "navy"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "attributes": {
+      "fit": "tapered",
+      "material": "tech-fleece",
+      "pocket_count": 2
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-010",
+    "url": "https://example.com/p/seed-010",
+    "title": "Black Cargo Pants with 6 Pockets",
+    "brand": "Carhartt",
+    "category": "pants",
+    "description": "Relaxed straight-leg cargo pants in heavyweight cotton ripstop with two side cargo pockets, two back pockets, and two front slash pockets.",
+    "price": "89.00",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1548883354-7622d03aca27?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "black"
+    ],
+    "sizes": [
+      "28",
+      "30",
+      "32",
+      "34",
+      "36"
+    ],
+    "attributes": {
+      "fit": "relaxed",
+      "material": "cotton-ripstop",
+      "pocket_count": 6
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-011",
+    "url": "https://example.com/p/seed-011",
+    "title": "Olive Tactical Cargo Pants",
+    "brand": "ASOS",
+    "category": "pants",
+    "description": "Loose-fit cargo trousers in olive green with five-pocket layout, drawstring hem and reinforced knees.",
+    "price": "55.00",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1584865288642-42078afe6942?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "olive"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "attributes": {
+      "fit": "loose",
+      "material": "cotton",
+      "pocket_count": 5
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-012",
+    "url": "https://example.com/p/seed-012",
+    "title": "Beige Wide-Leg Chinos",
+    "brand": "Uniqlo",
+    "category": "pants",
+    "description": "Soft beige wide-leg chinos with side pockets and clean tailored finish.",
+    "price": "39.90",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1763673375433-e425a50a3464?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "beige"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "attributes": {
+      "fit": "wide-leg",
+      "material": "cotton-twill",
+      "pocket_count": 4
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-013",
+    "url": "https://example.com/p/seed-013",
+    "title": "Slim Black Dress Trousers",
+    "brand": "Zara",
+    "category": "pants",
+    "description": "Slim-fit black trousers in wool-blend with welt pockets.",
+    "price": "59.90",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1618886614638-80e3c103d31a?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "black"
+    ],
+    "sizes": [
+      "28",
+      "30",
+      "32",
+      "34"
+    ],
+    "attributes": {
+      "fit": "slim",
+      "material": "wool-blend",
+      "pocket_count": 4
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-020",
+    "url": "https://example.com/p/seed-020",
+    "title": "Classic 501 Original Fit Jeans",
+    "brand": "Levi's",
+    "category": "jeans",
+    "description": "The original straight-leg blue jean. Button fly, sits at waist, rigid denim.",
+    "price": "98.00",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1631112230741-446762ee05ac?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "indigo"
+    ],
+    "sizes": [
+      "28",
+      "30",
+      "32",
+      "34",
+      "36"
+    ],
+    "attributes": {
+      "fit": "straight",
+      "material": "denim",
+      "pocket_count": 5
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-021",
+    "url": "https://example.com/p/seed-021",
+    "title": "Loose Black Wash Jeans",
+    "brand": "H&M",
+    "category": "jeans",
+    "description": "Baggy fit jeans in rinsed black denim with relaxed leg.",
+    "price": "44.99",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1718252540511-e958742e4165?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "black"
+    ],
+    "sizes": [
+      "28",
+      "30",
+      "32",
+      "34"
+    ],
+    "attributes": {
+      "fit": "loose",
+      "material": "denim",
+      "pocket_count": 5
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-022",
+    "url": "https://example.com/p/seed-022",
+    "title": "Light Wash Slim Jeans",
+    "brand": "Zara",
+    "category": "jeans",
+    "description": "Slim-fit jeans in light blue stretch denim.",
+    "price": "49.90",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1602293589930-45aad59ba3ab?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "light-blue"
+    ],
+    "sizes": [
+      "28",
+      "30",
+      "32",
+      "34"
+    ],
+    "attributes": {
+      "fit": "slim",
+      "material": "stretch-denim",
+      "pocket_count": 5
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-030",
+    "url": "https://example.com/p/seed-030",
+    "title": "Waterproof Rain Jacket - Trail 3L",
+    "brand": "Patagonia",
+    "category": "jackets",
+    "description": "Lightweight three-layer waterproof shell with taped seams, pit zips, and packable hood. Reviewers consistently praise long-term durability.",
+    "price": "229.00",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1548883354-94bcfe321cbb?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "forest"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "attributes": {
+      "fit": "regular",
+      "material": "three-layer-shell",
+      "waterproof": true,
+      "pocket_count": 4
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-031",
+    "url": "https://example.com/p/seed-031",
+    "title": "Insulated Puffer Jacket",
+    "brand": "The North Face",
+    "category": "jackets",
+    "description": "550-fill down puffer jacket with adjustable hood and zippered hand pockets.",
+    "price": "279.00",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1557418669-db3f781a58c0?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "black"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "attributes": {
+      "fit": "regular",
+      "material": "down",
+      "waterproof": false,
+      "pocket_count": 3
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-032",
+    "url": "https://example.com/p/seed-032",
+    "title": "Black Faux Leather Biker Jacket",
+    "brand": "ASOS",
+    "category": "jackets",
+    "description": "Cropped faux leather biker jacket with asymmetric zip and shoulder epaulettes.",
+    "price": "85.00",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "black"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "attributes": {
+      "fit": "cropped",
+      "material": "faux-leather",
+      "pocket_count": 4
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-033",
+    "url": "https://example.com/p/seed-033",
+    "title": "Beige Trench Coat",
+    "brand": "Zara",
+    "category": "jackets",
+    "description": "Classic double-breasted trench coat in beige with belted waist.",
+    "price": "129.00",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1676716105765-e19fe6a01851?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "beige"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L"
+    ],
+    "attributes": {
+      "fit": "regular",
+      "material": "cotton-twill",
+      "waterproof": false,
+      "pocket_count": 4
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-040",
+    "url": "https://example.com/p/seed-040",
+    "title": "Heavyweight White Cotton T-Shirt",
+    "brand": "Uniqlo",
+    "category": "tshirts",
+    "description": "Heavyweight 8oz cotton tee with boxy fit and ribbed neck.",
+    "price": "19.90",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "white"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "attributes": {
+      "fit": "boxy",
+      "material": "cotton",
+      "weight_gsm": 240
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-041",
+    "url": "https://example.com/p/seed-041",
+    "title": "Vintage Wash Graphic Tee",
+    "brand": "H&M",
+    "category": "tshirts",
+    "description": "Soft cotton graphic tee with sun-faded vintage wash and front print.",
+    "price": "14.99",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1758300012429-d46a483777d8?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "faded-black"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "attributes": {
+      "fit": "regular",
+      "material": "cotton"
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-042",
+    "url": "https://example.com/p/seed-042",
+    "title": "Dri-FIT Performance Tee",
+    "brand": "Nike",
+    "category": "tshirts",
+    "description": "Moisture-wicking performance tee for running and training.",
+    "price": "30.00",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1686247166132-be2e27035108?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "black",
+      "grey",
+      "navy"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "attributes": {
+      "fit": "athletic",
+      "material": "polyester",
+      "moisture_wicking": true
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-043",
+    "url": "https://example.com/p/seed-043",
+    "title": "Striped Long-Sleeve Tee",
+    "brand": "Uniqlo",
+    "category": "tshirts",
+    "description": "Long-sleeve cotton tee with horizontal stripes.",
+    "price": "24.90",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1686135153032-ce4813dfbcff?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "navy/white"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "attributes": {
+      "fit": "regular",
+      "material": "cotton"
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-050",
+    "url": "https://example.com/p/seed-050",
+    "title": "Air Force 1 '07 Sneakers",
+    "brand": "Nike",
+    "category": "sneakers",
+    "description": "Classic low-top leather sneaker in triple white.",
+    "price": "115.00",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1615109255406-2a4354fc6b3e?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "white"
+    ],
+    "sizes": [
+      "8",
+      "9",
+      "10",
+      "11",
+      "12"
+    ],
+    "attributes": {
+      "material": "leather",
+      "style": "low-top"
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-051",
+    "url": "https://example.com/p/seed-051",
+    "title": "Samba OG Sneakers",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "description": "Iconic low-profile trainer with gum sole and suede T-toe.",
+    "price": "100.00",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1587563871167-1ee9c731aefb?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "black/white"
+    ],
+    "sizes": [
+      "8",
+      "9",
+      "10",
+      "11",
+      "12"
+    ],
+    "attributes": {
+      "material": "leather-suede",
+      "style": "low-top"
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-052",
+    "url": "https://example.com/p/seed-052",
+    "title": "Chunky Dad Sneakers",
+    "brand": "Zara",
+    "category": "sneakers",
+    "description": "Chunky-soled chunky dad sneakers in beige and white panels.",
+    "price": "59.90",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1748354815058-b098acf7f009?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "beige"
+    ],
+    "sizes": [
+      "8",
+      "9",
+      "10",
+      "11"
+    ],
+    "attributes": {
+      "material": "synthetic",
+      "style": "chunky"
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-060",
+    "url": "https://example.com/p/seed-060",
+    "title": "Cable-Knit Wool Sweater",
+    "brand": "Uniqlo",
+    "category": "sweaters",
+    "description": "Classic cable-knit sweater in merino wool blend.",
+    "price": "59.90",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1631541909061-71e349d1f203?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "cream"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "attributes": {
+      "fit": "regular",
+      "material": "wool-blend"
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-061",
+    "url": "https://example.com/p/seed-061",
+    "title": "Oversized Mock-Neck Sweater",
+    "brand": "Zara",
+    "category": "sweaters",
+    "description": "Heavyweight oversized mock-neck sweater in charcoal.",
+    "price": "49.90",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1610901157620-340856d0a50f?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "charcoal"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "attributes": {
+      "fit": "oversized",
+      "material": "acrylic-wool"
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-062",
+    "url": "https://example.com/p/seed-062",
+    "title": "Cropped Cardigan",
+    "brand": "H&M",
+    "category": "sweaters",
+    "description": "Cropped button-front cardigan in soft pink ribbed knit.",
+    "price": "34.99",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1738927609747-6846c608fdfe?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "pink"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L"
+    ],
+    "attributes": {
+      "fit": "cropped",
+      "material": "rib-knit"
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-070",
+    "url": "https://example.com/p/seed-070",
+    "title": "Linen Midi Dress",
+    "brand": "Zara",
+    "category": "dresses",
+    "description": "Sleeveless linen midi dress with side slits and tie waist.",
+    "price": "79.90",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1733043014211-8d699f6a82b1?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "sand"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L"
+    ],
+    "attributes": {
+      "fit": "regular",
+      "material": "linen",
+      "length": "midi"
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-071",
+    "url": "https://example.com/p/seed-071",
+    "title": "Floral Wrap Dress",
+    "brand": "H&M",
+    "category": "dresses",
+    "description": "V-neck wrap dress in soft floral print.",
+    "price": "39.99",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "floral"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L"
+    ],
+    "attributes": {
+      "fit": "wrap",
+      "material": "viscose"
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-072",
+    "url": "https://example.com/p/seed-072",
+    "title": "Little Black Slip Dress",
+    "brand": "ASOS",
+    "category": "dresses",
+    "description": "Bias-cut black satin slip dress with cowl neck.",
+    "price": "55.00",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1656284518334-710b60cd63a0?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "black"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L"
+    ],
+    "attributes": {
+      "fit": "slip",
+      "material": "satin"
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-080",
+    "url": "https://example.com/p/seed-080",
+    "title": "Cotton Twill Shorts",
+    "brand": "Uniqlo",
+    "category": "shorts",
+    "description": "Knee-length cotton twill shorts in khaki.",
+    "price": "24.90",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1730651424770-a27017708af2?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "khaki"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "attributes": {
+      "fit": "regular",
+      "material": "cotton-twill"
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-081",
+    "url": "https://example.com/p/seed-081",
+    "title": "Athletic Mesh Running Shorts",
+    "brand": "Nike",
+    "category": "shorts",
+    "description": "5-inch inseam running shorts with built-in liner and side pockets.",
+    "price": "35.00",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1680492775002-641a20e202ca?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "black"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "attributes": {
+      "fit": "athletic",
+      "material": "polyester-mesh"
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-082",
+    "url": "https://example.com/p/seed-082",
+    "title": "Denim Cut-Off Shorts",
+    "brand": "Levi's",
+    "category": "shorts",
+    "description": "Mid-rise denim cut-off shorts in medium wash.",
+    "price": "55.00",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "blue"
+    ],
+    "sizes": [
+      "26",
+      "28",
+      "30",
+      "32"
+    ],
+    "attributes": {
+      "fit": "regular",
+      "material": "denim"
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-090",
+    "url": "https://example.com/p/seed-090",
+    "title": "Pleated Tennis Skirt",
+    "brand": "H&M",
+    "category": "skirts",
+    "description": "Mini pleated skirt in white with built-in shorts.",
+    "price": "29.99",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1677368744545-c5a4d7de7225?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "white"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L"
+    ],
+    "attributes": {
+      "fit": "pleated",
+      "material": "polyester"
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-091",
+    "url": "https://example.com/p/seed-091",
+    "title": "Leather Midi Skirt",
+    "brand": "Zara",
+    "category": "skirts",
+    "description": "High-waist faux leather midi skirt in chocolate brown.",
+    "price": "69.90",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1714205901200-4662d2911ed0?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "brown"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L"
+    ],
+    "attributes": {
+      "fit": "high-waist",
+      "material": "faux-leather"
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-100",
+    "url": "https://example.com/p/seed-100",
+    "title": "Long Wool Overcoat",
+    "brand": "Uniqlo",
+    "category": "jackets",
+    "description": "Single-breasted wool-blend overcoat with notch lapel and welt pockets.",
+    "price": "199.00",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1539533113208-f6df8cc8b543?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "camel"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "attributes": {
+      "fit": "regular",
+      "material": "wool-blend",
+      "pocket_count": 4
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-101",
+    "url": "https://example.com/p/seed-101",
+    "title": "Detroit Workwear Jacket",
+    "brand": "Carhartt",
+    "category": "jackets",
+    "description": "Iconic blanket-lined workwear jacket in sandstone duck canvas. Reviewers note exceptional durability over 5+ years.",
+    "price": "149.00",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1608976198709-5e70a09b9ff0?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "sand"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "attributes": {
+      "fit": "regular",
+      "material": "duck-canvas",
+      "pocket_count": 4
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-102",
+    "url": "https://example.com/p/seed-102",
+    "title": "Denim Trucker Jacket",
+    "brand": "Levi's",
+    "category": "jackets",
+    "description": "Classic Type III denim trucker jacket in medium wash.",
+    "price": "98.00",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1611312449408-fcece27cdbb7?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "blue"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "attributes": {
+      "fit": "regular",
+      "material": "denim",
+      "pocket_count": 4
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-110",
+    "url": "https://example.com/p/seed-110",
+    "title": "Black Pleated Wide-Leg Trousers",
+    "brand": "Zara",
+    "category": "pants",
+    "description": "Pleated wide-leg trousers in black with side pockets.",
+    "price": "49.90",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1618886614638-80e3c103d31a?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "black"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "attributes": {
+      "fit": "wide-leg",
+      "material": "polyester-blend",
+      "pocket_count": 2
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-111",
+    "url": "https://example.com/p/seed-111",
+    "title": "Joggers with Tapered Leg",
+    "brand": "Nike",
+    "category": "pants",
+    "description": "Tapered French terry joggers with elasticated waist and ankle cuffs.",
+    "price": "65.00",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1618453292507-4959ece6429e?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "black",
+      "heather-grey"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "attributes": {
+      "fit": "tapered",
+      "material": "french-terry"
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-120",
+    "url": "https://example.com/p/seed-120",
+    "title": "Crewneck Sweatshirt in Heather Grey",
+    "brand": "Carhartt",
+    "category": "hoodies",
+    "description": "Midweight loopback cotton crewneck sweatshirt in heather grey.",
+    "price": "59.00",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1610222034376-8dd1149e0e60?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "grey"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "attributes": {
+      "fit": "regular",
+      "material": "cotton-loopback"
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-121",
+    "url": "https://example.com/p/seed-121",
+    "title": "Zip-Front Sweatshirt",
+    "brand": "ASOS",
+    "category": "hoodies",
+    "description": "Slim full-zip sweatshirt with two side pockets.",
+    "price": "32.00",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1710330972862-dfdce0fc821f?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "navy"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "attributes": {
+      "fit": "slim",
+      "material": "cotton-blend",
+      "pocket_count": 2
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-130",
+    "url": "https://example.com/p/seed-130",
+    "title": "Polo Shirt in Pique Cotton",
+    "brand": "Uniqlo",
+    "category": "tshirts",
+    "description": "Classic short-sleeve pique cotton polo shirt with two-button placket.",
+    "price": "29.90",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1625910513413-c23b8bb81cba?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "navy",
+      "white",
+      "black"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "attributes": {
+      "fit": "regular",
+      "material": "pique-cotton"
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-131",
+    "url": "https://example.com/p/seed-131",
+    "title": "Oversized Pocket Tee",
+    "brand": "H&M",
+    "category": "tshirts",
+    "description": "Oversized cotton tee with chest pocket in washed black.",
+    "price": "12.99",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1618453292459-53424b66bb6a?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "washed-black"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "attributes": {
+      "fit": "oversized",
+      "material": "cotton",
+      "pocket_count": 1
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-140",
+    "url": "https://example.com/p/seed-140",
+    "title": "Stan Smith Sneakers",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "description": "Iconic leather tennis-inspired sneaker in white with green heel tab.",
+    "price": "100.00",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1615109255406-2a4354fc6b3e?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "white"
+    ],
+    "sizes": [
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "12"
+    ],
+    "attributes": {
+      "material": "leather",
+      "style": "low-top"
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-141",
+    "url": "https://example.com/p/seed-141",
+    "title": "Pegasus 41 Running Shoe",
+    "brand": "Nike",
+    "category": "sneakers",
+    "description": "Versatile road running shoe with React foam and Air Zoom unit.",
+    "price": "140.00",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1491553895911-0055eca6402d?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "black",
+      "white"
+    ],
+    "sizes": [
+      "8",
+      "9",
+      "10",
+      "11",
+      "12"
+    ],
+    "attributes": {
+      "material": "mesh",
+      "style": "running"
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-150",
+    "url": "https://example.com/p/seed-150",
+    "title": "Aesthetic Y2K Baggy Jeans",
+    "brand": "ASOS",
+    "category": "jeans",
+    "description": "Y2K-inspired baggy jeans in light wash with low-rise waist and frayed hems.",
+    "price": "62.00",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1616956455145-7c40e34a1c2a?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "light-blue"
+    ],
+    "sizes": [
+      "28",
+      "30",
+      "32"
+    ],
+    "attributes": {
+      "fit": "baggy",
+      "material": "denim",
+      "pocket_count": 5
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-151",
+    "url": "https://example.com/p/seed-151",
+    "title": "High-Rise Mom Jeans",
+    "brand": "Levi's",
+    "category": "jeans",
+    "description": "High-rise mom jean in vintage wash with relaxed tapered leg.",
+    "price": "88.00",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1546635834-78554e816d55?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "vintage-blue"
+    ],
+    "sizes": [
+      "26",
+      "28",
+      "30",
+      "32"
+    ],
+    "attributes": {
+      "fit": "mom",
+      "material": "denim",
+      "pocket_count": 5
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-160",
+    "url": "https://example.com/p/seed-160",
+    "title": "Quilted Vest in Olive",
+    "brand": "Patagonia",
+    "category": "jackets",
+    "description": "Lightweight quilted insulated vest with two zip hand pockets.",
+    "price": "129.00",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1579592608950-061960817dac?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "olive"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "attributes": {
+      "fit": "regular",
+      "material": "recycled-polyester",
+      "pocket_count": 2
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "seed-161",
+    "url": "https://example.com/p/seed-161",
+    "title": "Sherpa-Lined Fleece Pullover",
+    "brand": "The North Face",
+    "category": "hoodies",
+    "description": "Half-zip sherpa fleece pullover with chest pocket.",
+    "price": "99.00",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1760661696925-85cd09cac428?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "cream"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "attributes": {
+      "fit": "regular",
+      "material": "sherpa-fleece",
+      "pocket_count": 1
+    }
+  }
+]

@@ -1,0 +1,201 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* -------------------------------------------------------------
+   Type system
+   - Instrument Serif: editorial italic display (Google Fonts)
+   - Switzer: distinctive grotesk body (Fontshare)
+   - JetBrains Mono: technical accents, tags, prices
+   ------------------------------------------------------------- */
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap");
+@import url("https://api.fontshare.com/v2/css?f[]=switzer@400,500,600,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap");
+
+/* -------------------------------------------------------------
+   Theme tokens — RGB triplets for Tailwind <alpha-value> support
+   ------------------------------------------------------------- */
+:root,
+:root[data-theme="light"] {
+  --bg: 244 240 230;          /* warm paper */
+  --bg-alt: 234 229 217;
+  --fg: 12 11 10;             /* near-black ink */
+  --muted: 122 116 104;       /* sepia gray */
+  --line: 12 11 10;           /* used with alpha for hairlines */
+  --accent: 194 65 12;        /* rust */
+  --accent-fg: 244 240 230;
+  --grain-opacity: 0.045;
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --bg: 10 10 9;              /* near-black */
+  --bg-alt: 20 19 17;
+  --fg: 244 240 230;          /* warm cream */
+  --muted: 138 133 121;
+  --line: 244 240 230;
+  --accent: 234 88 12;        /* lifted rust for dark */
+  --accent-fg: 10 10 9;
+  --grain-opacity: 0.06;
+  color-scheme: dark;
+}
+
+/* -------------------------------------------------------------
+   Base
+   ------------------------------------------------------------- */
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background-color: rgb(var(--bg));
+  color: rgb(var(--fg));
+  font-family: "Switzer", ui-sans-serif, system-ui, sans-serif;
+  font-feature-settings: "ss01", "cv01";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: rgb(var(--accent));
+  color: rgb(var(--accent-fg));
+}
+
+/* Refined scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(var(--muted) / 0.35) transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: rgb(var(--muted) / 0.35);
+  border-radius: 4px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--muted) / 0.55);
+}
+
+/* -------------------------------------------------------------
+   Typography classes
+   ------------------------------------------------------------- */
+.font-serif {
+  font-family: "Instrument Serif", "EB Garamond", Georgia, serif;
+  font-style: italic;
+  font-feature-settings: "liga", "dlig";
+}
+
+.font-mono {
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  font-feature-settings: "ss02";
+}
+
+.kicker {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgb(var(--muted));
+}
+
+.divider-line {
+  border-bottom: 1px solid rgb(var(--line) / 0.12);
+}
+
+/* -------------------------------------------------------------
+   Grain texture overlay — SVG fractal noise via data URI.
+   Sits as a fixed-position layer; non-interactive.
+   ------------------------------------------------------------- */
+.grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: overlay;
+  opacity: var(--grain-opacity);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.6 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+/* -------------------------------------------------------------
+   Entrance animations — staggered, refined
+   ------------------------------------------------------------- */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.anim-rise {
+  animation: rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.anim-fade {
+  animation: fade 0.8s ease-out both;
+}
+
+/* Stagger helpers */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+.delay-700 { animation-delay: 700ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-rise,
+  .anim-fade {
+    animation: none !important;
+  }
+}
+
+/* -------------------------------------------------------------
+   Hairline utility — pixel-perfect borders that look right on
+   both themes. Use instead of border-foreground/10.
+   ------------------------------------------------------------- */
+.hairline {
+  border: 1px solid rgb(var(--line) / 0.12);
+}
+.hairline-t { border-top: 1px solid rgb(var(--line) / 0.12); }
+.hairline-b { border-bottom: 1px solid rgb(var(--line) / 0.12); }
+.hairline-l { border-left: 1px solid rgb(var(--line) / 0.12); }
+.hairline-r { border-right: 1px solid rgb(var(--line) / 0.12); }
+
+/* -------------------------------------------------------------
+   Underline-reveal — for editorial links
+   ------------------------------------------------------------- */
+.link-reveal {
+  position: relative;
+  display: inline-block;
+}
+.link-reveal::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.link-reveal:hover::after,
+.link-reveal:focus-visible::after {
+  transform: scaleX(1);
+}

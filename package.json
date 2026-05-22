@@ -1,0 +1,17 @@
+{
+  "name": "clothist",
+  "version": "0.0.1",
+  "private": true,
+  "packageManager": "pnpm@9.0.0",
+  "scripts": {
+    "dev:web": "pnpm --filter @clothist/web dev",
+    "build:web": "pnpm --filter @clothist/web build",
+    "lint:web": "pnpm --filter @clothist/web lint",
+    "db:up": "docker compose up -d postgres",
+    "db:down": "docker compose down",
+    "db:logs": "docker compose logs -f postgres"
+  },
+  "engines": {
+    "node": ">=18.18.0"
+  }
+}

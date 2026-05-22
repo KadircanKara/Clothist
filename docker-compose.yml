@@ -1,0 +1,22 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: clothist-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-clothist}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-clothist_dev}
+      POSTGRES_DB: ${POSTGRES_DB:-clothist}
+    ports:
+      - "${POSTGRES_HOST_PORT:-5433}:5432"
+    volumes:
+      - clothist-pgdata:/var/lib/postgresql/data
+      - ./apps/api/docker/postgres-init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-clothist} -d ${POSTGRES_DB:-clothist}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  clothist-pgdata:
