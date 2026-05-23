@@ -8,14 +8,30 @@ type Props = {
   facets: FacetsResponse | undefined;
   filters: SearchParams;
   onChange: (next: SearchParams) => void;
+  /** Drops the desktop sticky positioning when rendered inside the mobile sheet. */
+  compact?: boolean;
 };
 
-export function FilterSidebar({ facets, filters, onChange }: Props) {
+export function FilterSidebar({ facets, filters, onChange, compact = false }: Props) {
   const update = (patch: Partial<SearchParams>) =>
     onChange({ ...filters, ...patch, offset: 0 });
 
+  const features = filters.features ?? [];
+  const toggleFeature = (token: string) => {
+    const next = features.includes(token)
+      ? features.filter((f) => f !== token)
+      : [...features, token];
+    update({ features: next.length ? next : undefined });
+  };
+
   return (
-    <aside className="sticky top-6 space-y-8 self-start">
+    <aside
+      aria-label="Search filters"
+      className={[
+        "space-y-8 self-start",
+        compact ? "" : "sticky top-6",
+      ].join(" ")}
+    >
       <SectionHeader index="01" label="Category" />
       <ul className="space-y-px">
         <FacetItem
@@ -53,7 +69,7 @@ export function FilterSidebar({ facets, filters, onChange }: Props) {
       </ul>
 
       <div>
-        <SectionHeader index="03" label="Price" />
+        <SectionHeader index="03" label="Price (USD)" />
         <div className="mt-3 flex items-center gap-3">
           <Input
             type="number"
@@ -80,7 +96,36 @@ export function FilterSidebar({ facets, filters, onChange }: Props) {
       </div>
 
       <div>
-        <SectionHeader index="04" label="Availability" />
+        <SectionHeader index="04" label="Feature" />
+        <ul className="mt-3 max-h-64 space-y-1 overflow-y-auto pr-1">
+          {(facets?.features ?? []).map((token) => {
+            const checked = features.includes(token);
+            return (
+              <li key={token}>
+                <label className="flex cursor-pointer items-center gap-3 select-none">
+                  <input
+                    type="checkbox"
+                    className="h-4 w-4 appearance-none border border-line/40 checked:border-accent checked:bg-accent transition-colors"
+                    checked={checked}
+                    onChange={() => toggleFeature(token)}
+                  />
+                  <span className="font-mono text-[11px] uppercase tracking-widest">
+                    {token.replace(/_/g, " ")}
+                  </span>
+                </label>
+              </li>
+            );
+          })}
+          {(!facets?.features || facets.features.length === 0) && (
+            <li className="font-mono text-[11px] uppercase tracking-widest text-muted">
+              (loading)
+            </li>
+          )}
+        </ul>
+      </div>
+
+      <div>
+        <SectionHeader index="05" label="Availability" />
         <label className="mt-3 flex cursor-pointer items-center gap-3 select-none">
           <input
             type="checkbox"

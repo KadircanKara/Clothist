@@ -42,6 +42,12 @@ class Product(Base):
     currency: Mapped[str | None] = mapped_column(String(3))
     original_price: Mapped[Decimal | None] = mapped_column(Numeric(10, 2))
 
+    fx_rate_used: Mapped[Decimal] = mapped_column(Numeric(12, 6), nullable=False)
+    price_usd: Mapped[Decimal | None] = mapped_column(
+        Numeric(10, 2),
+        Computed("price / fx_rate_used", persisted=True),
+    )
+
     image_url: Mapped[str | None] = mapped_column(Text)
     colors: Mapped[list[str] | None] = mapped_column(ARRAY(String))
     sizes: Mapped[list[str] | None] = mapped_column(ARRAY(String))
@@ -83,4 +89,11 @@ class Product(Base):
               postgresql_ops={"title": "gin_trgm_ops"}),
         Index("ix_products_brand", "brand"),
         Index("ix_products_price", "price"),
+        Index("ix_products_price_usd", "price_usd"),
+        Index(
+            "ix_products_attributes_features",
+            text("(attributes -> 'features')"),
+            postgresql_using="gin",
+            postgresql_ops={"(attributes -> 'features')": "jsonb_path_ops"},
+        ),
     )

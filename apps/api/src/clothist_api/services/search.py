@@ -1,39 +1,47 @@
-"""Search service: Postgres full-text search with optional filters.
+"""Search service: Postgres FTS + JSONB features + canonical USD price.
 
-Query strategy:
-  - Tokenize input on word boundaries (Python regex).
-  - Build a `websearch_to_tsquery('english', "token1 OR token2 OR ...")` —
-    OR semantics so users get loose matches even on noisy natural-language
-    input.
-  - Rank by `ts_rank_cd` so products matching more / higher-weighted tokens
-    surface first.
+Ranking (when sort=relevance and a text query or features are present):
 
-This is intentionally simple keyword search. The CTO doc's "AI query
-understanding" step (LLM → structured filters) layers on top of this and is
-the planned next step.
+  score = 0.6 * ts_rank_norm + 0.4 * feature_match_norm
+
+  ts_rank_norm = LEAST(ts_rank_cd(...) / 0.5, 1.0)
+  feature_match_norm =
+    1.0                              when no features requested  (so the
+                                     composite cleanly reduces to 0.6 *
+                                     ts_rank_norm + 0.4)
+    matches / requested_count        otherwise
+
+Price filtering compares the user's bound (already normalized to USD by the
+pre-parser) against the `price_usd` GENERATED column on products.
+
+Spec: plans/senior_dev_v3.md §2b, §2d, §4a.
 """
 from __future__ import annotations
 
+import json
+import logging
 import re
-from dataclasses import dataclass
+import uuid
+from dataclasses import dataclass, field
 from decimal import Decimal
+from typing import Literal
 
-from sqlalchemy import func, select
+from sqlalchemy import func, select, text
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from clothist_api.models import Product
+from clothist_api.models import Meta, Product
+from clothist_api.services.features_vocab import get_features_vocabulary
+from clothist_api.services.fx import snapshot_date
+
+logger = logging.getLogger(__name__)
+
+SortKey = Literal["relevance", "price_asc", "price_desc", "newest", "highest_rated"]
 
 _TOKEN_RE = re.compile(r"[\w']+", re.UNICODE)
 
 
 def _to_search_expr(q: str) -> str | None:
-    """Convert user input into a websearch_to_tsquery expression.
-
-    Joins tokens with `OR` so any term can match; `ts_rank_cd` then orders
-    products by how strongly they match.
-    """
     tokens = _TOKEN_RE.findall(q.lower())
-    # Drop single-char tokens; they explode the result set with noise.
     tokens = [t for t in tokens if len(t) > 1]
     if not tokens:
         return None
@@ -49,31 +57,74 @@ class SearchFilters:
     min_price: Decimal | None = None
     max_price: Decimal | None = None
     in_stock_only: bool = False
+    features: list[str] = field(default_factory=list)
+    excluded_features: list[str] = field(default_factory=list)
 
 
 @dataclass(slots=True)
 class SearchPaging:
     limit: int = 24
     offset: int = 0
+    sort: SortKey = "relevance"
 
 
-def _apply_non_text_filters(stmt, f: SearchFilters):
+# Common WHERE-clause builder used by every path. Returns (sql, params).
+def _build_where(f: SearchFilters, *, with_ts: bool) -> tuple[list[str], dict]:
+    parts: list[str] = []
+    params: dict = {}
     if f.category:
-        stmt = stmt.where(Product.category == f.category)
+        parts.append("category = :p_category")
+        params["p_category"] = f.category
     if f.brand:
-        stmt = stmt.where(Product.brand == f.brand)
+        parts.append("brand = :p_brand")
+        params["p_brand"] = f.brand
     if f.color:
-        # Membership in the products.colors text[] array (@> operator).
-        # Both sides are lowercased: seed data uses lowercase, prompt instructs
-        # the LLM to emit lowercase, sidebar inputs are normalized below.
-        stmt = stmt.where(Product.colors.contains([f.color.lower()]))
+        parts.append("colors @> ARRAY[:p_color]::text[]")
+        params["p_color"] = f.color.lower()
     if f.min_price is not None:
-        stmt = stmt.where(Product.price >= f.min_price)
+        parts.append("price_usd >= :p_min_price")
+        params["p_min_price"] = f.min_price
     if f.max_price is not None:
-        stmt = stmt.where(Product.price <= f.max_price)
+        parts.append("price_usd <= :p_max_price")
+        params["p_max_price"] = f.max_price
     if f.in_stock_only:
-        stmt = stmt.where(Product.in_stock.is_(True))
-    return stmt
+        parts.append("in_stock = true")
+    if f.features:
+        # @> requires JSONB on both sides; cast a JSON-string bind to jsonb.
+        parts.append("attributes -> 'features' @> CAST(:p_features_json AS jsonb)")
+        params["p_features_json"] = json.dumps(f.features)
+    if f.excluded_features:
+        # Avoid the `?|` operator inside text() (SQLAlchemy treats `?` as a
+        # bind placeholder). Use a NOT EXISTS over the unnested feature array.
+        parts.append(
+            "NOT EXISTS (SELECT 1 FROM jsonb_array_elements_text(attributes -> 'features') AS efeat "
+            "WHERE efeat = ANY(CAST(:p_excluded AS text[])))"
+        )
+        params["p_excluded"] = list(f.excluded_features)
+    if with_ts:
+        parts.append("search_vector @@ websearch_to_tsquery('english', :p_ts_expr)")
+    return parts, params
+
+
+SCORE_EXPR = """
+    0.6 * LEAST(
+        ts_rank_cd(search_vector, websearch_to_tsquery('english', :p_ts_expr))
+        / 0.5,
+        1.0
+    )
+    + 0.4 * CASE
+        WHEN array_length(CAST(:p_score_features AS text[]), 1) IS NULL THEN 1.0
+        ELSE COALESCE(
+            (
+              SELECT COUNT(*)::numeric
+              FROM jsonb_array_elements_text(attributes -> 'features') AS sfeat
+              WHERE sfeat = ANY(CAST(:p_score_features AS text[]))
+            )
+            / NULLIF(array_length(CAST(:p_score_features AS text[]), 1), 0)::numeric,
+            0.0
+        )
+      END
+"""
 
 
 async def search_products(
@@ -82,34 +133,89 @@ async def search_products(
     p: SearchPaging,
 ) -> tuple[int, list[Product]]:
     search_expr = _to_search_expr(f.q) if f.q else None
+    sort: SortKey = p.sort or "relevance"
+    if sort == "highest_rated":
+        sort = "relevance"
 
-    count_stmt = _apply_non_text_filters(select(func.count(Product.id)), f)
-    if search_expr:
-        ts_query = func.websearch_to_tsquery("english", search_expr)
-        count_stmt = count_stmt.where(Product.search_vector.op("@@")(ts_query))
-    total = (await session.execute(count_stmt)).scalar_one()
+    with_ts = search_expr is not None
+    where_parts, params = _build_where(f, with_ts=with_ts)
+    if with_ts:
+        params["p_ts_expr"] = search_expr
+    where_sql = " AND ".join(where_parts) if where_parts else "TRUE"
 
-    stmt = _apply_non_text_filters(select(Product), f)
-    if search_expr:
-        ts_query = func.websearch_to_tsquery("english", search_expr)
-        rank = func.ts_rank_cd(Product.search_vector, ts_query).label("rank")
-        stmt = (
-            stmt.where(Product.search_vector.op("@@")(ts_query))
-            .add_columns(rank)
-            .order_by(rank.desc(), Product.created_at.desc())
-        )
-        result = await session.execute(stmt.limit(p.limit).offset(p.offset))
-        items = [row[0] for row in result.all()]
+    count_sql = f"SELECT COUNT(*) FROM products WHERE {where_sql}"
+    total = (await session.execute(text(count_sql), params)).scalar_one()
+
+    use_score = sort == "relevance" and (with_ts or bool(f.features))
+    if use_score:
+        params["p_score_features"] = list(f.features)
+        if not with_ts:
+            # SCORE_EXPR references :p_ts_expr; bind an empty string so the
+            # ts_rank_cd call returns 0 when there's no text query.
+            params["p_ts_expr"] = ""
+        order_by = "ORDER BY score DESC, created_at DESC"
+        select_cols = f"products.*, ({SCORE_EXPR}) AS score"
+    elif sort == "price_asc":
+        order_by = "ORDER BY price_usd ASC NULLS LAST, created_at DESC"
+        select_cols = "products.*"
+    elif sort == "price_desc":
+        order_by = "ORDER BY price_usd DESC NULLS LAST, created_at DESC"
+        select_cols = "products.*"
+    elif sort == "newest":
+        order_by = "ORDER BY created_at DESC"
+        select_cols = "products.*"
     else:
-        stmt = stmt.order_by(Product.created_at.desc())
-        result = await session.execute(stmt.limit(p.limit).offset(p.offset))
-        items = list(result.scalars().all())
+        order_by = "ORDER BY created_at DESC"
+        select_cols = "products.*"
 
+    params["p_limit"] = p.limit
+    params["p_offset"] = p.offset
+
+    items_sql = (
+        f"SELECT {select_cols} FROM products WHERE {where_sql} "
+        f"{order_by} LIMIT :p_limit OFFSET :p_offset"
+    )
+    rows = (await session.execute(text(items_sql), params)).mappings().all()
+    items = [_row_to_product(row) for row in rows]
     return total, items
 
 
-async def get_facets(session: AsyncSession) -> dict:
-    """Return category/brand counts + price range across in-stock products."""
+def _row_to_product(row) -> Product:
+    """Hydrate a Product ORM object from a RowMapping (raw SQL result)."""
+    return Product(
+        id=row["id"] if isinstance(row["id"], uuid.UUID) else uuid.UUID(str(row["id"])),
+        retailer=row["retailer"],
+        retailer_product_id=row["retailer_product_id"],
+        url=row["url"],
+        title=row["title"],
+        brand=row["brand"],
+        category=row["category"],
+        description=row["description"],
+        price=row["price"],
+        currency=row["currency"],
+        original_price=row["original_price"],
+        fx_rate_used=row["fx_rate_used"],
+        price_usd=row["price_usd"],
+        image_url=row["image_url"],
+        colors=row["colors"],
+        sizes=row["sizes"],
+        attributes=row["attributes"],
+        in_stock=row["in_stock"],
+        scraped_at=row["scraped_at"],
+        created_at=row["created_at"],
+        updated_at=row["updated_at"],
+    )
+
+
+# In-process facets cache, invalidated by meta.taxonomy_version.
+_facets_cache: dict = {"version": None, "data": None}
+
+
+async def get_taxonomy_version(session: AsyncSession) -> int:
+    return (await session.execute(select(Meta.taxonomy_version))).scalar_one()
+
+
+async def _compute_facets(session: AsyncSession) -> dict:
     cat_rows = (
         await session.execute(
             select(Product.category, func.count(Product.id))
@@ -127,11 +233,65 @@ async def get_facets(session: AsyncSession) -> dict:
         )
     ).all()
     price_row = (
-        await session.execute(select(func.min(Product.price), func.max(Product.price)))
+        await session.execute(select(func.min(Product.price_usd), func.max(Product.price_usd)))
     ).one()
-
     return {
         "categories": [{"value": v, "count": c} for v, c in cat_rows],
         "brands": [{"value": v, "count": c} for v, c in brand_rows],
         "price": {"min": price_row[0], "max": price_row[1]},
+        "features": list(get_features_vocabulary()),
+        "fx_date": snapshot_date(),
+    }
+
+
+async def get_facets(session: AsyncSession) -> dict:
+    """Cached facets, invalidated on taxonomy_version bump."""
+    current = await get_taxonomy_version(session)
+    if _facets_cache["version"] != current:
+        _facets_cache["data"] = await _compute_facets(session)
+        _facets_cache["version"] = current
+    return _facets_cache["data"]
+
+
+def apply_display_currency(items: list[Product], currency: str | None) -> list[dict]:
+    """Compute `display_price = price_usd * rate(currency)` per item when
+    the client asked for a display currency. Returns dicts ready to feed
+    ProductOut.model_validate.
+    """
+    from clothist_api.services.fx import UnknownCurrencyError, rate_for
+
+    if not currency:
+        return [_orm_to_dict(p) for p in items]
+    try:
+        rate = rate_for(currency.upper())
+    except UnknownCurrencyError:
+        return [_orm_to_dict(p) for p in items]
+    out: list[dict] = []
+    for p in items:
+        row = _orm_to_dict(p)
+        if p.price_usd is not None:
+            row["display_price"] = (Decimal(p.price_usd) * rate).quantize(Decimal("0.01"))
+        out.append(row)
+    return out
+
+
+def _orm_to_dict(p: Product) -> dict:
+    return {
+        "id": p.id,
+        "retailer": p.retailer,
+        "retailer_product_id": p.retailer_product_id,
+        "url": p.url,
+        "title": p.title,
+        "brand": p.brand,
+        "category": p.category,
+        "description": p.description,
+        "price": p.price,
+        "currency": p.currency,
+        "original_price": p.original_price,
+        "price_usd": p.price_usd,
+        "image_url": p.image_url,
+        "colors": p.colors,
+        "sizes": p.sizes,
+        "attributes": p.attributes,
+        "in_stock": p.in_stock,
     }

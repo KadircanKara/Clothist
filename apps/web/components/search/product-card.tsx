@@ -3,10 +3,28 @@ import { Badge } from "@/components/ui/badge";
 import { formatPrice } from "@/lib/utils";
 import type { Product } from "@/lib/types";
 
-export function ProductCard({ product }: { product: Product }) {
+type Props = {
+  product: Product;
+  /** Features the user/LLM requested — used to render the matched-features ribbon. */
+  requestedFeatures?: string[];
+};
+
+function humanizeFeature(token: string): string {
+  return token.replace(/_/g, " ");
+}
+
+export function ProductCard({ product, requestedFeatures = [] }: Props) {
   const price = formatPrice(product.price, product.currency);
   const original = formatPrice(product.original_price, product.currency);
+  const priceUsd =
+    product.price_usd && product.currency && product.currency !== "USD"
+      ? formatPrice(product.price_usd, "USD")
+      : null;
   const onSale = original && price && original !== price;
+
+  const productFeatures = product.attributes?.features ?? [];
+  const matched = requestedFeatures.filter((f) => productFeatures.includes(f));
+  const extra = matched.length - 2;
 
   return (
     <a
@@ -30,7 +48,6 @@ export function ProductCard({ product }: { product: Product }) {
           </div>
         )}
 
-        {/* Corner labels */}
         <div className="absolute left-2 top-2 flex flex-col gap-1">
           {onSale && <Badge variant="accent">Sale</Badge>}
         </div>
@@ -38,11 +55,17 @@ export function ProductCard({ product }: { product: Product }) {
           {!product.in_stock && <Badge variant="outline">Out of stock</Badge>}
         </div>
 
-        {/* Hover scrim with quick info */}
-        <div className="absolute inset-x-0 bottom-0 translate-y-2 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+        <div
+          aria-hidden
+          className="absolute inset-x-0 bottom-0 translate-y-2 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100"
+        >
           <div className="bg-gradient-to-t from-background via-background/85 to-transparent px-3 pb-3 pt-8">
             <p className="font-mono text-[11px] uppercase tracking-widest text-muted">
-              View at {product.retailer === "seed" ? "retailer" : product.retailer.toUpperCase()} →
+              View at{" "}
+              {product.retailer === "seed"
+                ? (product.brand ?? "retailer").toUpperCase()
+                : product.retailer.toUpperCase()}{" "}
+              →
             </p>
           </div>
         </div>
@@ -62,12 +85,28 @@ export function ProductCard({ product }: { product: Product }) {
         <h3 className="line-clamp-2 text-[17px] font-medium leading-snug">
           <span className="link-reveal">{product.title}</span>
         </h3>
-        <div className="flex items-baseline gap-2 pt-1">
-          {price && <span className="font-mono text-base">{price}</span>}
-          {onSale && (
-            <span className="font-mono text-xs text-muted line-through">{original}</span>
+        <div className="flex flex-col gap-0.5 pt-1">
+          <div className="flex items-baseline gap-2">
+            {price && <span className="font-mono text-base">{price}</span>}
+            {onSale && (
+              <span className="font-mono text-xs text-muted line-through">{original}</span>
+            )}
+          </div>
+          {priceUsd && (
+            <span className="mono-fx normal-case">≈ {priceUsd} USD</span>
           )}
         </div>
+        {matched.length > 0 && (
+          <div className="pt-1 font-mono text-[11px] uppercase tracking-widest text-muted">
+            {matched.slice(0, 2).map((f, i) => (
+              <span key={f}>
+                {i > 0 && " "}
+                ✓ {humanizeFeature(f)}
+              </span>
+            ))}
+            {extra > 0 && <span> +{extra}</span>}
+          </div>
+        )}
       </div>
     </a>
   );

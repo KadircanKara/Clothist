@@ -21,9 +21,11 @@
   --bg-alt: 234 229 217;
   --fg: 12 11 10;             /* near-black ink */
   --muted: 122 116 104;       /* sepia gray */
-  --line: 12 11 10;           /* used with alpha for hairlines */
-  --accent: 194 65 12;        /* rust */
+  --line: 12 11 10;            /* used with alpha for hairlines */
+  --accent: 194 65 12;         /* rust */
   --accent-fg: 244 240 230;
+  --warn: 181 87 0;            /* amber-ink for ambiguity & degraded states */
+  --ok: 47 95 67;              /* sage for "confirmed" microstate */
   --grain-opacity: 0.045;
   color-scheme: light;
 }
@@ -34,8 +36,10 @@
   --fg: 244 240 230;          /* warm cream */
   --muted: 138 133 121;
   --line: 244 240 230;
-  --accent: 234 88 12;        /* lifted rust for dark */
+  --accent: 234 88 12;         /* lifted rust for dark */
   --accent-fg: 10 10 9;
+  --warn: 217 119 6;           /* lifted amber for dark */
+  --ok: 74 142 102;
   --grain-opacity: 0.06;
   color-scheme: dark;
 }
@@ -101,6 +105,25 @@ body {
   color: rgb(var(--muted));
 }
 
+/* USD-equivalent micro-text and FX snapshot stamp */
+.mono-fx {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgb(var(--muted));
+}
+
+/* Italic-serif eyebrow used by the "Interpreted by AI" explanation and the
+   zero-result hint headline */
+.serif-eyebrow {
+  font-family: "Instrument Serif", "EB Garamond", Georgia, serif;
+  font-style: italic;
+  color: rgb(var(--fg) / 0.85);
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
 .divider-line {
   border-bottom: 1px solid rgb(var(--line) / 0.12);
 }
@@ -142,6 +165,39 @@ body {
   }
 }
 
+/* Skeleton shimmer — 1.4s linear; respects reduced-motion below. */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.08;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: rgb(var(--bg-alt) / 0.5);
+}
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgb(var(--fg) / 0.06),
+    transparent
+  );
+  animation: shimmer 1.4s linear infinite;
+}
+
 .anim-rise {
   animation: rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
@@ -160,6 +216,9 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .anim-rise,
   .anim-fade {
+    animation: none !important;
+  }
+  .skeleton::after {
     animation: none !important;
   }
 }

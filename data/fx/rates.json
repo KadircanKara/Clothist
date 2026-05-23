@@ -1,0 +1,16 @@
+{
+  "base": "USD",
+  "denomination": "units_per_usd",
+  "date": "2026-05-22",
+  "source": "open.er-api.com snapshot — refreshed via scripts/refresh_fx.py",
+  "note": "Conversion is amount_usd = amount_native / rates[ccy]. fx_rate_used in products is the rate AT INGEST, not live market rate. Snapshot is weekly; FX volatility under ~2% is acceptable for fashion discovery.",
+  "rates": {
+    "USD": 1.0,
+    "EUR": 0.92,
+    "GBP": 0.79,
+    "TRY": 32.20,
+    "JPY": 156.0,
+    "CAD": 1.37,
+    "AUD": 1.51
+  }
+}

@@ -2,18 +2,26 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
+import { AmbiguityNudge } from "./ambiguity-nudge";
+import { DegradedBanner } from "./degraded-banner";
+import { EmptyState } from "./empty-state";
+import { ExampleQueries } from "./example-queries";
 import { FilterSidebar } from "./filter-sidebar";
 import { HeroBackdrop } from "./hero-backdrop";
 import { IntentChips } from "./intent-chips";
+import { MobileFilterSheet } from "./mobile-filter-sheet";
 import { ProductCard } from "./product-card";
+import { SkeletonGrid } from "./skeleton-grid";
+import { SortControl } from "./sort-control";
+import { StickySearchBar } from "./sticky-search-bar";
 import { Wordmark } from "./wordmark";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { ApiError, getFacets, parseIntent, searchProducts } from "@/lib/api";
-import type { IntentResponse, SearchParams } from "@/lib/types";
+import type { IntentResponse, SearchParams, SortKey } from "@/lib/types";
 
 const PAGE_SIZE = 24;
 
@@ -22,6 +30,14 @@ function paramsFromUrl(sp: URLSearchParams): SearchParams {
     const v = sp.get(k);
     return v ? Number(v) : undefined;
   };
+  const features = sp.getAll("features");
+  const excluded = sp.getAll("excluded_features");
+  const sortRaw = sp.get("sort") ?? undefined;
+  const sort = (
+    sortRaw && ["relevance", "price_asc", "price_desc", "newest", "highest_rated"].includes(sortRaw)
+      ? (sortRaw as SortKey)
+      : undefined
+  );
   return {
     q: sp.get("q") ?? undefined,
     category: sp.get("category") ?? undefined,
@@ -30,6 +46,9 @@ function paramsFromUrl(sp: URLSearchParams): SearchParams {
     min_price: num("min_price"),
     max_price: num("max_price"),
     in_stock_only: sp.get("in_stock_only") === "true" || undefined,
+    features: features.length ? features : undefined,
+    excluded_features: excluded.length ? excluded : undefined,
+    sort,
     limit: PAGE_SIZE,
     offset: num("offset") ?? 0,
   };
@@ -44,6 +63,10 @@ function paramsToUrl(p: SearchParams): string {
   if (p.min_price !== undefined) usp.set("min_price", String(p.min_price));
   if (p.max_price !== undefined) usp.set("max_price", String(p.max_price));
   if (p.in_stock_only) usp.set("in_stock_only", "true");
+  if (p.features) for (const f of p.features) usp.append("features", f);
+  if (p.excluded_features)
+    for (const f of p.excluded_features) usp.append("excluded_features", f);
+  if (p.sort && p.sort !== "relevance") usp.set("sort", p.sort);
   if (p.offset) usp.set("offset", String(p.offset));
   const qs = usp.toString();
   return qs ? `/?${qs}` : "/";
@@ -57,7 +80,12 @@ export function SearchView() {
   const [queryInput, setQueryInput] = useState(filters.q ?? "");
   const [intent, setIntent] = useState<IntentResponse | null>(null);
   const [parsing, setParsing] = useState(false);
-  const [parseError, setParseError] = useState<string | null>(null);
+  const [rateLimited, setRateLimited] = useState(false);
+  const [networkError, setNetworkError] = useState<string | null>(null);
+  const [filterSheetOpen, setFilterSheetOpen] = useState(false);
+  const [sortHint, setSortHint] = useState<string | null>(null);
+
+  const heroSentinelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setQueryInput(filters.q ?? "");
@@ -71,17 +99,35 @@ export function SearchView() {
   );
 
   const submitPlainSearch = (rawQ: string) => {
-    pushFilters({
-      ...filters,
-      q: rawQ || undefined,
-      // Keep prior structured filters; sidebar-set values shouldn't blow away.
-      offset: 0,
-    });
+    pushFilters({ ...filters, q: rawQ || undefined, offset: 0 });
   };
 
-  const submitSearch = async (e?: React.FormEvent) => {
+  const applyIntent = useCallback(
+    (res: IntentResponse) => {
+      const p = res.parsed;
+      pushFilters({
+        ...filters,
+        category: p.category ?? undefined,
+        brand: p.brand ?? undefined,
+        color: p.color ? p.color.toLowerCase() : undefined,
+        min_price: p.min_price ?? undefined,
+        max_price: p.max_price ?? undefined,
+        in_stock_only: p.in_stock_only || undefined,
+        features: p.features.length ? p.features : undefined,
+        excluded_features: p.excluded_features.length ? p.excluded_features : undefined,
+        sort: p.sort,
+        q: p.refined_query?.trim() || undefined,
+        offset: 0,
+      });
+    },
+    [filters, pushFilters],
+  );
+
+  const submitSearch = async (e?: React.FormEvent, qOverride?: string) => {
     e?.preventDefault();
-    const trimmed = queryInput.trim();
+    const trimmed = (qOverride ?? queryInput).trim();
+    setNetworkError(null);
+    setRateLimited(false);
 
     if (!trimmed) {
       setIntent(null);
@@ -90,36 +136,15 @@ export function SearchView() {
     }
 
     setParsing(true);
-    setParseError(null);
-
     try {
       const res = await parseIntent(trimmed);
       setIntent(res);
-      const p = res.parsed;
-      pushFilters({
-        ...filters,
-        // AI-extracted structured fields REPLACE any previous values — a new
-        // search is a fresh intent. Sidebar tweaks happen after, on top.
-        category: p.category ?? undefined,
-        brand: p.brand ?? undefined,
-        color: p.color ? p.color.toLowerCase() : undefined,
-        min_price: p.min_price ?? undefined,
-        max_price: p.max_price ?? undefined,
-        in_stock_only: p.in_stock_only || undefined,
-        q: p.refined_query?.trim() || undefined,
-        offset: 0,
-      });
+      applyIntent(res);
     } catch (err) {
-      // 503 = LLM disabled (no API key). 502 = upstream error. Both: fall back
-      // to plain keyword search so the box still works.
-      if (err instanceof ApiError && (err.status === 503 || err.status === 502)) {
-        setParseError(
-          err.status === 503
-            ? "AI parsing is disabled — set XAI_API_KEY to enable."
-            : "AI parser had an issue. Using plain keyword search.",
-        );
+      if (err instanceof ApiError && err.status === 429) {
+        setRateLimited(true);
       } else {
-        setParseError("Couldn't reach the AI parser. Using plain keyword search.");
+        setNetworkError("Couldn't reach the AI parser. Falling back to keyword search.");
       }
       setIntent(null);
       submitPlainSearch(trimmed);
@@ -128,11 +153,33 @@ export function SearchView() {
     }
   };
 
+  const pickExample = (q: string) => {
+    setQueryInput(q);
+    void submitSearch(undefined, q);
+  };
+
   const clearSearch = () => {
     setQueryInput("");
     setIntent(null);
-    setParseError(null);
-    pushFilters({ ...filters, q: undefined, offset: 0 });
+    setRateLimited(false);
+    setNetworkError(null);
+    setSortHint(null);
+    pushFilters({});
+  };
+
+  const onSortChange = (next: SortKey, hint?: string) => {
+    setSortHint(hint ?? null);
+    pushFilters({ ...filters, sort: next, offset: 0 });
+  };
+
+  const acceptAmbiguity = (alternative: string) => {
+    const original = intent?.raw_query ?? queryInput;
+    const hintToken = intent?.parsed.ambiguity_hint?.token;
+    if (!hintToken) return;
+    // Replace the token in the raw query with the alternative form and re-submit.
+    const rewritten = original.replace(hintToken, hintToken.replace(/[\d.,]+/, alternative));
+    setQueryInput(rewritten);
+    void submitSearch(undefined, rewritten);
   };
 
   const dirty = (queryInput.trim() || undefined) !== (filters.q || undefined);
@@ -153,9 +200,20 @@ export function SearchView() {
   const offset = filters.offset ?? 0;
   const hasNext = offset + items.length < total;
   const hasPrev = offset > 0;
+  const fxDate = facets.data?.fx_date ?? null;
+  const currentSort: SortKey = filters.sort ?? "relevance";
+  const requestedFeatures = filters.features ?? intent?.parsed.features ?? [];
 
   return (
     <div className="relative z-10">
+      <StickySearchBar
+        value={queryInput}
+        onChange={setQueryInput}
+        onSubmit={() => void submitSearch()}
+        onOpenFilters={() => setFilterSheetOpen(true)}
+        sentinelTarget={heroSentinelRef}
+      />
+
       {/* -------- Utility bar -------- */}
       <div className="mx-auto max-w-[1600px] px-6 pt-6 lg:px-10">
         <div className="flex items-center justify-between">
@@ -167,7 +225,9 @@ export function SearchView() {
       </div>
 
       {/* -------- Hero band -------- */}
-      <section className="relative mx-auto max-w-[1600px] overflow-hidden px-6 pb-14 pt-10 lg:px-10">
+      <section
+        className="relative mx-auto max-w-[1600px] overflow-hidden px-6 pb-14 pt-10 lg:px-10"
+      >
         <HeroBackdrop />
 
         <div className="relative z-10 grid grid-cols-1 gap-10 lg:grid-cols-12 lg:items-end">
@@ -179,18 +239,22 @@ export function SearchView() {
               <Wordmark />
             </div>
             <p className="anim-rise delay-500 mt-6 max-w-xl text-base leading-relaxed text-muted">
-              Type the piece you're picturing. Cargo pants with six pockets, a
+              Type the piece you&rsquo;re picturing. Cargo pants with six pockets, a
               minimalist hoodie with a hidden zip, a waterproof shell that
               actually lasts. We search across the retailers — you skip the
               tabs.
             </p>
+
+            {!filters.q && !intent && (
+              <ExampleQueries onPick={pickExample} fxDate={fxDate} />
+            )}
           </div>
 
           <div className="lg:col-span-4 anim-rise delay-700">
             <label htmlFor="clothist-search" className="kicker block">
               Search
             </label>
-            <form onSubmit={submitSearch} role="search">
+            <form onSubmit={(e) => void submitSearch(e)} role="search">
               <div className="mt-2 flex items-center gap-3 border-b border-line/20 py-1 focus-within:border-foreground transition-colors">
                 <span className="font-mono text-sm text-muted">/</span>
                 <Input
@@ -225,20 +289,25 @@ export function SearchView() {
             </form>
             <p className="kicker mt-2 text-foreground/60">
               {parsing
-                ? "Asking Grok to interpret…"
-                : parseError
-                  ? parseError
-                  : dirty
-                    ? "Press Enter — AI extracts category, brand, color, price"
-                    : "↵ Submits — AI parses to filters, then ranks by FTS"}
+                ? "Asking the AI to interpret…"
+                : rateLimited
+                  ? "Rate limited — try again in 60s"
+                  : networkError
+                    ? networkError
+                    : dirty
+                      ? "Press Enter — AI extracts category, brand, color, price, features"
+                      : "↵ Submits — AI parses to filters, then ranks"}
             </p>
           </div>
         </div>
+
+        {/* Sentinel for the mobile sticky-bar IntersectionObserver. */}
+        <div ref={heroSentinelRef} aria-hidden className="h-1 w-full" />
       </section>
 
       {/* -------- Results section -------- */}
       <section className="mx-auto max-w-[1600px] px-6 pb-24 lg:px-10">
-        <div className="hairline-t flex items-baseline justify-between py-5">
+        <div className="hairline-t flex items-center justify-between py-5 gap-4">
           <span className="kicker">
             02 / Results
             <span className="ml-3 text-foreground">{total.toLocaleString()}</span>
@@ -246,35 +315,75 @@ export function SearchView() {
               {total === 1 ? "item" : "items"}
             </span>
           </span>
-          {search.isError && (
-            <span className="font-mono text-[10px] uppercase tracking-widest text-accent">
-              {(search.error as Error).message}
-            </span>
-          )}
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => setFilterSheetOpen(true)}
+              className="md:hidden hairline rounded-full px-3 h-8 font-mono text-[11px] uppercase tracking-widest"
+            >
+              Filters
+            </button>
+            <SortControl value={currentSort} onChange={onSortChange} />
+          </div>
         </div>
 
+        {intent?.degraded && intent.degraded_reason && (
+          <DegradedBanner reason={intent.degraded_reason} />
+        )}
+        {rateLimited && (
+          <div className="anim-fade hairline mb-4 px-4 py-3 text-sm bg-bg-alt/40" style={{ borderLeft: "4px solid rgb(var(--warn))" }}>
+            <span className="font-mono text-[11px] uppercase tracking-widest text-warn">
+              Rate limited — retry in 60s
+            </span>
+          </div>
+        )}
+
         <div className="grid grid-cols-1 gap-12 md:grid-cols-[200px_1fr] lg:grid-cols-[220px_1fr] lg:gap-16">
-          <FilterSidebar
-            facets={facets.data}
-            filters={filters}
-            onChange={pushFilters}
-          />
+          <div className="hidden md:block">
+            <FilterSidebar
+              facets={facets.data}
+              filters={filters}
+              onChange={pushFilters}
+            />
+          </div>
 
           <main>
             <IntentChips
               parsed={intent?.parsed ?? null}
               filters={filters}
+              fxDate={fxDate}
               onChange={pushFilters}
             />
-
-            {items.length === 0 && !search.isLoading ? (
-              <div className="hairline flex flex-col items-center justify-center gap-3 px-6 py-20 text-center">
-                <span className="font-serif text-4xl">Nothing matched.</span>
-                <p className="max-w-sm text-base text-muted">
-                  Loosen a filter, or run the H&M scraper to pull in more
-                  inventory.
-                </p>
+            {intent?.parsed.ambiguity_hint && (
+              <AmbiguityNudge
+                hint={intent.parsed.ambiguity_hint}
+                onAccept={acceptAmbiguity}
+              />
+            )}
+            {sortHint && (
+              <div className="mb-4">
+                <span className="hairline inline-flex items-center gap-2 rounded-full px-3 py-1 font-mono text-[11px] uppercase tracking-widest text-muted">
+                  Sort hint: {sortHint}
+                  <button
+                    type="button"
+                    aria-label="Dismiss sort hint"
+                    onClick={() => setSortHint(null)}
+                    className="text-muted hover:text-foreground"
+                  >
+                    ×
+                  </button>
+                </span>
               </div>
+            )}
+
+            {search.isLoading ? (
+              <SkeletonGrid />
+            ) : items.length === 0 ? (
+              <EmptyState
+                filters={filters}
+                onClear={clearSearch}
+                onDrop={pushFilters}
+              />
             ) : (
               <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
                 {items.map((p, idx) => (
@@ -283,7 +392,7 @@ export function SearchView() {
                     className="anim-rise"
                     style={{ animationDelay: `${Math.min(idx, 8) * 40}ms` }}
                   >
-                    <ProductCard product={p} />
+                    <ProductCard product={p} requestedFeatures={requestedFeatures} />
                   </div>
                 ))}
               </div>
@@ -325,6 +434,14 @@ export function SearchView() {
         </div>
       </section>
 
+      <MobileFilterSheet
+        open={filterSheetOpen}
+        onClose={() => setFilterSheetOpen(false)}
+        facets={facets.data}
+        filters={filters}
+        onApply={pushFilters}
+      />
+
       {/* -------- Footer -------- */}
       <footer className="hairline-t mx-auto max-w-[1600px] px-6 py-8 lg:px-10">
         <div className="flex flex-col items-start justify-between gap-2 text-sm text-muted sm:flex-row sm:items-center">
@@ -332,8 +449,11 @@ export function SearchView() {
             Clothist — vertical slice
           </span>
           <span className="font-mono uppercase tracking-widest">
-            {intent && `AI: ${intent.model} · ${intent.duration_ms}ms`}
-            {!intent && "Prototype · No purchases happen here"}
+            {intent && !intent.degraded
+              ? `AI: ${intent.model} · ${intent.duration_ms}ms${fxDate ? ` · FX ${fxDate}` : ""}`
+              : intent?.degraded
+                ? `AI: offline — keyword fallback${fxDate ? ` · FX ${fxDate}` : ""}`
+                : "Prototype · No purchases happen here"}
           </span>
         </div>
       </footer>

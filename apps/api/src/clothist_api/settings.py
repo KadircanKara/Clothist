@@ -39,7 +39,17 @@ class Settings(BaseSettings):
         alias="LLM_BASE_URL",
     )
     llm_model: str = Field(default="gemini-2.0-flash", alias="LLM_MODEL")
+    # Reserved for manual fallback on provider deprecation: change one env var
+    # and restart. No orchestration logic in MVP.
+    llm_model_fallback: str = Field(
+        default="llama-3.1-8b-instant",
+        alias="LLM_MODEL_FALLBACK",
+    )
     llm_timeout_seconds: float = Field(default=12.0, alias="LLM_TIMEOUT_SECONDS")
+
+    # In production logs, hash the raw query to a 16-char SHA-256 prefix
+    # instead of logging it verbatim. Dev (default) leaves queries readable.
+    log_redact_queries: bool = Field(default=False, alias="LOG_REDACT_QUERIES")
 
     @property
     def cors_origins_list(self) -> list[str]:

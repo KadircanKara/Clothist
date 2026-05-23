@@ -13,10 +13,12 @@ from datetime import datetime, timezone
 from decimal import Decimal
 from pathlib import Path
 
+from sqlalchemy import text
 from sqlalchemy.dialects.postgresql import insert as pg_insert
 
 from clothist_api.db.session import SessionLocal
 from clothist_api.models import Product
+from clothist_api.services.fx import UnknownCurrencyError, rate_for
 
 logger = logging.getLogger(__name__)
 
@@ -32,6 +34,17 @@ def _to_row(raw: dict) -> dict:
     row.setdefault("attributes", {})
     row.setdefault("in_stock", True)
     row["scraped_at"] = datetime.now(timezone.utc)
+
+    ccy = (row.get("currency") or "USD").upper()
+    try:
+        row["fx_rate_used"] = rate_for(ccy)
+    except UnknownCurrencyError as e:
+        raise RuntimeError(
+            f"Seed row '{row.get('retailer_product_id')}' has unknown currency {ccy!r}; "
+            f"add it to data/fx/rates.json"
+        ) from e
+    # price_usd is a GENERATED column — never set it directly.
+    row.pop("price_usd", None)
     return row
 
 
@@ -47,7 +60,8 @@ async def seed() -> int:
         col: stmt.excluded[col]
         for col in (
             "url", "title", "brand", "category", "description",
-            "price", "currency", "image_url", "colors", "sizes",
+            "price", "currency", "fx_rate_used",
+            "image_url", "colors", "sizes",
             "attributes", "in_stock", "scraped_at",
         )
     }
@@ -58,6 +72,10 @@ async def seed() -> int:
 
     async with SessionLocal() as session:
         await session.execute(stmt)
+        # Bump taxonomy_version so the facets cache invalidates.
+        await session.execute(
+            text("UPDATE meta SET taxonomy_version = taxonomy_version + 1")
+        )
         await session.commit()
 
     return len(rows)

@@ -11,6 +11,13 @@ function buildQuery(params: Record<string, unknown>): string {
   const usp = new URLSearchParams();
   for (const [k, v] of Object.entries(params)) {
     if (v === undefined || v === null || v === "") continue;
+    if (Array.isArray(v)) {
+      for (const item of v) {
+        if (item === undefined || item === null || item === "") continue;
+        usp.append(k, String(item));
+      }
+      continue;
+    }
     usp.set(k, String(v));
   }
   const qs = usp.toString();

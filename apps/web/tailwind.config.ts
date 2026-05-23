@@ -17,6 +17,8 @@ const config: Config = {
         line: "rgb(var(--line) / <alpha-value>)",
         accent: "rgb(var(--accent) / <alpha-value>)",
         "accent-fg": "rgb(var(--accent-fg) / <alpha-value>)",
+        warn: "rgb(var(--warn) / <alpha-value>)",
+        ok: "rgb(var(--ok) / <alpha-value>)",
       },
       fontFamily: {
         sans: ["Switzer", "ui-sans-serif", "system-ui", "sans-serif"],

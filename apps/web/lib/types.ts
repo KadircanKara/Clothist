@@ -10,10 +10,12 @@ export type Product = {
   price: string | null;
   currency: string | null;
   original_price: string | null;
+  price_usd: string | null;
+  display_price: string | null;
   image_url: string | null;
   colors: string[] | null;
   sizes: string[] | null;
-  attributes: Record<string, unknown> | null;
+  attributes: ({ features?: string[] } & Record<string, unknown>) | null;
   in_stock: boolean;
 };
 
@@ -31,7 +33,16 @@ export type FacetsResponse = {
   categories: FacetValue[];
   brands: FacetValue[];
   price: { min: string | null; max: string | null };
+  features: string[];
+  fx_date: string | null;
 };
+
+export type SortKey =
+  | "relevance"
+  | "price_asc"
+  | "price_desc"
+  | "newest"
+  | "highest_rated";
 
 export type SearchParams = {
   q?: string;
@@ -41,8 +52,18 @@ export type SearchParams = {
   min_price?: number;
   max_price?: number;
   in_stock_only?: boolean;
+  features?: string[];
+  excluded_features?: string[];
+  sort?: SortKey;
+  currency?: string;
   limit?: number;
   offset?: number;
+};
+
+export type AmbiguityHint = {
+  token: string;
+  parsed_as: string;
+  alternative: string;
 };
 
 export type ParsedIntent = {
@@ -54,11 +75,27 @@ export type ParsedIntent = {
   in_stock_only: boolean;
   refined_query: string | null;
   explanation: string;
+  features: string[];
+  excluded_features: string[];
+  sort: SortKey;
+  detected_currency: string | null;
+  detected_amount_native: string | null;
+  ambiguity_hint: AmbiguityHint | null;
+  locale: string;
 };
+
+export type DegradedReason =
+  | "llm_rate_limited"
+  | "llm_timeout"
+  | "llm_5xx"
+  | "llm_disabled";
 
 export type IntentResponse = {
   raw_query: string;
   parsed: ParsedIntent;
   model: string;
   duration_ms: number;
+  degraded: boolean;
+  degraded_reason: DegradedReason | null;
+  ui_hints: string[];
 };

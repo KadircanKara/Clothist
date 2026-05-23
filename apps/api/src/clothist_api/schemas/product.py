@@ -20,6 +20,8 @@ class ProductOut(BaseModel):
     price: Decimal | None = None
     currency: str | None = None
     original_price: Decimal | None = None
+    price_usd: Decimal | None = None
+    display_price: Decimal | None = None
     image_url: str | None = None
     colors: list[str] | None = None
     sizes: list[str] | None = None
@@ -49,3 +51,5 @@ class FacetsResponse(BaseModel):
     categories: list[FacetValue]
     brands: list[FacetValue]
     price: PriceRange
+    features: list[str] = Field(default_factory=list)
+    fx_date: str | None = None

@@ -7,8 +7,8 @@
     "brand": "H&M",
     "category": "hoodies",
     "description": "Relaxed-fit pullover hoodie in heavyweight brushed cotton with kangaroo pocket and drawcord hood.",
-    "price": "39.99",
-    "currency": "USD",
+    "price": "36.99",
+    "currency": "EUR",
     "image_url": "https://images.unsplash.com/photo-1633292750937-120a94f5c2bb?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
       "black"
@@ -23,7 +23,12 @@
     "attributes": {
       "fit": "oversized",
       "material": "cotton",
-      "pocket_count": 1
+      "pocket_count": 1,
+      "features": [
+        "kangaroo_pocket",
+        "oversized",
+        "relaxed_fit"
+      ]
     }
   },
   {
@@ -34,8 +39,8 @@
     "brand": "Uniqlo",
     "category": "hoodies",
     "description": "Slim-fit fleece hoodie in heather grey with internal zipped chest pocket and ribbed cuffs.",
-    "price": "49.90",
-    "currency": "USD",
+    "price": "7800",
+    "currency": "JPY",
     "image_url": "https://images.unsplash.com/photo-1564557287817-3785e38ec1f5?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
       "grey"
@@ -50,7 +55,11 @@
       "fit": "slim",
       "material": "fleece",
       "pocket_count": 2,
-      "hidden_pockets": true
+      "features": [
+        "hidden_pockets",
+        "zip_pockets",
+        "slim_fit"
+      ]
     }
   },
   {
@@ -77,7 +86,10 @@
     "attributes": {
       "fit": "tapered",
       "material": "tech-fleece",
-      "pocket_count": 2
+      "pocket_count": 2,
+      "features": [
+        "tapered_leg"
+      ]
     }
   },
   {
@@ -104,7 +116,11 @@
     "attributes": {
       "fit": "relaxed",
       "material": "cotton-ripstop",
-      "pocket_count": 6
+      "pocket_count": 6,
+      "features": [
+        "cargo_pockets",
+        "relaxed_fit"
+      ]
     }
   },
   {
@@ -115,8 +131,8 @@
     "brand": "ASOS",
     "category": "pants",
     "description": "Loose-fit cargo trousers in olive green with five-pocket layout, drawstring hem and reinforced knees.",
-    "price": "55.00",
-    "currency": "USD",
+    "price": "1800",
+    "currency": "TRY",
     "image_url": "https://images.unsplash.com/photo-1584865288642-42078afe6942?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
       "olive"
@@ -130,7 +146,12 @@
     "attributes": {
       "fit": "loose",
       "material": "cotton",
-      "pocket_count": 5
+      "pocket_count": 5,
+      "features": [
+        "cargo_pockets",
+        "drawstring_hem",
+        "reinforced_knees"
+      ]
     }
   },
   {
@@ -156,7 +177,10 @@
     "attributes": {
       "fit": "wide-leg",
       "material": "cotton-twill",
-      "pocket_count": 4
+      "pocket_count": 4,
+      "features": [
+        "wide_leg"
+      ]
     }
   },
   {
@@ -167,8 +191,8 @@
     "brand": "Zara",
     "category": "pants",
     "description": "Slim-fit black trousers in wool-blend with welt pockets.",
-    "price": "59.90",
-    "currency": "USD",
+    "price": "54.99",
+    "currency": "EUR",
     "image_url": "https://images.unsplash.com/photo-1618886614638-80e3c103d31a?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
       "black"
@@ -182,7 +206,10 @@
     "attributes": {
       "fit": "slim",
       "material": "wool-blend",
-      "pocket_count": 4
+      "pocket_count": 4,
+      "features": [
+        "slim_fit"
+      ]
     }
   },
   {
@@ -209,7 +236,8 @@
     "attributes": {
       "fit": "straight",
       "material": "denim",
-      "pocket_count": 5
+      "pocket_count": 5,
+      "features": []
     }
   },
   {
@@ -220,8 +248,8 @@
     "brand": "H&M",
     "category": "jeans",
     "description": "Baggy fit jeans in rinsed black denim with relaxed leg.",
-    "price": "44.99",
-    "currency": "USD",
+    "price": "35.50",
+    "currency": "GBP",
     "image_url": "https://images.unsplash.com/photo-1718252540511-e958742e4165?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
       "black"
@@ -235,7 +263,10 @@
     "attributes": {
       "fit": "loose",
       "material": "denim",
-      "pocket_count": 5
+      "pocket_count": 5,
+      "features": [
+        "relaxed_fit"
+      ]
     }
   },
   {
@@ -246,8 +277,8 @@
     "brand": "Zara",
     "category": "jeans",
     "description": "Slim-fit jeans in light blue stretch denim.",
-    "price": "49.90",
-    "currency": "USD",
+    "price": "1600",
+    "currency": "TRY",
     "image_url": "https://images.unsplash.com/photo-1602293589930-45aad59ba3ab?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
       "light-blue"
@@ -261,7 +292,10 @@
     "attributes": {
       "fit": "slim",
       "material": "stretch-denim",
-      "pocket_count": 5
+      "pocket_count": 5,
+      "features": [
+        "slim_fit"
+      ]
     }
   },
   {
@@ -287,8 +321,10 @@
     "attributes": {
       "fit": "regular",
       "material": "three-layer-shell",
-      "waterproof": true,
-      "pocket_count": 4
+      "pocket_count": 4,
+      "features": [
+        "waterproof"
+      ]
     }
   },
   {
@@ -314,8 +350,10 @@
     "attributes": {
       "fit": "regular",
       "material": "down",
-      "waterproof": false,
-      "pocket_count": 3
+      "pocket_count": 3,
+      "features": [
+        "zip_pockets"
+      ]
     }
   },
   {
@@ -326,8 +364,8 @@
     "brand": "ASOS",
     "category": "jackets",
     "description": "Cropped faux leather biker jacket with asymmetric zip and shoulder epaulettes.",
-    "price": "85.00",
-    "currency": "USD",
+    "price": "67.50",
+    "currency": "GBP",
     "image_url": "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
       "black"
@@ -340,7 +378,10 @@
     "attributes": {
       "fit": "cropped",
       "material": "faux-leather",
-      "pocket_count": 4
+      "pocket_count": 4,
+      "features": [
+        "cropped"
+      ]
     }
   },
   {
@@ -351,8 +392,8 @@
     "brand": "Zara",
     "category": "jackets",
     "description": "Classic double-breasted trench coat in beige with belted waist.",
-    "price": "129.00",
-    "currency": "USD",
+    "price": "118.50",
+    "currency": "EUR",
     "image_url": "https://images.unsplash.com/photo-1676716105765-e19fe6a01851?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
       "beige"
@@ -366,8 +407,8 @@
     "attributes": {
       "fit": "regular",
       "material": "cotton-twill",
-      "waterproof": false,
-      "pocket_count": 4
+      "pocket_count": 4,
+      "features": []
     }
   },
   {
@@ -394,7 +435,8 @@
     "attributes": {
       "fit": "boxy",
       "material": "cotton",
-      "weight_gsm": 240
+      "weight_gsm": 240,
+      "features": []
     }
   },
   {
@@ -419,7 +461,8 @@
     ],
     "attributes": {
       "fit": "regular",
-      "material": "cotton"
+      "material": "cotton",
+      "features": []
     }
   },
   {
@@ -448,7 +491,9 @@
     "attributes": {
       "fit": "athletic",
       "material": "polyester",
-      "moisture_wicking": true
+      "features": [
+        "moisture_wicking"
+      ]
     }
   },
   {
@@ -459,8 +504,8 @@
     "brand": "Uniqlo",
     "category": "tshirts",
     "description": "Long-sleeve cotton tee with horizontal stripes.",
-    "price": "24.90",
-    "currency": "USD",
+    "price": "3900",
+    "currency": "JPY",
     "image_url": "https://images.unsplash.com/photo-1686135153032-ce4813dfbcff?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
       "navy/white"
@@ -473,7 +518,8 @@
     ],
     "attributes": {
       "fit": "regular",
-      "material": "cotton"
+      "material": "cotton",
+      "features": []
     }
   },
   {
@@ -499,7 +545,8 @@
     ],
     "attributes": {
       "material": "leather",
-      "style": "low-top"
+      "style": "low-top",
+      "features": []
     }
   },
   {
@@ -525,7 +572,8 @@
     ],
     "attributes": {
       "material": "leather-suede",
-      "style": "low-top"
+      "style": "low-top",
+      "features": []
     }
   },
   {
@@ -536,8 +584,8 @@
     "brand": "Zara",
     "category": "sneakers",
     "description": "Chunky-soled chunky dad sneakers in beige and white panels.",
-    "price": "59.90",
-    "currency": "USD",
+    "price": "1900",
+    "currency": "TRY",
     "image_url": "https://images.unsplash.com/photo-1748354815058-b098acf7f009?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
       "beige"
@@ -550,7 +598,8 @@
     ],
     "attributes": {
       "material": "synthetic",
-      "style": "chunky"
+      "style": "chunky",
+      "features": []
     }
   },
   {
@@ -575,7 +624,8 @@
     ],
     "attributes": {
       "fit": "regular",
-      "material": "wool-blend"
+      "material": "wool-blend",
+      "features": []
     }
   },
   {
@@ -586,8 +636,8 @@
     "brand": "Zara",
     "category": "sweaters",
     "description": "Heavyweight oversized mock-neck sweater in charcoal.",
-    "price": "49.90",
-    "currency": "USD",
+    "price": "45.99",
+    "currency": "EUR",
     "image_url": "https://images.unsplash.com/photo-1610901157620-340856d0a50f?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
       "charcoal"
@@ -599,7 +649,10 @@
     ],
     "attributes": {
       "fit": "oversized",
-      "material": "acrylic-wool"
+      "material": "acrylic-wool",
+      "features": [
+        "oversized"
+      ]
     }
   },
   {
@@ -624,7 +677,10 @@
     ],
     "attributes": {
       "fit": "cropped",
-      "material": "rib-knit"
+      "material": "rib-knit",
+      "features": [
+        "cropped"
+      ]
     }
   },
   {
@@ -635,8 +691,8 @@
     "brand": "Zara",
     "category": "dresses",
     "description": "Sleeveless linen midi dress with side slits and tie waist.",
-    "price": "79.90",
-    "currency": "USD",
+    "price": "73.50",
+    "currency": "EUR",
     "image_url": "https://images.unsplash.com/photo-1733043014211-8d699f6a82b1?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
       "sand"
@@ -650,7 +706,8 @@
     "attributes": {
       "fit": "regular",
       "material": "linen",
-      "length": "midi"
+      "length": "midi",
+      "features": []
     }
   },
   {
@@ -675,7 +732,8 @@
     ],
     "attributes": {
       "fit": "wrap",
-      "material": "viscose"
+      "material": "viscose",
+      "features": []
     }
   },
   {
@@ -686,8 +744,8 @@
     "brand": "ASOS",
     "category": "dresses",
     "description": "Bias-cut black satin slip dress with cowl neck.",
-    "price": "55.00",
-    "currency": "USD",
+    "price": "42.99",
+    "currency": "GBP",
     "image_url": "https://images.unsplash.com/photo-1656284518334-710b60cd63a0?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
       "black"
@@ -700,7 +758,8 @@
     ],
     "attributes": {
       "fit": "slip",
-      "material": "satin"
+      "material": "satin",
+      "features": []
     }
   },
   {
@@ -725,7 +784,8 @@
     ],
     "attributes": {
       "fit": "regular",
-      "material": "cotton-twill"
+      "material": "cotton-twill",
+      "features": []
     }
   },
   {
@@ -750,7 +810,8 @@
     ],
     "attributes": {
       "fit": "athletic",
-      "material": "polyester-mesh"
+      "material": "polyester-mesh",
+      "features": []
     }
   },
   {
@@ -775,7 +836,8 @@
     ],
     "attributes": {
       "fit": "regular",
-      "material": "denim"
+      "material": "denim",
+      "features": []
     }
   },
   {
@@ -800,7 +862,8 @@
     ],
     "attributes": {
       "fit": "pleated",
-      "material": "polyester"
+      "material": "polyester",
+      "features": []
     }
   },
   {
@@ -811,8 +874,8 @@
     "brand": "Zara",
     "category": "skirts",
     "description": "High-waist faux leather midi skirt in chocolate brown.",
-    "price": "69.90",
-    "currency": "USD",
+    "price": "64.50",
+    "currency": "EUR",
     "image_url": "https://images.unsplash.com/photo-1714205901200-4662d2911ed0?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
       "brown"
@@ -825,7 +888,8 @@
     ],
     "attributes": {
       "fit": "high-waist",
-      "material": "faux-leather"
+      "material": "faux-leather",
+      "features": []
     }
   },
   {
@@ -851,7 +915,8 @@
     "attributes": {
       "fit": "regular",
       "material": "wool-blend",
-      "pocket_count": 4
+      "pocket_count": 4,
+      "features": []
     }
   },
   {
@@ -877,7 +942,10 @@
     "attributes": {
       "fit": "regular",
       "material": "duck-canvas",
-      "pocket_count": 4
+      "pocket_count": 4,
+      "features": [
+        "fleece_lined"
+      ]
     }
   },
   {
@@ -903,7 +971,8 @@
     "attributes": {
       "fit": "regular",
       "material": "denim",
-      "pocket_count": 4
+      "pocket_count": 4,
+      "features": []
     }
   },
   {
@@ -929,7 +998,10 @@
     "attributes": {
       "fit": "wide-leg",
       "material": "polyester-blend",
-      "pocket_count": 2
+      "pocket_count": 2,
+      "features": [
+        "wide_leg"
+      ]
     }
   },
   {
@@ -955,7 +1027,11 @@
     ],
     "attributes": {
       "fit": "tapered",
-      "material": "french-terry"
+      "material": "french-terry",
+      "features": [
+        "tapered_leg",
+        "elastic_waist"
+      ]
     }
   },
   {
@@ -980,7 +1056,8 @@
     ],
     "attributes": {
       "fit": "regular",
-      "material": "cotton-loopback"
+      "material": "cotton-loopback",
+      "features": []
     }
   },
   {
@@ -991,8 +1068,8 @@
     "brand": "ASOS",
     "category": "hoodies",
     "description": "Slim full-zip sweatshirt with two side pockets.",
-    "price": "32.00",
-    "currency": "USD",
+    "price": "24.99",
+    "currency": "GBP",
     "image_url": "https://images.unsplash.com/photo-1710330972862-dfdce0fc821f?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
       "navy"
@@ -1005,7 +1082,10 @@
     "attributes": {
       "fit": "slim",
       "material": "cotton-blend",
-      "pocket_count": 2
+      "pocket_count": 2,
+      "features": [
+        "slim_fit"
+      ]
     }
   },
   {
@@ -1032,7 +1112,8 @@
     ],
     "attributes": {
       "fit": "regular",
-      "material": "pique-cotton"
+      "material": "pique-cotton",
+      "features": []
     }
   },
   {
@@ -1059,7 +1140,10 @@
     "attributes": {
       "fit": "oversized",
       "material": "cotton",
-      "pocket_count": 1
+      "pocket_count": 1,
+      "features": [
+        "oversized"
+      ]
     }
   },
   {
@@ -1086,7 +1170,8 @@
     ],
     "attributes": {
       "material": "leather",
-      "style": "low-top"
+      "style": "low-top",
+      "features": []
     }
   },
   {
@@ -1113,7 +1198,8 @@
     ],
     "attributes": {
       "material": "mesh",
-      "style": "running"
+      "style": "running",
+      "features": []
     }
   },
   {
@@ -1124,8 +1210,8 @@
     "brand": "ASOS",
     "category": "jeans",
     "description": "Y2K-inspired baggy jeans in light wash with low-rise waist and frayed hems.",
-    "price": "62.00",
-    "currency": "USD",
+    "price": "48.99",
+    "currency": "GBP",
     "image_url": "https://images.unsplash.com/photo-1616956455145-7c40e34a1c2a?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
       "light-blue"
@@ -1138,7 +1224,8 @@
     "attributes": {
       "fit": "baggy",
       "material": "denim",
-      "pocket_count": 5
+      "pocket_count": 5,
+      "features": []
     }
   },
   {
@@ -1164,7 +1251,11 @@
     "attributes": {
       "fit": "mom",
       "material": "denim",
-      "pocket_count": 5
+      "pocket_count": 5,
+      "features": [
+        "relaxed_fit",
+        "tapered_leg"
+      ]
     }
   },
   {
@@ -1190,7 +1281,10 @@
     "attributes": {
       "fit": "regular",
       "material": "recycled-polyester",
-      "pocket_count": 2
+      "pocket_count": 2,
+      "features": [
+        "zip_pockets"
+      ]
     }
   },
   {
@@ -1201,8 +1295,8 @@
     "brand": "The North Face",
     "category": "hoodies",
     "description": "Half-zip sherpa fleece pullover with chest pocket.",
-    "price": "99.00",
-    "currency": "USD",
+    "price": "135.99",
+    "currency": "CAD",
     "image_url": "https://images.unsplash.com/photo-1760661696925-85cd09cac428?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
       "cream"
@@ -1216,7 +1310,249 @@
     "attributes": {
       "fit": "regular",
       "material": "sherpa-fleece",
-      "pocket_count": 1
+      "pocket_count": 1,
+      "features": [
+        "fleece_lined"
+      ]
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "champion-logo-hoodie-1",
+    "url": "https://example.com/p/champion-logo-hoodie-1",
+    "title": "Champion Reverse Weave Hoodie with Big C Logo",
+    "brand": "Champion",
+    "category": "hoodies",
+    "description": "Classic reverse weave heavyweight hoodie with large embroidered Big C logo on the chest.",
+    "price": "75.00",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1633292750937-120a94f5c2bb?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "navy"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "attributes": {
+      "fit": "regular",
+      "material": "cotton-fleece",
+      "pocket_count": 1,
+      "features": [
+        "embroidered_logo",
+        "kangaroo_pocket"
+      ]
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "hm-basic-tee-1",
+    "url": "https://example.com/p/hm-basic-tee-1",
+    "title": "Basic Cotton Crew Neck Tee",
+    "brand": "H&M",
+    "category": "tshirts",
+    "description": "Everyday short-sleeve cotton tee in a regular fit. Soft jersey, ribbed crew neck.",
+    "price": "7.99",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "white",
+      "black",
+      "grey"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "attributes": {
+      "fit": "regular",
+      "material": "cotton",
+      "features": []
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "arcteryx-shell-1",
+    "url": "https://example.com/p/arcteryx-shell-1",
+    "title": "Beta AR Waterproof Shell Jacket",
+    "brand": "Arc'teryx",
+    "category": "jackets",
+    "description": "Premium three-layer GORE-TEX waterproof, windproof and breathable shell. Helmet-compatible hood, pit zips, fully taped seams.",
+    "price": "475.00",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1548883354-94bcfe321cbb?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "black"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "attributes": {
+      "fit": "regular",
+      "material": "gore-tex",
+      "pocket_count": 4,
+      "features": [
+        "waterproof",
+        "windproof",
+        "breathable"
+      ]
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "defacto-hoodie-tr-1",
+    "url": "https://example.com/p/defacto-hoodie-tr-1",
+    "title": "Cropped Fleece Hoodie with Hidden Zip Pocket",
+    "brand": "Defacto",
+    "category": "hoodies",
+    "description": "Cropped fleece-lined pullover hoodie with an internal hidden zip pocket. Drawcord hood, ribbed cuffs.",
+    "price": "4200",
+    "currency": "TRY",
+    "image_url": "https://images.unsplash.com/photo-1564557287817-3785e38ec1f5?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "black"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L"
+    ],
+    "attributes": {
+      "fit": "cropped",
+      "material": "fleece",
+      "pocket_count": 1,
+      "features": [
+        "cropped",
+        "fleece_lined",
+        "hidden_pockets"
+      ]
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "zara-minimalist-sneaker-1",
+    "url": "https://example.com/p/zara-minimalist-sneaker-1",
+    "title": "Minimalist White Leather Sneakers",
+    "brand": "Zara",
+    "category": "sneakers",
+    "description": "Clean minimalist low-top leather sneaker in white with tonal stitching.",
+    "price": "89.00",
+    "currency": "EUR",
+    "image_url": "https://images.unsplash.com/photo-1587563871167-1ee9c731aefb?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "white"
+    ],
+    "sizes": [
+      "38",
+      "39",
+      "40",
+      "41",
+      "42",
+      "43"
+    ],
+    "attributes": {
+      "material": "leather",
+      "style": "low-top",
+      "features": []
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "patagonia-tech-jacket-1",
+    "url": "https://example.com/p/patagonia-tech-jacket-1",
+    "title": "Storm Commuter Tech Jacket",
+    "brand": "Patagonia",
+    "category": "jackets",
+    "description": "Waterproof commuter shell with internal hidden zipped pocket and reflective trim for low-light visibility.",
+    "price": "249.00",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1557418669-db3f781a58c0?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "black"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "attributes": {
+      "fit": "regular",
+      "material": "recycled-nylon",
+      "pocket_count": 4,
+      "features": [
+        "hidden_pockets",
+        "waterproof",
+        "reflective"
+      ]
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "uniqlo-clean-hoodie-1",
+    "url": "https://example.com/p/uniqlo-clean-hoodie-1",
+    "title": "Clean Pullover Hoodie",
+    "brand": "Uniqlo",
+    "category": "hoodies",
+    "description": "Logo-free pullover hoodie in heavyweight cotton with a clean front and drawcord hood.",
+    "price": "39.90",
+    "currency": "USD",
+    "image_url": "https://images.unsplash.com/photo-1610222034376-8dd1149e0e60?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "black",
+      "grey",
+      "navy"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "attributes": {
+      "fit": "regular",
+      "material": "cotton",
+      "pocket_count": 1,
+      "features": [
+        "logo_free"
+      ]
+    }
+  },
+  {
+    "retailer": "seed",
+    "retailer_product_id": "uniqlo-jp-tee-1",
+    "url": "https://example.com/p/uniqlo-jp-tee-1",
+    "title": "Supima Cotton Crew Neck T-Shirt",
+    "brand": "Uniqlo",
+    "category": "tshirts",
+    "description": "Short-sleeve Supima cotton tee with a refined hand-feel and regular fit.",
+    "price": "7900",
+    "currency": "JPY",
+    "image_url": "https://images.unsplash.com/photo-1686135153032-ce4813dfbcff?w=600&h=800&fit=crop&auto=format&q=75",
+    "colors": [
+      "white",
+      "black",
+      "navy"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "attributes": {
+      "fit": "regular",
+      "material": "supima-cotton",
+      "features": []
     }
   }
 ]

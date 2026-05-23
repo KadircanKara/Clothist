@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "vocabulary": [
+    "hidden_pockets",
+    "cargo_pockets",
+    "zip_pockets",
+    "kangaroo_pocket",
+    "waterproof",
+    "water_resistant",
+    "windproof",
+    "breathable",
+    "moisture_wicking",
+    "quick_dry",
+    "fleece_lined",
+    "reflective",
+    "drawstring_hem",
+    "elastic_waist",
+    "tapered_leg",
+    "wide_leg",
+    "cropped",
+    "oversized",
+    "slim_fit",
+    "relaxed_fit",
+    "logo_free",
+    "embroidered_logo",
+    "reinforced_knees",
+    "ripped",
+    "distressed"
+  ]
+}

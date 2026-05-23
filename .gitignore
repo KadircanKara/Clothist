@@ -38,6 +38,9 @@ data/cache/
 *.sqlite
 *.db
 
+# Local planning docs (sub-agent deliverables, kept out of remote)
+plans/
+
 # Python tooling
 .ruff_cache/
 .mypy_cache/
