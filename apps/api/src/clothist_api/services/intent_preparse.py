@@ -49,7 +49,12 @@ CURRENCY_PATTERNS: list[tuple[str, str]] = [
 ]
 EUROPEAN_CONVENTION = frozenset({"EUR", "TRY"})
 
-NUMBER = r"\d{1,3}(?:[.,]\d{3})*(?:[.,]\d{1,2})?|\d+"
+NUMBER = (
+    # With at least one thousands separator: `1,234`, `4.300`, `1.234,56`.
+    r"\d{1,3}(?:[.,]\d{3})+(?:[.,]\d{1,2})?"
+    # No thousands separator; optional 1-2 digit decimal: `5400`, `1,5`, `100.50`.
+    r"|\d+(?:[.,]\d{1,2})?"
+)
 _SYMS = "|".join(p for p, _ in CURRENCY_PATTERNS)
 PRE_SYM_RE = re.compile(rf"(?P<sym>{_SYMS})\s*(?P<num>{NUMBER})", re.IGNORECASE)
 POST_SYM_RE = re.compile(rf"(?P<num>{NUMBER})\s*(?P<sym>{_SYMS})", re.IGNORECASE)
