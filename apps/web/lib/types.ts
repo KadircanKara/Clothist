@@ -1,6 +1,12 @@
 export type ProductVariant = {
   color: string;
+  /** Hero image — same as images[0] when `images` is populated. Kept as
+   *  a flat field for back-compat with older ingest payloads. */
   image_url: string;
+  /** Full image set for this color, hero first. The PDP gallery uses
+   *  this to render a thumbnail strip; falls back to [image_url] when
+   *  the source didn't yield additional images. */
+  images?: string[];
   ai_generated?: boolean;
   /** Per-variant in-stock signal (Shopify variants[].available). Phase 1
    *  ingests populate this; renderers may ignore it for MVP. */

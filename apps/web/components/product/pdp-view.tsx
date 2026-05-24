@@ -54,6 +54,18 @@ function PdpBody({ product }: { product: Product }) {
 
   const activeVariant =
     variants.find((v) => v.color === selectedColor) ?? variants[0];
+  // All images for the active color, hero first. Falls back to [image_url]
+  // when the ingest didn't capture additional images yet.
+  const activeImages = useMemo(() => {
+    const imgs = activeVariant.images?.filter(Boolean) ?? [];
+    if (imgs.length > 0) return imgs;
+    return activeVariant.image_url ? [activeVariant.image_url] : [];
+  }, [activeVariant]);
+  const [activeImageIdx, setActiveImageIdx] = useState(0);
+  useEffect(() => {
+    // Reset to the hero whenever the user picks a different color.
+    setActiveImageIdx(0);
+  }, [selectedColor, activeImages.length]);
   const sizes = product.sizes?.length ? product.sizes : DEFAULT_SIZES;
   const onSale =
     product.original_price &&
@@ -117,10 +129,11 @@ function PdpBody({ product }: { product: Product }) {
 
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_440px] lg:gap-20">
           <Gallery
-            variants={variants}
-            activeColor={selectedColor}
-            onSelect={setSelectedColor}
+            images={activeImages}
+            activeIdx={activeImageIdx}
+            onSelectIdx={setActiveImageIdx}
             title={product.title}
+            activeColor={selectedColor}
           />
 
           <aside className="self-start lg:sticky lg:top-32 space-y-10">
@@ -262,56 +275,69 @@ function PdpBody({ product }: { product: Product }) {
 }
 
 function Gallery({
-  variants,
-  activeColor,
-  onSelect,
+  images,
+  activeIdx,
+  onSelectIdx,
   title,
+  activeColor,
 }: {
-  variants: ProductVariant[];
-  activeColor: string;
-  onSelect: (c: string) => void;
+  images: string[];
+  activeIdx: number;
+  onSelectIdx: (i: number) => void;
   title: string;
+  activeColor: string;
 }) {
-  const active = variants.find((v) => v.color === activeColor) ?? variants[0];
+  const active = images[activeIdx] ?? images[0] ?? "";
+  // Single-image products hide the thumbnail rail entirely so the main
+  // panel can claim the full width.
+  const hasStrip = images.length > 1;
 
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-[96px_minmax(0,1fr)] sm:gap-5">
-      <ul className="flex sm:flex-col gap-3 order-2 sm:order-1 overflow-x-auto sm:overflow-visible">
-        {variants.map((v) => {
-          const isActive = v.color === activeColor;
-          return (
-            <li key={v.color} className="shrink-0">
-              <button
-                type="button"
-                onClick={() => onSelect(v.color)}
-                aria-label={`Show ${v.color} variant`}
-                aria-pressed={isActive}
-                className={[
-                  "relative block h-24 w-24 sm:h-28 sm:w-24 overflow-hidden bg-bg-alt transition-all",
-                  isActive
-                    ? "outline outline-2 outline-foreground outline-offset-2"
-                    : "border border-line/15 hover:border-line/40",
-                ].join(" ")}
-              >
-                {v.image_url && (
+    <div
+      className={[
+        "grid grid-cols-1 gap-4 sm:gap-5",
+        hasStrip ? "sm:grid-cols-[96px_minmax(0,1fr)]" : "",
+      ].join(" ")}
+    >
+      {hasStrip && (
+        <ul
+          className="flex sm:flex-col gap-3 order-2 sm:order-1 overflow-x-auto sm:overflow-visible"
+          aria-label={`${activeColor} colorway — ${images.length} images`}
+        >
+          {images.map((src, i) => {
+            const isActive = i === activeIdx;
+            return (
+              <li key={`${src}-${i}`} className="shrink-0">
+                <button
+                  type="button"
+                  onClick={() => onSelectIdx(i)}
+                  aria-label={`View image ${i + 1} of ${images.length}`}
+                  aria-pressed={isActive}
+                  className={[
+                    "relative block h-24 w-24 sm:h-28 sm:w-24 overflow-hidden bg-bg-alt transition-all",
+                    isActive
+                      ? "outline outline-2 outline-foreground outline-offset-2"
+                      : "border border-line/15 hover:border-line/40",
+                  ].join(" ")}
+                >
                   <Image
-                    src={v.image_url}
-                    alt={v.color}
+                    src={src}
+                    alt={`${title} — view ${i + 1}`}
                     fill
                     sizes="96px"
                     className="object-cover"
                   />
-                )}
-              </button>
-            </li>
-          );
-        })}
-      </ul>
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      )}
       <div className="relative aspect-[4/5] w-full overflow-hidden bg-bg-alt order-1 sm:order-2">
-        {active.image_url && (
+        {active && (
           <Image
-            key={active.image_url}
-            src={active.image_url}
+            key={active}
+            src={active}
             alt={`${title} — ${activeColor} colorway`}
             fill
             priority

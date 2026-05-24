@@ -33,6 +33,24 @@ logger = logging.getLogger(__name__)
 USER_AGENT = "Clothist-Ingest/0.1 (+research, contact: lior@cherry-host.es)"
 
 
+def _sort_sizes(sizes: set[str]) -> list[str]:
+    """Sort sizes numerically when every value parses as a number (shoe
+    sizes: 7, 7.5, 8, 8.5, ..., 14). Fall back to alphabetic order for
+    apparel sizes (XS, S, M, L, XL).
+
+    Without this, default `sorted()` returns "10, 10.5, 11, 11.5, ..., 7,
+    7.5" — the lexical order is wrong for the UI's Size grid.
+    """
+    parsed: list[tuple[float, str]] = []
+    for s in sizes:
+        try:
+            parsed.append((float(s), s))
+        except ValueError:
+            return sorted(sizes)
+    parsed.sort(key=lambda t: t[0])
+    return [s for _, s in parsed]
+
+
 @dataclass(slots=True)
 class IngestCounters:
     """Per-source counters returned at end of run for the summary log."""
@@ -299,6 +317,63 @@ class ShopifyAdapter:
                     return (img["src"], False)
         return (None, False)
 
+    def all_images_for_variant(
+        self,
+        vlist: list[dict],
+        color_value: str | None,
+        images: list[dict],
+        *,
+        is_only_color: bool,
+    ) -> list[str]:
+        """Return every product image that belongs to this color, sorted by
+        position. The PDP gallery uses this to render a thumbnail strip
+        instead of a single hero.
+
+        Match strategy (parallel to best_image_for_variant but collecting):
+          1. Single-color product → return every image, position-sorted.
+          2. Multi-color product → return images whose `variant_ids` overlap
+             this color's variant ids, OR whose alt text contains the color
+             name. Falls back to per-variant `featured_image` URLs if those
+             aren't already in the list. Deduplicated by URL preserving order.
+        """
+        if not images:
+            return []
+
+        if is_only_color:
+            return [
+                img["src"]
+                for img in sorted(images, key=lambda i: i.get("position") or 9999)
+                if img.get("src")
+            ]
+
+        variant_ids = {v.get("id") for v in vlist if v.get("id") is not None}
+        needle = (color_value or "").lower()
+
+        collected: list[tuple[int, str]] = []
+        for img in images:
+            src = img.get("src")
+            if not src:
+                continue
+            position = img.get("position") or 9999
+            ids = set(img.get("variant_ids") or [])
+            if ids & variant_ids:
+                collected.append((position, src))
+                continue
+            if needle and (img.get("alt") or "").lower().find(needle) >= 0:
+                collected.append((position, src))
+        collected.sort(key=lambda t: t[0])
+
+        # Featured images on the variants themselves (sometimes Shopify
+        # surfaces them only here, not in the top-level `images` array).
+        seen = {src for _, src in collected}
+        for v in vlist:
+            fi = v.get("featured_image")
+            if fi and isinstance(fi, dict) and fi.get("src") and fi["src"] not in seen:
+                collected.append((9999, fi["src"]))
+                seen.add(fi["src"])
+
+        return [src for _, src in collected]
+
     # -----------------------------------------------------------------
     # to_product — canonical raw → ingest-row mapper
     # -----------------------------------------------------------------
@@ -375,9 +450,21 @@ class ShopifyAdapter:
                     self.retailer_slug, rpid, display_color,
                 )
                 continue
+            color_images = self.all_images_for_variant(
+                vlist, color_value, images, is_only_color=is_only_color_product,
+            )
+            # Ensure the chosen hero is the first thumbnail. Some images
+            # match the color by variant_ids but Shopify positions them
+            # ahead of the featured-image one — putting the hero first
+            # keeps the PDP main panel and the first thumbnail in sync.
+            if image_url and image_url in color_images:
+                color_images = [image_url] + [u for u in color_images if u != image_url]
+            elif image_url:
+                color_images = [image_url] + color_images
             entry = {
                 "color": display_color,
                 "image_url": image_url,
+                "images": color_images,
                 "ai_generated": False,
                 "available": bool(anchor.get("available")),
             }
@@ -480,7 +567,7 @@ class ShopifyAdapter:
             "currency": self.currency.upper(),
             "image_url": hero_image_url,
             "colors": surviving_colors or None,
-            "sizes": sorted(size_set) if size_set else None,
+            "sizes": _sort_sizes(size_set) if size_set else None,
             "attributes": attributes,
             "in_stock": in_stock,
         }
