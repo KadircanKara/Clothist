@@ -1,35 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { colorBackground, humanizeColor } from "@/lib/colors";
 import type { FacetsResponse } from "@/lib/types";
-
-const COLOR_HEX: Record<string, string> = {
-  black: "#0a0a09",
-  white: "#fafafa",
-  cream: "#f0e8d4",
-  grey: "#a3a3a3",
-  navy: "#1a2440",
-  blue: "#3b5bdb",
-  indigo: "#3b3672",
-  green: "#3a8045",
-  olive: "#6b6b32",
-  rust: "#b54e21",
-  orange: "#e7791f",
-  red: "#c62833",
-  pink: "#e9a4ad",
-  brown: "#6b4a32",
-  tan: "#cdab83",
-  beige: "#e2d5b8",
-  khaki: "#b8a276",
-  stone: "#d6cfc0",
-  "stone-wash": "#a8b4be",
-  purple: "#7c5edb",
-  yellow: "#e9c33d",
-  burgundy: "#762a36",
-  sand: "#dac7a5",
-  gold: "#c9a04a",
-  charcoal: "#3a3a3a",
-};
 
 export type CatalogFilters = {
   category?: string;
@@ -82,7 +55,6 @@ export function CatalogSidebar({ facets, filters, onChange, totalCount }: Props)
             <ColorDot
               key={c.value}
               label={c.value}
-              hex={COLOR_HEX[c.value.toLowerCase()]}
               active={filters.color === c.value}
               onClick={() => onChange({ ...filters, color: c.value })}
             />
@@ -252,40 +224,46 @@ function FacetRow({
 
 function ColorDot({
   label,
-  hex,
   active,
   onClick,
 }: {
   label: string;
-  hex?: string;
   active: boolean;
   onClick: () => void;
 }) {
+  const display = humanizeColor(label);
+  const bg = label === "Any" ? "transparent" : colorBackground(label);
   return (
     <li>
       <button
         type="button"
         onClick={onClick}
         aria-pressed={active}
-        aria-label={`Color: ${label}`}
-        title={label}
+        aria-label={`Filter by color: ${display}`}
         className={[
-          "relative grid h-9 w-9 place-items-center rounded-full transition-all",
+          "group relative grid h-9 w-9 place-items-center rounded-full transition-all",
           active
             ? "outline outline-1 outline-foreground outline-offset-2"
             : "hover:outline hover:outline-1 hover:outline-foreground/40 hover:outline-offset-2",
         ].join(" ")}
       >
-        {hex ? (
+        {label === "Any" ? (
+          <span className="block h-7 w-7 rounded-full ring-1 ring-line/30 bg-transparent grid place-items-center font-mono text-[9px] uppercase text-muted">
+            ALL
+          </span>
+        ) : (
           <span
             className="block h-7 w-7 rounded-full ring-1 ring-line/20"
-            style={{ background: hex }}
+            style={{ background: bg }}
           />
-        ) : (
-          <span className="block h-7 w-7 rounded-full ring-1 ring-line/20 bg-transparent grid place-items-center font-mono text-[9px] uppercase">
-            ?
-          </span>
         )}
+        {/* Hover tooltip — appears below the swatch */}
+        <span
+          role="tooltip"
+          className="pointer-events-none absolute top-full mt-1.5 left-1/2 -translate-x-1/2 whitespace-nowrap bg-foreground text-background font-mono text-[9px] uppercase tracking-[0.16em] px-2 py-1 opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity z-10"
+        >
+          {display}
+        </span>
       </button>
     </li>
   );

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
 import { CommerceHeader } from "@/components/commerce/commerce-header";
+import { colorBackground, humanizeColor } from "@/lib/colors";
 import { getProduct, searchProducts } from "@/lib/api";
 import { useCart } from "@/lib/cart-store";
 import type { Product, ProductVariant } from "@/lib/types";
@@ -149,14 +150,9 @@ function PdpBody({ product }: { product: Product }) {
             </header>
 
             <section aria-labelledby="color-heading" className="space-y-4">
-              <div className="flex items-baseline justify-between">
-                <p id="color-heading" className="font-mono text-[10px] uppercase tracking-[0.22em]">
-                  Color
-                </p>
-                <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted capitalize">
-                  {selectedColor}
-                </p>
-              </div>
+              <p id="color-heading" className="font-mono text-[10px] uppercase tracking-[0.22em]">
+                Color · <span className="text-muted">{humanizeColor(selectedColor)}</span>
+              </p>
               <ColorSwatches
                 variants={variants}
                 active={selectedColor}
@@ -328,31 +324,6 @@ function Gallery({
   );
 }
 
-const COLOR_HEX: Record<string, string> = {
-  black: "#0a0a09",
-  white: "#fafafa",
-  cream: "#f0e8d4",
-  grey: "#a3a3a3",
-  navy: "#1a2440",
-  blue: "#3b5bdb",
-  indigo: "#3b3672",
-  green: "#3a8045",
-  olive: "#6b6b32",
-  rust: "#b54e21",
-  orange: "#e7791f",
-  red: "#c62833",
-  pink: "#e9a4ad",
-  brown: "#6b4a32",
-  tan: "#cdab83",
-  beige: "#e2d5b8",
-  khaki: "#b8a276",
-  stone: "#d6cfc0",
-  "stone-wash": "#a8b4be",
-  purple: "#7c5edb",
-  yellow: "#e9c33d",
-  burgundy: "#762a36",
-};
-
 function ColorSwatches({
   variants,
   active,
@@ -363,16 +334,17 @@ function ColorSwatches({
   onSelect: (c: string) => void;
 }) {
   return (
-    <ul className="flex flex-wrap items-center gap-3">
+    <ul className="flex flex-wrap items-start gap-x-5 gap-y-4">
       {variants.map((v) => {
         const isActive = v.color === active;
-        const bg = COLOR_HEX[v.color.toLowerCase()] ?? "#888";
+        const bg = colorBackground(v.color);
+        const display = humanizeColor(v.color);
         return (
-          <li key={v.color}>
+          <li key={v.color} className="flex flex-col items-center gap-1.5">
             <button
               type="button"
               onClick={() => onSelect(v.color)}
-              aria-label={`Color: ${v.color}`}
+              aria-label={`Color: ${display}`}
               aria-pressed={isActive}
               className={[
                 "relative grid h-10 w-10 place-items-center rounded-full transition-all",
@@ -386,6 +358,14 @@ function ColorSwatches({
                 style={{ background: bg }}
               />
             </button>
+            <span
+              className={[
+                "font-mono text-[10px] uppercase tracking-[0.16em] transition-colors text-center max-w-[88px] leading-tight",
+                isActive ? "text-foreground" : "text-muted",
+              ].join(" ")}
+            >
+              {display}
+            </span>
           </li>
         );
       })}

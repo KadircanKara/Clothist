@@ -65,7 +65,8 @@
     "colors": [
       "grey",
       "cream",
-      "black"
+      "black",
+      "navy"
     ],
     "sizes": [
       "S",
@@ -96,6 +97,11 @@
         {
           "color": "black",
           "image_url": "/variants/seed-002_black.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "navy",
+          "image_url": "/variants/seed-002_navy.jpg",
           "ai_generated": false
         }
       ]
@@ -219,7 +225,8 @@
     "colors": [
       "olive",
       "khaki",
-      "black"
+      "black",
+      "stone"
     ],
     "sizes": [
       "S",
@@ -251,6 +258,11 @@
           "color": "black",
           "image_url": "/variants/seed-011_black.jpg",
           "ai_generated": false
+        },
+        {
+          "color": "stone",
+          "image_url": "/variants/seed-011_stone.jpg",
+          "ai_generated": false
         }
       ],
       "original_unsplash_url": "https://images.unsplash.com/photo-1584865288642-42078afe6942?w=600&h=800&fit=crop&auto=format&q=75"
@@ -271,7 +283,8 @@
     "colors": [
       "beige",
       "khaki",
-      "black"
+      "black",
+      "stone"
     ],
     "sizes": [
       "S",
@@ -300,6 +313,11 @@
         {
           "color": "black",
           "image_url": "/variants/seed-012_black.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "stone",
+          "image_url": "/variants/seed-012_stone.jpg",
           "ai_generated": false
         }
       ]
@@ -467,7 +485,8 @@
     "colors": [
       "indigo",
       "light-blue",
-      "black"
+      "black",
+      "stone-wash"
     ],
     "sizes": [
       "28",
@@ -497,6 +516,11 @@
           "color": "black",
           "image_url": "/variants/seed-022_black.jpg",
           "ai_generated": false
+        },
+        {
+          "color": "stone-wash",
+          "image_url": "/variants/seed-022_stone-wash.jpg",
+          "ai_generated": false
         }
       ]
     },
@@ -516,7 +540,8 @@
     "colors": [
       "forest",
       "black",
-      "olive"
+      "olive",
+      "tan"
     ],
     "sizes": [
       "S",
@@ -545,6 +570,11 @@
         {
           "color": "olive",
           "image_url": "/variants/seed-030_olive.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "tan",
+          "image_url": "/variants/seed-030_tan.jpg",
           "ai_generated": false
         }
       ]
@@ -662,7 +692,8 @@
     "colors": [
       "beige",
       "black",
-      "olive"
+      "olive",
+      "tan"
     ],
     "sizes": [
       "XS",
@@ -689,6 +720,11 @@
         {
           "color": "olive",
           "image_url": "/variants/seed-033_olive.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "tan",
+          "image_url": "/variants/seed-033_tan.jpg",
           "ai_generated": false
         }
       ]
@@ -757,7 +793,8 @@
     "colors": [
       "faded-black",
       "white",
-      "black"
+      "black",
+      "olive"
     ],
     "sizes": [
       "S",
@@ -783,6 +820,11 @@
         {
           "color": "black",
           "image_url": "/variants/seed-041_black.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "olive",
+          "image_url": "/variants/seed-041_olive.jpg",
           "ai_generated": false
         }
       ]
@@ -852,7 +894,8 @@
     "colors": [
       "navy/white",
       "white",
-      "black"
+      "black",
+      "olive"
     ],
     "sizes": [
       "S",
@@ -878,6 +921,11 @@
         {
           "color": "black",
           "image_url": "/variants/seed-043_black.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "olive",
+          "image_url": "/variants/seed-043_olive.jpg",
           "ai_generated": false
         }
       ]
@@ -945,7 +993,8 @@
     "colors": [
       "black/white",
       "white",
-      "black"
+      "black",
+      "grey"
     ],
     "sizes": [
       "8",
@@ -973,6 +1022,11 @@
           "color": "black",
           "image_url": "/variants/seed-051_black.jpg",
           "ai_generated": false
+        },
+        {
+          "color": "grey",
+          "image_url": "/variants/seed-051_grey.jpg",
+          "ai_generated": false
         }
       ]
     },
@@ -992,7 +1046,8 @@
     "colors": [
       "beige",
       "white",
-      "black"
+      "black",
+      "grey"
     ],
     "sizes": [
       "8",
@@ -1018,6 +1073,11 @@
         {
           "color": "black",
           "image_url": "/variants/seed-052_black.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "grey",
+          "image_url": "/variants/seed-052_grey.jpg",
           "ai_generated": false
         }
       ]
@@ -1084,7 +1144,8 @@
     "colors": [
       "charcoal",
       "cream",
-      "navy"
+      "navy",
+      "rust"
     ],
     "sizes": [
       "S",
@@ -1112,6 +1173,11 @@
           "color": "navy",
           "image_url": "/variants/seed-061_navy.jpg",
           "ai_generated": false
+        },
+        {
+          "color": "rust",
+          "image_url": "/variants/seed-061_rust.jpg",
+          "ai_generated": false
         }
       ]
     },
@@ -1130,7 +1196,9 @@
     "image_url": "https://images.unsplash.com/photo-1738927609747-6846c608fdfe?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
       "pink",
-      "cream"
+      "cream",
+      "rust",
+      "navy"
     ],
     "sizes": [
       "XS",
@@ -1154,6 +1222,16 @@
           "color": "cream",
           "image_url": "/variants/seed-062_cream.jpg",
           "ai_generated": false
+        },
+        {
+          "color": "rust",
+          "image_url": "/variants/seed-062_rust.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "navy",
+          "image_url": "/variants/seed-062_navy.jpg",
+          "ai_generated": false
         }
       ]
     },
@@ -1171,7 +1249,10 @@
     "currency": "EUR",
     "image_url": "https://images.unsplash.com/photo-1593913534956-a8d913b9394f?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "sand"
+      "sand",
+      "black",
+      "cream",
+      "rust"
     ],
     "sizes": [
       "XS",
@@ -1188,6 +1269,21 @@
         {
           "color": "sand",
           "image_url": "https://images.unsplash.com/photo-1593913534956-a8d913b9394f?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "/variants/seed-070_black.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "cream",
+          "image_url": "/variants/seed-070_cream.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "rust",
+          "image_url": "/variants/seed-070_rust.jpg",
           "ai_generated": false
         }
       ],
@@ -1207,7 +1303,10 @@
     "currency": "USD",
     "image_url": "https://images.unsplash.com/photo-1511130558090-00af810c21b1?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "floral"
+      "floral",
+      "black",
+      "cream",
+      "rust"
     ],
     "sizes": [
       "XS",
@@ -1223,6 +1322,21 @@
         {
           "color": "floral",
           "image_url": "https://images.unsplash.com/photo-1511130558090-00af810c21b1?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "/variants/seed-071_black.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "cream",
+          "image_url": "/variants/seed-071_cream.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "rust",
+          "image_url": "/variants/seed-071_rust.jpg",
           "ai_generated": false
         }
       ],
@@ -1242,7 +1356,9 @@
     "currency": "GBP",
     "image_url": "https://images.unsplash.com/photo-1586024795129-38d4e68bdd0c?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "black"
+      "black",
+      "cream",
+      "rust"
     ],
     "sizes": [
       "XS",
@@ -1258,6 +1374,16 @@
         {
           "color": "black",
           "image_url": "https://images.unsplash.com/photo-1586024795129-38d4e68bdd0c?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "cream",
+          "image_url": "/variants/seed-072_cream.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "rust",
+          "image_url": "/variants/seed-072_rust.jpg",
           "ai_generated": false
         }
       ],
@@ -1277,7 +1403,10 @@
     "currency": "USD",
     "image_url": "https://images.unsplash.com/photo-1730651424770-a27017708af2?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "khaki"
+      "khaki",
+      "black",
+      "olive",
+      "stone"
     ],
     "sizes": [
       "S",
@@ -1293,6 +1422,21 @@
         {
           "color": "khaki",
           "image_url": "https://images.unsplash.com/photo-1730651424770-a27017708af2?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "/variants/seed-080_black.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "olive",
+          "image_url": "/variants/seed-080_olive.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "stone",
+          "image_url": "/variants/seed-080_stone.jpg",
           "ai_generated": false
         }
       ]
@@ -1311,7 +1455,9 @@
     "currency": "USD",
     "image_url": "https://images.unsplash.com/photo-1680492775002-641a20e202ca?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "black"
+      "black",
+      "olive",
+      "stone"
     ],
     "sizes": [
       "S",
@@ -1327,6 +1473,16 @@
         {
           "color": "black",
           "image_url": "https://images.unsplash.com/photo-1680492775002-641a20e202ca?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "olive",
+          "image_url": "/variants/seed-081_olive.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "stone",
+          "image_url": "/variants/seed-081_stone.jpg",
           "ai_generated": false
         }
       ]
@@ -1345,7 +1501,10 @@
     "currency": "USD",
     "image_url": "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "blue"
+      "blue",
+      "black",
+      "olive",
+      "stone"
     ],
     "sizes": [
       "26",
@@ -1361,6 +1520,21 @@
         {
           "color": "blue",
           "image_url": "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "/variants/seed-082_black.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "olive",
+          "image_url": "/variants/seed-082_olive.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "stone",
+          "image_url": "/variants/seed-082_stone.jpg",
           "ai_generated": false
         }
       ]
@@ -1379,7 +1553,10 @@
     "currency": "USD",
     "image_url": "https://images.unsplash.com/photo-1714291067169-0ad497681c83?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "white"
+      "white",
+      "black",
+      "cream",
+      "tan"
     ],
     "sizes": [
       "XS",
@@ -1395,6 +1572,21 @@
         {
           "color": "white",
           "image_url": "https://images.unsplash.com/photo-1714291067169-0ad497681c83?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "/variants/seed-090_black.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "cream",
+          "image_url": "/variants/seed-090_cream.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "tan",
+          "image_url": "/variants/seed-090_tan.jpg",
           "ai_generated": false
         }
       ],
@@ -1414,7 +1606,10 @@
     "currency": "EUR",
     "image_url": "https://images.unsplash.com/photo-1714205901200-4662d2911ed0?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "brown"
+      "brown",
+      "black",
+      "cream",
+      "tan"
     ],
     "sizes": [
       "XS",
@@ -1430,6 +1625,21 @@
         {
           "color": "brown",
           "image_url": "https://images.unsplash.com/photo-1714205901200-4662d2911ed0?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "/variants/seed-091_black.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "cream",
+          "image_url": "/variants/seed-091_cream.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "tan",
+          "image_url": "/variants/seed-091_tan.jpg",
           "ai_generated": false
         }
       ],
@@ -1449,7 +1659,10 @@
     "currency": "USD",
     "image_url": "https://images.unsplash.com/photo-1539533113208-f6df8cc8b543?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "camel"
+      "camel",
+      "tan",
+      "black",
+      "olive"
     ],
     "sizes": [
       "S",
@@ -1466,6 +1679,21 @@
         {
           "color": "camel",
           "image_url": "https://images.unsplash.com/photo-1539533113208-f6df8cc8b543?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "tan",
+          "image_url": "/variants/seed-100_tan.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "/variants/seed-100_black.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "olive",
+          "image_url": "/variants/seed-100_olive.jpg",
           "ai_generated": false
         }
       ]
@@ -1484,7 +1712,10 @@
     "currency": "USD",
     "image_url": "https://images.unsplash.com/photo-1632340751148-c7a5df9b34e7?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "sand"
+      "sand",
+      "black",
+      "olive",
+      "tan"
     ],
     "sizes": [
       "S",
@@ -1504,6 +1735,21 @@
           "color": "sand",
           "image_url": "https://images.unsplash.com/photo-1632340751148-c7a5df9b34e7?w=600&h=800&fit=crop&auto=format&q=75",
           "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "/variants/seed-101_black.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "olive",
+          "image_url": "/variants/seed-101_olive.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "tan",
+          "image_url": "/variants/seed-101_tan.jpg",
+          "ai_generated": false
         }
       ],
       "original_unsplash_url": "https://images.unsplash.com/photo-1608976198709-5e70a09b9ff0?w=600&h=800&fit=crop&auto=format&q=75"
@@ -1522,7 +1768,10 @@
     "currency": "USD",
     "image_url": "https://images.unsplash.com/photo-1611312449408-fcece27cdbb7?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "blue"
+      "blue",
+      "black",
+      "olive",
+      "tan"
     ],
     "sizes": [
       "S",
@@ -1539,6 +1788,21 @@
         {
           "color": "blue",
           "image_url": "https://images.unsplash.com/photo-1611312449408-fcece27cdbb7?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "/variants/seed-102_black.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "olive",
+          "image_url": "/variants/seed-102_olive.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "tan",
+          "image_url": "/variants/seed-102_tan.jpg",
           "ai_generated": false
         }
       ]
@@ -1557,7 +1821,9 @@
     "currency": "USD",
     "image_url": "https://images.unsplash.com/photo-1618886614638-80e3c103d31a?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "black"
+      "black",
+      "stone",
+      "khaki"
     ],
     "sizes": [
       "S",
@@ -1577,6 +1843,16 @@
           "color": "black",
           "image_url": "https://images.unsplash.com/photo-1618886614638-80e3c103d31a?w=600&h=800&fit=crop&auto=format&q=75",
           "ai_generated": false
+        },
+        {
+          "color": "stone",
+          "image_url": "/variants/seed-110_stone.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "khaki",
+          "image_url": "/variants/seed-110_khaki.jpg",
+          "ai_generated": false
         }
       ]
     },
@@ -1594,7 +1870,9 @@
     "currency": "USD",
     "image_url": "https://images.unsplash.com/photo-1618453292507-4959ece6429e?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "black"
+      "black",
+      "khaki",
+      "stone"
     ],
     "sizes": [
       "S",
@@ -1614,6 +1892,16 @@
           "color": "black",
           "image_url": "https://images.unsplash.com/photo-1618453292507-4959ece6429e?w=600&h=800&fit=crop&auto=format&q=75",
           "ai_generated": false
+        },
+        {
+          "color": "khaki",
+          "image_url": "/variants/seed-111_khaki.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "stone",
+          "image_url": "/variants/seed-111_stone.jpg",
+          "ai_generated": false
         }
       ]
     },
@@ -1631,7 +1919,10 @@
     "currency": "USD",
     "image_url": "https://images.unsplash.com/photo-1714023498660-e4c470b285b7?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "grey"
+      "grey",
+      "black",
+      "cream",
+      "navy"
     ],
     "sizes": [
       "S",
@@ -1647,6 +1938,21 @@
         {
           "color": "grey",
           "image_url": "https://images.unsplash.com/photo-1714023498660-e4c470b285b7?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "/variants/seed-120_black.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "cream",
+          "image_url": "/variants/seed-120_cream.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "navy",
+          "image_url": "/variants/seed-120_navy.jpg",
           "ai_generated": false
         }
       ],
@@ -1666,7 +1972,9 @@
     "currency": "GBP",
     "image_url": "https://images.unsplash.com/photo-1710330972862-dfdce0fc821f?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "navy"
+      "navy",
+      "black",
+      "cream"
     ],
     "sizes": [
       "S",
@@ -1685,6 +1993,16 @@
           "color": "navy",
           "image_url": "https://images.unsplash.com/photo-1710330972862-dfdce0fc821f?w=600&h=800&fit=crop&auto=format&q=75",
           "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "/variants/seed-121_black.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "cream",
+          "image_url": "/variants/seed-121_cream.jpg",
+          "ai_generated": false
         }
       ]
     },
@@ -1702,7 +2020,10 @@
     "currency": "USD",
     "image_url": "https://images.unsplash.com/photo-1625910513413-c23b8bb81cba?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "navy"
+      "navy",
+      "olive",
+      "white",
+      "black"
     ],
     "sizes": [
       "S",
@@ -1718,6 +2039,21 @@
         {
           "color": "navy",
           "image_url": "https://images.unsplash.com/photo-1625910513413-c23b8bb81cba?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "olive",
+          "image_url": "/variants/seed-130_olive.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "white",
+          "image_url": "/variants/seed-130_white.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "/variants/seed-130_black.jpg",
           "ai_generated": false
         }
       ]
@@ -1736,7 +2072,10 @@
     "currency": "USD",
     "image_url": "https://images.unsplash.com/photo-1618453292459-53424b66bb6a?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "washed-black"
+      "washed-black",
+      "white",
+      "black",
+      "olive"
     ],
     "sizes": [
       "S",
@@ -1757,6 +2096,21 @@
           "color": "washed-black",
           "image_url": "https://images.unsplash.com/photo-1618453292459-53424b66bb6a?w=600&h=800&fit=crop&auto=format&q=75",
           "ai_generated": false
+        },
+        {
+          "color": "white",
+          "image_url": "/variants/seed-131_white.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "/variants/seed-131_black.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "olive",
+          "image_url": "/variants/seed-131_olive.jpg",
+          "ai_generated": false
         }
       ]
     },
@@ -1774,7 +2128,9 @@
     "currency": "USD",
     "image_url": "https://images.unsplash.com/photo-1615109255406-2a4354fc6b3e?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "white"
+      "white",
+      "grey",
+      "black"
     ],
     "sizes": [
       "7",
@@ -1793,6 +2149,16 @@
           "color": "white",
           "image_url": "https://images.unsplash.com/photo-1615109255406-2a4354fc6b3e?w=600&h=800&fit=crop&auto=format&q=75",
           "ai_generated": false
+        },
+        {
+          "color": "grey",
+          "image_url": "/variants/seed-140_grey.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "/variants/seed-140_black.jpg",
+          "ai_generated": false
         }
       ]
     },
@@ -1810,7 +2176,9 @@
     "currency": "USD",
     "image_url": "https://images.unsplash.com/photo-1491553895911-0055eca6402d?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "black"
+      "black",
+      "grey",
+      "white"
     ],
     "sizes": [
       "8",
@@ -1827,6 +2195,16 @@
         {
           "color": "black",
           "image_url": "https://images.unsplash.com/photo-1491553895911-0055eca6402d?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "grey",
+          "image_url": "/variants/seed-141_grey.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "white",
+          "image_url": "/variants/seed-141_white.jpg",
           "ai_generated": false
         }
       ]
@@ -1845,7 +2223,10 @@
     "currency": "GBP",
     "image_url": "https://images.unsplash.com/photo-1616956455145-7c40e34a1c2a?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "light-blue"
+      "light-blue",
+      "stone-wash",
+      "indigo",
+      "black"
     ],
     "sizes": [
       "28",
@@ -1861,6 +2242,21 @@
         {
           "color": "light-blue",
           "image_url": "https://images.unsplash.com/photo-1616956455145-7c40e34a1c2a?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "stone-wash",
+          "image_url": "/variants/seed-150_stone-wash.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "indigo",
+          "image_url": "/variants/seed-150_indigo.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "/variants/seed-150_black.jpg",
           "ai_generated": false
         }
       ]
@@ -1879,7 +2275,10 @@
     "currency": "USD",
     "image_url": "https://images.unsplash.com/photo-1546635834-78554e816d55?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "vintage-blue"
+      "vintage-blue",
+      "indigo",
+      "black",
+      "stone-wash"
     ],
     "sizes": [
       "26",
@@ -1900,6 +2299,21 @@
           "color": "vintage-blue",
           "image_url": "https://images.unsplash.com/photo-1546635834-78554e816d55?w=600&h=800&fit=crop&auto=format&q=75",
           "ai_generated": false
+        },
+        {
+          "color": "indigo",
+          "image_url": "/variants/seed-151_indigo.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "/variants/seed-151_black.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "stone-wash",
+          "image_url": "/variants/seed-151_stone-wash.jpg",
+          "ai_generated": false
         }
       ]
     },
@@ -1917,7 +2331,9 @@
     "currency": "USD",
     "image_url": "https://images.unsplash.com/photo-1579592608950-061960817dac?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "olive"
+      "olive",
+      "black",
+      "tan"
     ],
     "sizes": [
       "S",
@@ -1937,6 +2353,16 @@
           "color": "olive",
           "image_url": "https://images.unsplash.com/photo-1579592608950-061960817dac?w=600&h=800&fit=crop&auto=format&q=75",
           "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "/variants/seed-160_black.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "tan",
+          "image_url": "/variants/seed-160_tan.jpg",
+          "ai_generated": false
         }
       ]
     },
@@ -1954,7 +2380,9 @@
     "currency": "CAD",
     "image_url": "https://images.unsplash.com/photo-1760661696925-85cd09cac428?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "cream"
+      "cream",
+      "black",
+      "navy"
     ],
     "sizes": [
       "S",
@@ -1974,6 +2402,16 @@
           "color": "cream",
           "image_url": "https://images.unsplash.com/photo-1760661696925-85cd09cac428?w=600&h=800&fit=crop&auto=format&q=75",
           "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "/variants/seed-161_black.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "navy",
+          "image_url": "/variants/seed-161_navy.jpg",
+          "ai_generated": false
         }
       ]
     },
@@ -1992,7 +2430,8 @@
     "image_url": "https://images.unsplash.com/photo-1633292750937-120a94f5c2bb?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
       "black",
-      "navy"
+      "navy",
+      "cream"
     ],
     "sizes": [
       "S",
@@ -2018,6 +2457,11 @@
           "color": "black",
           "image_url": "/variants/champion-logo-hoodie-1_black.jpg",
           "ai_generated": false
+        },
+        {
+          "color": "cream",
+          "image_url": "/variants/champion-logo-hoodie-1_cream.jpg",
+          "ai_generated": false
         }
       ]
     },
@@ -2035,7 +2479,9 @@
     "currency": "USD",
     "image_url": "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "white"
+      "white",
+      "black",
+      "olive"
     ],
     "sizes": [
       "XS",
@@ -2052,6 +2498,16 @@
         {
           "color": "white",
           "image_url": "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "/variants/hm-basic-tee-1_black.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "olive",
+          "image_url": "/variants/hm-basic-tee-1_olive.jpg",
           "ai_generated": false
         }
       ]
@@ -2070,7 +2526,9 @@
     "currency": "USD",
     "image_url": "https://images.unsplash.com/photo-1603960098814-684d00219f7b?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "black"
+      "black",
+      "olive",
+      "tan"
     ],
     "sizes": [
       "S",
@@ -2092,6 +2550,16 @@
           "color": "black",
           "image_url": "https://images.unsplash.com/photo-1603960098814-684d00219f7b?w=600&h=800&fit=crop&auto=format&q=75",
           "ai_generated": false
+        },
+        {
+          "color": "olive",
+          "image_url": "/variants/arcteryx-shell-1_olive.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "tan",
+          "image_url": "/variants/arcteryx-shell-1_tan.jpg",
+          "ai_generated": false
         }
       ],
       "original_unsplash_url": "https://images.unsplash.com/photo-1548883354-94bcfe321cbb?w=600&h=800&fit=crop&auto=format&q=75"
@@ -2111,7 +2579,8 @@
     "image_url": "https://images.unsplash.com/photo-1564557287817-3785e38ec1f5?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
       "black",
-      "cream"
+      "cream",
+      "navy"
     ],
     "sizes": [
       "XS",
@@ -2138,6 +2607,11 @@
           "color": "cream",
           "image_url": "/variants/defacto-hoodie-tr-1_cream.jpg",
           "ai_generated": false
+        },
+        {
+          "color": "navy",
+          "image_url": "/variants/defacto-hoodie-tr-1_navy.jpg",
+          "ai_generated": false
         }
       ]
     },
@@ -2155,7 +2629,9 @@
     "currency": "EUR",
     "image_url": "https://images.unsplash.com/photo-1587563871167-1ee9c731aefb?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "white"
+      "white",
+      "black",
+      "grey"
     ],
     "sizes": [
       "38",
@@ -2174,6 +2650,16 @@
           "color": "white",
           "image_url": "https://images.unsplash.com/photo-1587563871167-1ee9c731aefb?w=600&h=800&fit=crop&auto=format&q=75",
           "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "/variants/zara-minimalist-sneaker-1_black.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "grey",
+          "image_url": "/variants/zara-minimalist-sneaker-1_grey.jpg",
+          "ai_generated": false
         }
       ]
     },
@@ -2191,7 +2677,9 @@
     "currency": "USD",
     "image_url": "https://images.unsplash.com/photo-1557418669-db3f781a58c0?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "black"
+      "black",
+      "olive",
+      "tan"
     ],
     "sizes": [
       "S",
@@ -2213,6 +2701,16 @@
           "color": "black",
           "image_url": "https://images.unsplash.com/photo-1557418669-db3f781a58c0?w=600&h=800&fit=crop&auto=format&q=75",
           "ai_generated": false
+        },
+        {
+          "color": "olive",
+          "image_url": "/variants/patagonia-tech-jacket-1_olive.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "tan",
+          "image_url": "/variants/patagonia-tech-jacket-1_tan.jpg",
+          "ai_generated": false
         }
       ]
     },
@@ -2230,7 +2728,9 @@
     "currency": "USD",
     "image_url": "https://images.unsplash.com/photo-1610222034376-8dd1149e0e60?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "black"
+      "black",
+      "cream",
+      "navy"
     ],
     "sizes": [
       "S",
@@ -2250,6 +2750,16 @@
           "color": "black",
           "image_url": "https://images.unsplash.com/photo-1610222034376-8dd1149e0e60?w=600&h=800&fit=crop&auto=format&q=75",
           "ai_generated": false
+        },
+        {
+          "color": "cream",
+          "image_url": "/variants/uniqlo-clean-hoodie-1_cream.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "navy",
+          "image_url": "/variants/uniqlo-clean-hoodie-1_navy.jpg",
+          "ai_generated": false
         }
       ]
     },
@@ -2267,7 +2777,9 @@
     "currency": "JPY",
     "image_url": "https://images.unsplash.com/photo-1686135153032-ce4813dfbcff?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "white"
+      "white",
+      "black",
+      "olive"
     ],
     "sizes": [
       "S",
@@ -2283,6 +2795,16 @@
         {
           "color": "white",
           "image_url": "https://images.unsplash.com/photo-1686135153032-ce4813dfbcff?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "/variants/uniqlo-jp-tee-1_black.jpg",
+          "ai_generated": false
+        },
+        {
+          "color": "olive",
+          "image_url": "/variants/uniqlo-jp-tee-1_olive.jpg",
           "ai_generated": false
         }
       ]
