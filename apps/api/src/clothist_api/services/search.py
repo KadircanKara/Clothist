@@ -30,6 +30,11 @@ from sqlalchemy import func, select, text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from clothist_api.models import Meta, Product
+from clothist_api.services.color_groups import (
+    COLOR_TO_GROUP,
+    MAIN_COLOR_GROUPS,
+    expand_to_group_members,
+)
 from clothist_api.services.features_vocab import get_features_vocabulary
 from clothist_api.services.fx import snapshot_date
 
@@ -84,10 +89,22 @@ def _build_where(f: SearchFilters, *, with_ts: bool) -> tuple[list[str], dict]:
         parts.append("gender = :p_gender")
         params["p_gender"] = f.gender
     if f.color:
-        # `colors` is varchar[] in Postgres; cast both sides to text[] so the
-        # @> operator finds a matching signature.
-        parts.append("colors::text[] @> ARRAY[:p_color]::text[]")
-        params["p_color"] = f.color.lower()
+        # The UI sends a coarse color group ("blue"); we expand it to the
+        # granular palette members ({blue, navy, light-blue, vintage-blue,
+        # indigo, stone-wash}) and match any product whose `colors` array
+        # contains at least one of them. `&&` is the Postgres array-overlap
+        # operator.
+        #
+        # Legacy callers passing a granular color name (e.g. ?color=navy
+        # from a saved link) get [navy] back from expand_to_group_members
+        # and the query stays a single-color match.
+        #
+        # Unknown tokens fall back to a literal single-color match — this
+        # matches zero products (the original pre-grouping behavior) rather
+        # than silently dropping the filter and returning the full catalog.
+        members = expand_to_group_members(f.color.lower()) or [f.color.lower()]
+        parts.append("colors::text[] && CAST(:p_color_members AS text[])")
+        params["p_color_members"] = members
     if f.min_price is not None:
         parts.append("price_usd >= :p_min_price")
         params["p_min_price"] = f.min_price
@@ -240,16 +257,30 @@ async def _compute_facets(session: AsyncSession) -> dict:
             .order_by(func.count(Product.id).desc())
         )
     ).all()
-    # Colors come from the text[] array column — unnest, count, sort.
-    color_rows = (
+    # Colors are stored granularly (31-token palette) but exposed to the
+    # filter UI as 12 COARSE groups. Unnest the array, sum counts per
+    # color, then aggregate up to the group. Unknown granular colors
+    # (e.g. a future palette token that hasn't been mapped yet) get
+    # dropped — explicit mapping protects the filter from junk.
+    granular_color_rows = (
         await session.execute(
             text(
                 "SELECT c, COUNT(*) FROM products, "
                 "unnest(coalesce(colors, ARRAY[]::text[])) AS c "
-                "GROUP BY c ORDER BY COUNT(*) DESC"
+                "GROUP BY c"
             )
         )
     ).all()
+    group_counts: dict[str, int] = {g: 0 for g in MAIN_COLOR_GROUPS}
+    for granular_name, count in granular_color_rows:
+        group = COLOR_TO_GROUP.get(granular_name)
+        if group is None:
+            continue
+        group_counts[group] += count
+    # Preserve the canonical group order (black, white, grey, …) so the UI
+    # renders the same chips in the same place every time; drop groups
+    # with zero products from the response.
+    color_rows = [(g, group_counts[g]) for g in MAIN_COLOR_GROUPS if group_counts[g] > 0]
     price_row = (
         await session.execute(select(func.min(Product.price_usd), func.max(Product.price_usd)))
     ).one()
