@@ -242,34 +242,53 @@ def _row_to_product(row) -> Product:
 
 
 # In-process facets cache, invalidated by meta.taxonomy_version.
-_facets_cache: dict = {"version": None, "data": None}
+# Keyed by (taxonomy_version, gender|None). Single-slot — the page
+# loads typically stay on one gender at a time, and the recompute is
+# ~10ms even on a 500-row corpus.
+_facets_cache: dict = {"key": None, "data": None}
 
 
 async def get_taxonomy_version(session: AsyncSession) -> int:
     return (await session.execute(select(Meta.taxonomy_version))).scalar_one()
 
 
-async def _compute_facets(session: AsyncSession) -> dict:
-    # Drop "excluded" from category facets — non-clothing items are hidden
-    # from search results, so showing the chip would let users navigate
-    # to an empty grid.
+async def _compute_facets(session: AsyncSession, *, gender: str | None) -> dict:
+    """Build the facets payload. When `gender` is set every chip count
+    reflects only that gender's products — so the /men page no longer
+    shows "Dresses 50" when men own zero dresses.
+
+    The "excluded" category is always dropped (non-clothing items don't
+    surface in the app), and we always exclude excluded items from the
+    color/brand/price aggregates so chip counts don't include hidden rows.
+    """
+    is_clothing = (Product.category.is_(None)) | (Product.category != EXCLUDED_CATEGORY)
+    gender_filter = (Product.gender == gender) if gender else None
+
+    def _scope(stmt):
+        """Apply both the always-on is_clothing filter and the optional
+        per-gender filter to a select(). Centralizes the WHERE so a future
+        filter (e.g., in_stock_only) drops in one place."""
+        stmt = stmt.where(is_clothing)
+        if gender_filter is not None:
+            stmt = stmt.where(gender_filter)
+        return stmt
+
     cat_rows = (
         await session.execute(
-            select(Product.category, func.count(Product.id))
-            .where(Product.category.is_not(None))
-            .where(Product.category != EXCLUDED_CATEGORY)
+            _scope(
+                select(Product.category, func.count(Product.id))
+                .where(Product.category.is_not(None))
+            )
             .group_by(Product.category)
             .order_by(func.count(Product.id).desc())
         )
     ).all()
-    # Brand facets: also hide brands that ONLY appear on excluded products
-    # (otherwise an "ALD Treats" homewares-only brand would surface a
-    # filter chip whose page is empty).
     brand_rows = (
         await session.execute(
-            select(Product.brand, func.count(Product.id))
-            .where(Product.brand.is_not(None))
-            .where(Product.category.is_(None) | (Product.category != EXCLUDED_CATEGORY))
+            _scope(
+                select(Product.brand, func.count(Product.id))
+                .where(Product.brand.is_not(None))
+            )
             .group_by(Product.brand)
             .order_by(func.count(Product.id).desc())
         )
@@ -279,14 +298,21 @@ async def _compute_facets(session: AsyncSession) -> dict:
     # color, then aggregate up to the group. Unknown granular colors
     # (e.g. a future palette token that hasn't been mapped yet) get
     # dropped — explicit mapping protects the filter from junk.
+    color_where = (
+        "(products.category IS NULL OR products.category != :excluded)"
+    )
+    color_params: dict = {"excluded": EXCLUDED_CATEGORY}
+    if gender:
+        color_where += " AND products.gender = :gender"
+        color_params["gender"] = gender
     granular_color_rows = (
         await session.execute(
             text(
                 "SELECT c, COUNT(*) FROM products, "
                 "unnest(coalesce(colors, ARRAY[]::text[])) AS c "
-                "WHERE products.category IS NULL OR products.category != :excluded "
+                f"WHERE {color_where} "
                 "GROUP BY c"
-            ).bindparams(excluded=EXCLUDED_CATEGORY)
+            ).bindparams(**color_params)
         )
     ).all()
     group_counts: dict[str, int] = {g: 0 for g in MAIN_COLOR_GROUPS}
@@ -295,14 +321,10 @@ async def _compute_facets(session: AsyncSession) -> dict:
         if group is None:
             continue
         group_counts[group] += count
-    # Preserve the canonical group order (black, white, grey, …) so the UI
-    # renders the same chips in the same place every time; drop groups
-    # with zero products from the response.
     color_rows = [(g, group_counts[g]) for g in MAIN_COLOR_GROUPS if group_counts[g] > 0]
     price_row = (
         await session.execute(
-            select(func.min(Product.price_usd), func.max(Product.price_usd))
-            .where(Product.category.is_(None) | (Product.category != EXCLUDED_CATEGORY))
+            _scope(select(func.min(Product.price_usd), func.max(Product.price_usd)))
         )
     ).one()
     return {
@@ -315,12 +337,15 @@ async def _compute_facets(session: AsyncSession) -> dict:
     }
 
 
-async def get_facets(session: AsyncSession) -> dict:
-    """Cached facets, invalidated on taxonomy_version bump."""
+async def get_facets(session: AsyncSession, *, gender: str | None = None) -> dict:
+    """Cached facets, invalidated on taxonomy_version bump. Cache key
+    includes `gender` so /men, /women, /unisex, and /products each get
+    their own slot."""
     current = await get_taxonomy_version(session)
-    if _facets_cache["version"] != current:
-        _facets_cache["data"] = await _compute_facets(session)
-        _facets_cache["version"] = current
+    key = (current, gender)
+    if _facets_cache.get("key") != key:
+        _facets_cache["data"] = await _compute_facets(session, gender=gender)
+        _facets_cache["key"] = key
     return _facets_cache["data"]
 
 

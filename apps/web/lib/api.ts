@@ -61,8 +61,13 @@ export function getProduct(idOrSlug: string): Promise<Product> {
   return request<Product>(`/search/products/${encodeURIComponent(idOrSlug)}`);
 }
 
-export function getFacets(): Promise<FacetsResponse> {
-  return request<FacetsResponse>("/search/facets");
+export function getFacets(
+  gender?: "men" | "women" | "unisex",
+): Promise<FacetsResponse> {
+  // Per-gender counts so /men's "Dresses" chip doesn't lie about the
+  // 50 catalog-wide dresses when men own zero. Omit gender on /products.
+  const qs = gender ? `?gender=${gender}` : "";
+  return request<FacetsResponse>(`/search/facets${qs}`);
 }
 
 export function parseIntent(q: string): Promise<IntentResponse> {

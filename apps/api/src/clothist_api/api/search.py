@@ -124,8 +124,14 @@ async def get_product(
 
 
 @router.get("/facets", response_model=FacetsResponse)
-async def facets(session: AsyncSession = Depends(get_session)) -> FacetsResponse:
-    raw = await get_facets(session)
+async def facets(
+    gender: str | None = Query(default=None, pattern="^(?:men|women|unisex)$"),
+    session: AsyncSession = Depends(get_session),
+) -> FacetsResponse:
+    """Filter facet chips for the catalog sidebar. When `gender` is set
+    every count reflects that gender only — so /men's "Dresses" chip
+    shows 0 instead of the global 50 (which was misleading)."""
+    raw = await get_facets(session, gender=gender)
     return FacetsResponse.model_validate(raw)
 
 

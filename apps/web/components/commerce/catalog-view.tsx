@@ -33,7 +33,14 @@ export function CatalogView({ title, eyebrow, gender }: Props) {
   });
   const [sort, setSort] = useState<SortKey>("relevance");
 
-  const facets = useQuery({ queryKey: ["facets"], queryFn: getFacets, staleTime: 60_000 });
+  // Refetch facets when the page's gender changes — /men, /women, /unisex,
+  // and /products each get their own filter chip counts so an empty
+  // section never advertises a non-zero number.
+  const facets = useQuery({
+    queryKey: ["facets", gender ?? null],
+    queryFn: () => getFacets(gender),
+    staleTime: 60_000,
+  });
 
   const params = useMemo(
     () => ({
