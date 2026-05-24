@@ -1,15 +1,22 @@
 """T2 — reconciliation unit tests.
 
-Pure-Python; does NOT import torch/transformers. Runs without `--extra cv`.
+Pure-Python; does NOT import torch/transformers/openai. Runs without
+`--extra cv` and without an LLM_API_KEY.
 
-Exercises every state in plans/cv_classify/senior_dev_v2.md §6 + §10b.
+Category: 3-way confidence-weighted vote between text-alias, LLM-by-name,
+and CV-by-image.
+Gender / colors: 2-way scraper-vs-CV (unchanged).
 """
 from __future__ import annotations
 
 import pytest
 
 from clothist_api.cv.reconcile import (
+    CV_MIN_QUALIFY,
+    LLM_MIN_QUALIFY,
+    TEXT_VOTE_WEIGHT,
     THRESHOLDS,
+    LLMCatVote,
     ReconciledRow,
     reconcile,
 )
@@ -38,80 +45,154 @@ def _verdict(
     )
 
 
-# ---------------- Category ---------------- #
+# ---------------- Category — 3-way vote ---------------- #
 
 
-def test_category_corroborated_keeps_scraper_value():
-    """1. Agreement: scraper=tshirts, CV=tshirts → final=tshirts."""
+def test_cat_unanimous_all_three_agree():
+    """All three sources name the same category → cat_unanimous."""
     d = reconcile(
-        scraper_category="tshirts", scraper_gender=None, scraper_colors=None,
-        verdict=_verdict(category="tshirts", category_confidence=0.9),
+        scraper_category="sneakers", scraper_gender=None, scraper_colors=None,
+        verdict=_verdict(category="sneakers", category_confidence=0.7),
+        llm_vote=LLMCatVote("sneakers", 0.9),
     )
-    assert d.category == "tshirts"
-    assert d.category_event == "cv_corroborated"
+    assert d.category == "sneakers"
+    assert d.category_event == "cat_unanimous"
+    assert d.category_vote == {
+        "text": ["sneakers", round(TEXT_VOTE_WEIGHT, 4)],
+        "llm":  ["sneakers", 0.9],
+        "cv":   ["sneakers", 0.7],
+    }
 
 
-def test_category_override_above_threshold():
-    """2. Override: scraper=tshirts, CV=sneakers @ 0.60 → final=sneakers."""
+def test_cat_text_llm_agree_outweighs_cv():
+    """text + LLM agree on sneakers; CV says tshirts → sneakers wins."""
+    d = reconcile(
+        scraper_category="sneakers", scraper_gender=None, scraper_colors=None,
+        verdict=_verdict(category="tshirts", category_confidence=0.50),
+        llm_vote=LLMCatVote("sneakers", 0.85),
+    )
+    assert d.category == "sneakers"
+    assert d.category_event == "cat_text_llm_agree"
+
+
+def test_cat_llm_cv_agree_overrides_wrong_text():
+    """LLM + CV agree the product is sneakers; the alias scan put it in
+    tshirts (e.g. "Jordan" matched a generic alias). The two image/name
+    signals override text."""
     d = reconcile(
         scraper_category="tshirts", scraper_gender=None, scraper_colors=None,
         verdict=_verdict(category="sneakers", category_confidence=0.60),
+        llm_vote=LLMCatVote("sneakers", 0.85),
     )
     assert d.category == "sneakers"
-    assert d.category_event == "cv_category_override"
+    assert d.category_event == "cat_llm_cv_agree"
 
 
-def test_category_below_threshold_keeps_scraper():
-    """3. Below threshold: scraper=tshirts, CV=sneakers @ 0.30 → keep tshirts."""
+def test_cat_text_cv_agree_overrides_wrong_llm():
+    """text + CV agree on hoodies; LLM picked jackets. Two-of-three wins."""
     d = reconcile(
-        scraper_category="tshirts", scraper_gender=None, scraper_colors=None,
-        verdict=_verdict(category="sneakers", category_confidence=0.30),
+        scraper_category="hoodies", scraper_gender=None, scraper_colors=None,
+        verdict=_verdict(category="hoodies", category_confidence=0.70),
+        llm_vote=LLMCatVote("jackets", 0.70),
     )
-    assert d.category == "tshirts"
-    assert d.category_event == "cv_below_threshold"
+    assert d.category == "hoodies"
+    assert d.category_event == "cat_text_cv_agree"
 
 
-def test_category_gap_fill_above_low_threshold():
-    """4. Gap fill: scraper=NULL, CV=sneakers @ 0.30 → fill with sneakers."""
+def test_cat_text_only_when_others_abstain():
+    """Only the alias scan fired; LLM was disabled, CV uncertain."""
+    d = reconcile(
+        scraper_category="hoodies", scraper_gender=None, scraper_colors=None,
+        verdict=_verdict(category="tshirts", category_confidence=0.10),  # below CV_MIN_QUALIFY
+        llm_vote=LLMCatVote(None, 0.0),
+    )
+    assert d.category == "hoodies"
+    assert d.category_event == "cat_text_only"
+
+
+def test_cat_llm_only_when_others_abstain():
+    """Alias scan returned NULL, CV uncertain — only LLM has a signal."""
     d = reconcile(
         scraper_category=None, scraper_gender=None, scraper_colors=None,
-        verdict=_verdict(category="sneakers", category_confidence=0.30),
+        verdict=_verdict(category="tshirts", category_confidence=0.10),  # below CV_MIN_QUALIFY
+        llm_vote=LLMCatVote("dresses", 0.80),
+    )
+    assert d.category == "dresses"
+    assert d.category_event == "cat_llm_only"
+
+
+def test_cat_cv_only_when_others_abstain():
+    """text NULL + LLM disabled — CV alone fills the gap."""
+    d = reconcile(
+        scraper_category=None, scraper_gender=None, scraper_colors=None,
+        verdict=_verdict(category="sneakers", category_confidence=0.55),
+        llm_vote=LLMCatVote(None, 0.0),
     )
     assert d.category == "sneakers"
-    assert d.category_event == "cv_filled_gap"
+    assert d.category_event == "cat_cv_only"
 
 
-def test_category_gap_unfilled_below_low_threshold():
-    """5. Gap unfilled: scraper=NULL, CV=sneakers @ 0.20 → keep NULL."""
+def test_cat_three_way_split_picks_highest_weight():
+    """All three sources qualify but each names a different category. The
+    highest single-source weight wins. LLM @0.92 > text @0.85 > CV @0.50."""
+    d = reconcile(
+        scraper_category="hoodies", scraper_gender=None, scraper_colors=None,
+        verdict=_verdict(category="sneakers", category_confidence=0.50),
+        llm_vote=LLMCatVote("dresses", 0.92),
+    )
+    assert d.category == "dresses"
+    assert d.category_event == "cat_three_way_split"
+
+
+def test_cat_no_signal_returns_null():
+    """No source qualifies — NULL stays NULL."""
     d = reconcile(
         scraper_category=None, scraper_gender=None, scraper_colors=None,
-        verdict=_verdict(category="sneakers", category_confidence=0.20),
+        verdict=_verdict(category="tshirts", category_confidence=0.10),  # below CV_MIN_QUALIFY
+        llm_vote=LLMCatVote(None, 0.0),
     )
     assert d.category is None
-    assert d.category_event == "cv_gap_unfilled"
+    assert d.category_event == "cat_no_signal"
 
 
-def test_category_both_unknown_keeps_null():
-    """6. Both unknown: scraper=NULL, CV top-1 below gap threshold → NULL."""
+def test_cat_llm_low_confidence_filtered_out():
+    """LLM below LLM_MIN_QUALIFY = 0.30 is treated as abstaining."""
     d = reconcile(
-        scraper_category=None, scraper_gender=None, scraper_colors=None,
-        verdict=_verdict(category="sneakers", category_confidence=0.10),
+        scraper_category="hoodies", scraper_gender=None, scraper_colors=None,
+        verdict=_verdict(category="tshirts", category_confidence=0.10),
+        llm_vote=LLMCatVote("dresses", 0.20),  # below floor
     )
-    assert d.category is None
-    assert d.category_event == "cv_both_unknown"
+    assert d.category == "hoodies"
+    assert d.category_event == "cat_text_only"
 
 
-def test_category_undetermined_keeps_scraper():
-    """7. Scraper has value but CV uncertain (< gap_fill) → keep scraper."""
+def test_cat_backwards_compat_no_llm_arg():
+    """When llm_vote is omitted (legacy callers), 2-way vote still works:
+    text + CV agree → unanimous-with-only-two-sources reduces to text_cv_agree."""
     d = reconcile(
-        scraper_category="tshirts", scraper_gender=None, scraper_colors=None,
-        verdict=_verdict(category="sneakers", category_confidence=0.15),
+        scraper_category="sneakers", scraper_gender=None, scraper_colors=None,
+        verdict=_verdict(category="sneakers", category_confidence=0.7),
     )
-    assert d.category == "tshirts"
-    assert d.category_event == "cv_undetermined"
+    assert d.category == "sneakers"
+    assert d.category_event == "cat_text_cv_agree"
 
 
-# ---------------- Gender ---------------- #
+def test_cat_vote_breakdown_captures_all_three_sources():
+    """The category_vote dict surfaces per-source verdicts for auditing."""
+    d = reconcile(
+        scraper_category="hoodies", scraper_gender=None, scraper_colors=None,
+        verdict=_verdict(category="sneakers", category_confidence=0.60),
+        llm_vote=LLMCatVote("hoodies", 0.85),
+    )
+    assert "text" in d.category_vote
+    assert "llm" in d.category_vote
+    assert "cv" in d.category_vote
+    assert d.category_vote["text"] == ["hoodies", 0.85]
+    assert d.category_vote["llm"] == ["hoodies", 0.85]
+    assert d.category_vote["cv"] == ["sneakers", 0.6]
+
+
+# ---------------- Gender (2-way, unchanged) ---------------- #
 
 
 def test_gender_corroborated():
@@ -133,9 +214,6 @@ def test_gender_override_above_threshold():
 
 
 def test_gender_women_flatlay_guard():
-    """7. scraper=women + CV=unisex → keep women regardless of CV conf
-    (strengthened post-first-ingest: a flat-lay's unisex verdict never
-    disproves scraper's confident gender signal)."""
     d = reconcile(
         scraper_category=None, scraper_gender="women", scraper_colors=None,
         verdict=_verdict(gender="unisex", gender_confidence=0.50),
@@ -145,7 +223,6 @@ def test_gender_women_flatlay_guard():
 
 
 def test_gender_men_flatlay_guard():
-    """8. Symmetric: scraper=men + CV=unisex → keep men."""
     d = reconcile(
         scraper_category=None, scraper_gender="men", scraper_colors=None,
         verdict=_verdict(gender="unisex", gender_confidence=0.50),
@@ -155,9 +232,6 @@ def test_gender_men_flatlay_guard():
 
 
 def test_gender_flatlay_guard_fires_even_at_high_unisex_conf():
-    """Tightened §6b: high-confidence unisex still loses to scraper's
-    gendered verdict — CV's `unisex` is a not-a-disagreement, not a
-    counter-vote. This is what the Rothy's flat-lay regression demanded."""
     d = reconcile(
         scraper_category=None, scraper_gender="women", scraper_colors=None,
         verdict=_verdict(gender="unisex", gender_confidence=0.90),
@@ -167,9 +241,6 @@ def test_gender_flatlay_guard_fires_even_at_high_unisex_conf():
 
 
 def test_gender_override_still_fires_when_cv_picks_opposite():
-    """Override still happens when CV picks the OPPOSITE concrete gender:
-    scraper=women, CV=men @ 0.70 → final=men. The flat-lay guard only
-    covers the unisex fallback path."""
     d = reconcile(
         scraper_category=None, scraper_gender="women", scraper_colors=None,
         verdict=_verdict(gender="men", gender_confidence=0.70),
@@ -187,11 +258,10 @@ def test_gender_gap_fill():
     assert d.gender_event == "cv_gender_filled_gap"
 
 
-# ---------------- Colors ---------------- #
+# ---------------- Colors (2-way, unchanged) ---------------- #
 
 
 def test_color_replace_above_threshold():
-    """9. CV avg conf >= color_avg → replace."""
     d = reconcile(
         scraper_category=None, scraper_gender=None,
         scraper_colors=["white", "tan"],
@@ -202,7 +272,6 @@ def test_color_replace_above_threshold():
 
 
 def test_color_keep_below_threshold():
-    """9b. CV avg conf < color_avg → keep scraper list."""
     d = reconcile(
         scraper_category=None, scraper_gender=None,
         scraper_colors=["white", "tan"],
@@ -226,7 +295,7 @@ def test_color_empty_cv_keeps_scraper():
 
 
 def test_scraper_previous_captured_on_override():
-    """10. scraper_previous holds the pre-CV state for the audit trail."""
+    """The scraper_previous dict holds the pre-CV state for rollback."""
     d = reconcile(
         scraper_category="tshirts", scraper_gender="women",
         scraper_colors=["white", "tan"],
@@ -235,6 +304,7 @@ def test_scraper_previous_captured_on_override():
             gender="women", gender_confidence=0.80,
             colors=[("black", 0.4)],
         ),
+        llm_vote=LLMCatVote("sneakers", 0.85),
     )
     assert d.scraper_previous == {
         "category": "tshirts",
@@ -244,12 +314,12 @@ def test_scraper_previous_captured_on_override():
 
 
 def test_thresholds_pinned():
-    """11. THRESHOLDS map is the contract; raising them silently weakens the
-    CV pipeline. This test fails if anyone tweaks values without intent."""
+    """Gender + color thresholds and per-source vote floors are the contract."""
     assert THRESHOLDS == {
-        "category_override": 0.40,
-        "category_gap_fill": 0.25,
         "gender_override":   0.55,
         "gender_gap_fill":   0.35,
         "color_avg":         0.30,
     }
+    assert TEXT_VOTE_WEIGHT == 0.85
+    assert LLM_MIN_QUALIFY  == 0.30
+    assert CV_MIN_QUALIFY   == 0.25

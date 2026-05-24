@@ -28,10 +28,13 @@ import httpx
 from sqlalchemy import select, text
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from clothist_api.cv.reconcile import reconcile
+from clothist_api.cv.reconcile import LLMCatVote, reconcile
 from clothist_api.cv.types import CVVerdict
 from clothist_api.db.session import SessionLocal
 from clothist_api.models import Product
+from clothist_api.services.llm_categorize import (
+    LLMCategoryVerdict, categorize_batch as llm_categorize_batch,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -66,7 +69,8 @@ def _build_discovery_sql(
         params["p_retailer"] = retailer
     where = " AND ".join(parts)
     sql = (
-        "SELECT id, image_url, category, gender, colors, attributes "
+        "SELECT id, image_url, category, gender, colors, attributes, "
+        "title, brand, description "
         f"FROM products WHERE {where} ORDER BY scraped_at DESC"
     )
     if limit:
@@ -107,7 +111,12 @@ async def _bump_fetch_failure(session: AsyncSession, product_id: str) -> None:
 
 
 def _verdict_to_jsonb(
-    verdict: CVVerdict, scraper_previous: dict, colors_previous: list[str] | None,
+    verdict: CVVerdict,
+    *,
+    scraper_previous: dict,
+    colors_previous: list[str] | None,
+    llm_verdict: LLMCategoryVerdict | None,
+    category_vote: dict,
 ) -> dict:
     return {
         "category": {
@@ -130,6 +139,14 @@ def _verdict_to_jsonb(
             {"value": name, "confidence": round(conf, 4), "source": "pillow+clip"}
             for name, conf in verdict.colors
         ],
+        "llm_category": (
+            {
+                "value":      llm_verdict.category,
+                "confidence": round(llm_verdict.confidence, 4),
+                "model_id":   llm_verdict.model_id,
+            } if llm_verdict else None
+        ),
+        "category_vote": category_vote,
         "scraper_previous": scraper_previous,
         "colors_previous": colors_previous,
     }
@@ -148,14 +165,20 @@ async def classify(
     """Returns a counters dict for the summary line."""
     counters = {
         "fetched": 0, "image_fetch_failed": 0, "classified": 0,
-        "cv_corroborated": 0, "cv_category_override": 0, "cv_below_threshold": 0,
-        "cv_filled_gap": 0, "cv_gap_unfilled": 0, "cv_both_unknown": 0,
-        "cv_undetermined": 0,
+        # 3-way category vote events.
+        "cat_unanimous": 0,
+        "cat_text_llm_agree": 0, "cat_text_cv_agree": 0, "cat_llm_cv_agree": 0,
+        "cat_text_only": 0, "cat_llm_only": 0, "cat_cv_only": 0,
+        "cat_three_way_split": 0, "cat_no_signal": 0,
+        # Gender (2-way).
         "cv_gender_corroborated": 0, "cv_gender_override": 0,
         "cv_gender_below_threshold": 0, "cv_gender_filled_gap": 0,
         "cv_gender_gap_unfilled": 0, "cv_gender_flatlay_guard": 0,
         "cv_gender_both_unknown": 0,
+        # Color (2-way).
         "cv_color_replaced": 0, "cv_color_kept": 0,
+        # LLM availability — how often did the LLM contribute a signal.
+        "llm_signal_count": 0, "llm_no_signal_count": 0,
     }
 
     async with SessionLocal() as session:
@@ -188,17 +211,32 @@ async def classify(
             async with httpx.AsyncClient(follow_redirects=True) as client:
                 for start in range(0, len(rows), batch_size):
                     chunk = rows[start:start + batch_size]
-                    # Download N images concurrently.
-                    image_bytes = await asyncio.gather(
-                        *[_download_image(client, r["image_url"]) for r in chunk],
-                        return_exceptions=False,
+                    # Kick off image download AND LLM categorize concurrently.
+                    # LLM only needs title/brand/description, not images — so
+                    # the two pipelines run in parallel.
+                    llm_rows = [
+                        {
+                            "title": r["title"],
+                            "brand": r["brand"],
+                            "description": r["description"],
+                        }
+                        for r in chunk
+                    ]
+                    image_bytes, llm_verdicts = await asyncio.gather(
+                        asyncio.gather(
+                            *[_download_image(client, r["image_url"]) for r in chunk],
+                            return_exceptions=False,
+                        ),
+                        llm_categorize_batch(llm_rows),
                     )
                     # Group: only classify rows whose image_bytes is not None.
+                    # Carry the LLM verdict alongside so the reconciler gets it.
                     images: list["PILImage.Image"] = []
                     urls: list[str] = []
                     byte_list: list[bytes] = []
                     keepers: list[dict] = []
-                    for r, b in zip(chunk, image_bytes, strict=True):
+                    keeper_llm_verdicts: list[LLMCategoryVerdict] = []
+                    for r, b, llm_v in zip(chunk, image_bytes, llm_verdicts, strict=True):
                         if not b:
                             counters["image_fetch_failed"] += 1
                             await _bump_fetch_failure(session, r["id"])
@@ -209,6 +247,7 @@ async def classify(
                             urls.append(r["image_url"])
                             byte_list.append(b)
                             keepers.append(r)
+                            keeper_llm_verdicts.append(llm_v)
                         except Exception as e:
                             logger.warning("cv_image_decode_failed id=%s err=%s", r["id"], e)
                             counters["image_fetch_failed"] += 1
@@ -221,18 +260,26 @@ async def classify(
                     verdicts = clf.classify_batch(images, urls, byte_list)
 
                     # 5. Reconcile + write per row.
-                    for r, v in zip(keepers, verdicts, strict=True):
+                    for r, v, llm_v in zip(keepers, verdicts, keeper_llm_verdicts, strict=True):
                         existing_attrs = r["attributes"] or {}
+                        llm_vote = LLMCatVote(
+                            category=llm_v.category, confidence=llm_v.confidence,
+                        )
                         decision = reconcile(
                             scraper_category=r["category"],
                             scraper_gender=r["gender"],
                             scraper_colors=r["colors"],
                             verdict=v,
+                            llm_vote=llm_vote,
                         )
                         counters[decision.category_event] += 1
                         counters[decision.gender_event] += 1
                         counters[decision.color_event] += 1
                         counters["classified"] += 1
+                        if llm_v.category:
+                            counters["llm_signal_count"] += 1
+                        else:
+                            counters["llm_no_signal_count"] += 1
 
                         cv_jsonb = _verdict_to_jsonb(
                             v,
@@ -240,6 +287,8 @@ async def classify(
                             colors_previous=(
                                 r["colors"] if decision.color_event == "cv_color_replaced" else None
                             ),
+                            llm_verdict=llm_v,
+                            category_vote=decision.category_vote,
                         )
                         merge_payload = {
                             "cv_verdict": cv_jsonb,
