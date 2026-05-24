@@ -2,28 +2,30 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
+import {
+  CatalogSidebar,
+  type CatalogFilters,
+} from "@/components/commerce/catalog-sidebar";
+import { CommerceHeader } from "@/components/commerce/commerce-header";
 import { AmbiguityNudge } from "./ambiguity-nudge";
 import { DegradedBanner } from "./degraded-banner";
-import { EmptyState } from "./empty-state";
 import { ExampleQueries } from "./example-queries";
-import { FilterSidebar } from "./filter-sidebar";
-import { HeroBackdrop } from "./hero-backdrop";
 import { IntentChips } from "./intent-chips";
-import { MobileFilterSheet } from "./mobile-filter-sheet";
 import { ProductCard } from "./product-card";
 import { SkeletonGrid } from "./skeleton-grid";
-import { SortControl } from "./sort-control";
-import { StickySearchBar } from "./sticky-search-bar";
-import { Wordmark } from "./wordmark";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { ApiError, getFacets, parseIntent, searchProducts } from "@/lib/api";
 import type { IntentResponse, SearchParams, SortKey } from "@/lib/types";
 
 const PAGE_SIZE = 24;
+
+const SORT_LABELS: { value: SortKey; label: string }[] = [
+  { value: "relevance", label: "Featured" },
+  { value: "newest", label: "Newest" },
+  { value: "price_asc", label: "Price ↑" },
+  { value: "price_desc", label: "Price ↓" },
+];
 
 function paramsFromUrl(sp: URLSearchParams): SearchParams {
   const num = (k: string) => {
@@ -82,10 +84,7 @@ export function SearchView() {
   const [parsing, setParsing] = useState(false);
   const [rateLimited, setRateLimited] = useState(false);
   const [networkError, setNetworkError] = useState<string | null>(null);
-  const [filterSheetOpen, setFilterSheetOpen] = useState(false);
   const [sortHint, setSortHint] = useState<string | null>(null);
-
-  const heroSentinelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setQueryInput(filters.q ?? "");
@@ -167,19 +166,35 @@ export function SearchView() {
     pushFilters({});
   };
 
-  const onSortChange = (next: SortKey, hint?: string) => {
-    setSortHint(hint ?? null);
-    pushFilters({ ...filters, sort: next, offset: 0 });
-  };
-
   const acceptAmbiguity = (alternative: string) => {
     const original = intent?.raw_query ?? queryInput;
     const hintToken = intent?.parsed.ambiguity_hint?.token;
     if (!hintToken) return;
-    // Replace the token in the raw query with the alternative form and re-submit.
     const rewritten = original.replace(hintToken, hintToken.replace(/[\d.,]+/, alternative));
     setQueryInput(rewritten);
     void submitSearch(undefined, rewritten);
+  };
+
+  // Translate URL-based SearchParams to the catalog-sidebar's filter shape.
+  const sidebarFilters: CatalogFilters = useMemo(
+    () => ({
+      category: filters.category,
+      color: filters.color,
+      features: filters.features ?? [],
+      inStockOnly: !!filters.in_stock_only,
+    }),
+    [filters],
+  );
+
+  const onSidebarChange = (next: CatalogFilters) => {
+    pushFilters({
+      ...filters,
+      category: next.category,
+      color: next.color,
+      features: next.features.length ? next.features : undefined,
+      in_stock_only: next.inStockOnly || undefined,
+      offset: 0,
+    });
   };
 
   const dirty = (queryInput.trim() || undefined) !== (filters.q || undefined);
@@ -205,149 +220,127 @@ export function SearchView() {
   const requestedFeatures = filters.features ?? intent?.parsed.features ?? [];
 
   return (
-    <div className="relative z-10">
-      <StickySearchBar
-        value={queryInput}
-        onChange={setQueryInput}
-        onSubmit={() => void submitSearch()}
-        onOpenFilters={() => setFilterSheetOpen(true)}
-        sentinelTarget={heroSentinelRef}
-      />
+    <div className="commerce relative z-10 min-h-screen">
+      <CommerceHeader />
 
-      {/* -------- Utility bar -------- */}
-      <div className="mx-auto max-w-[1600px] px-6 pt-6 lg:px-10">
-        <div className="flex items-center justify-between">
-          <div className="kicker anim-fade">
-            CLOTHIST <span className="text-foreground/40">·</span> 01 / Discovery
-          </div>
-          <ThemeToggle className="anim-fade delay-100" />
-        </div>
-      </div>
+      {/* ---------- AI search hero ---------- */}
+      <section className="mx-auto max-w-[1600px] px-6 pt-10 lg:px-12 lg:pt-16">
+        <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted">
+          01 / Discovery · AI search
+        </p>
+        <h1 className="font-display-tight text-[40px] sm:text-[64px] lg:text-[88px] leading-[0.92] tracking-[-0.04em] mt-3 max-w-[14ch]">
+          Type the piece.
+        </h1>
 
-      {/* -------- Hero band -------- */}
-      <section
-        className="relative mx-auto max-w-[1600px] overflow-hidden px-6 pb-14 pt-10 lg:px-10"
-      >
-        <HeroBackdrop />
-
-        <div className="relative z-10 grid grid-cols-1 gap-10 lg:grid-cols-12 lg:items-end">
-          <div className="lg:col-span-8">
-            <p className="kicker anim-fade delay-200">
-              AI-native fashion meta-commerce — est. 2026
-            </p>
-            <div className="anim-rise delay-300 mt-3">
-              <Wordmark />
-            </div>
-            <p className="anim-rise delay-500 mt-6 max-w-xl text-base leading-relaxed text-muted">
-              Type the piece you&rsquo;re picturing. Cargo pants with six pockets, a
-              minimalist hoodie with a hidden zip, a waterproof shell that
-              actually lasts. We search across the retailers — you skip the
-              tabs.
-            </p>
-
-            {!filters.q && !intent && (
-              <ExampleQueries onPick={pickExample} fxDate={fxDate} />
+        <form
+          onSubmit={(e) => void submitSearch(e)}
+          role="search"
+          className="mt-8 max-w-[820px]"
+        >
+          <div className="flex items-center gap-3 border-b border-line/40 py-2 focus-within:border-foreground transition-colors">
+            <span className="font-mono text-sm text-muted">/</span>
+            <input
+              id="clothist-search"
+              type="text"
+              value={queryInput}
+              onChange={(e) => setQueryInput(e.target.value)}
+              placeholder="black cargo pants under $100"
+              autoFocus
+              enterKeyHint="search"
+              className="flex-1 bg-transparent border-0 outline-none h-12 text-lg placeholder:text-muted/70"
+            />
+            {queryInput && (
+              <button
+                type="button"
+                onClick={clearSearch}
+                aria-label="Clear search"
+                className="font-mono text-xs text-muted hover:text-foreground transition-colors"
+              >
+                ×
+              </button>
             )}
+            <button
+              type="submit"
+              disabled={parsing || (!queryInput.trim() && !filters.q)}
+              className={[
+                "shrink-0 px-5 py-3 font-mono text-[11px] uppercase tracking-[0.18em] transition-colors",
+                dirty
+                  ? "bg-foreground text-background hover:bg-foreground/90"
+                  : "border border-line/20 text-foreground hover:bg-foreground hover:text-background",
+                "disabled:opacity-40 disabled:pointer-events-none",
+              ].join(" ")}
+            >
+              {parsing ? "Parsing…" : "Search"}
+            </button>
           </div>
+          <p className="font-mono text-[11px] uppercase tracking-[0.18em] mt-3 text-muted">
+            {parsing
+              ? "Asking the AI to interpret…"
+              : rateLimited
+                ? "Rate limited — try again in 60s"
+                : networkError
+                  ? networkError
+                  : dirty
+                    ? "Press Enter — AI extracts category, brand, color, price, features"
+                    : "↵ submits — AI parses to filters, then ranks across the catalog"}
+          </p>
+        </form>
 
-          <div className="lg:col-span-4 anim-rise delay-700">
-            <label htmlFor="clothist-search" className="kicker block">
-              Search
-            </label>
-            <form onSubmit={(e) => void submitSearch(e)} role="search">
-              <div className="mt-2 flex items-center gap-3 border-b border-line/20 py-1 focus-within:border-foreground transition-colors">
-                <span className="font-mono text-sm text-muted">/</span>
-                <Input
-                  id="clothist-search"
-                  value={queryInput}
-                  onChange={(e) => setQueryInput(e.target.value)}
-                  placeholder="black cargo pants under $100"
-                  autoFocus
-                  enterKeyHint="search"
-                  className="h-12 border-b-0 px-0 text-lg placeholder:text-muted/70 focus-visible:border-b-0"
-                />
-                {queryInput && (
-                  <button
-                    type="button"
-                    onClick={clearSearch}
-                    aria-label="Clear search"
-                    className="font-mono text-xs text-muted hover:text-foreground transition-colors"
-                  >
-                    ×
-                  </button>
-                )}
-                <Button
-                  type="submit"
-                  size="sm"
-                  variant={dirty ? "default" : "outline"}
-                  className="shrink-0"
-                  disabled={parsing || (!queryInput.trim() && !filters.q)}
-                >
-                  {parsing ? "Parsing…" : "Search"}
-                </Button>
-              </div>
-            </form>
-            <p className="kicker mt-2 text-foreground/60">
-              {parsing
-                ? "Asking the AI to interpret…"
-                : rateLimited
-                  ? "Rate limited — try again in 60s"
-                  : networkError
-                    ? networkError
-                    : dirty
-                      ? "Press Enter — AI extracts category, brand, color, price, features"
-                      : "↵ Submits — AI parses to filters, then ranks"}
-            </p>
+        {!filters.q && !intent && (
+          <div className="mt-8 max-w-[820px]">
+            <ExampleQueries onPick={pickExample} fxDate={fxDate} />
           </div>
-        </div>
-
-        {/* Sentinel for the mobile sticky-bar IntersectionObserver. */}
-        <div ref={heroSentinelRef} aria-hidden className="h-1 w-full" />
+        )}
       </section>
 
-      {/* -------- Results section -------- */}
-      <section className="mx-auto max-w-[1600px] px-6 pb-24 lg:px-10">
-        <div className="hairline-t flex items-center justify-between py-5 gap-4">
-          <span className="kicker">
-            02 / Results
-            <span className="ml-3 text-foreground">{total.toLocaleString()}</span>
-            <span className="ml-1 text-foreground/40">
-              {total === 1 ? "item" : "items"}
-            </span>
-          </span>
-          <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={() => setFilterSheetOpen(true)}
-              className="md:hidden hairline rounded-full px-3 h-8 font-mono text-[11px] uppercase tracking-widest"
-            >
-              Filters
-            </button>
-            <SortControl value={currentSort} onChange={onSortChange} />
-          </div>
-        </div>
-
+      {/* ---------- Results ---------- */}
+      <section className="mx-auto max-w-[1600px] px-6 pb-32 pt-12 lg:px-12">
         {intent?.degraded && intent.degraded_reason && (
           <DegradedBanner reason={intent.degraded_reason} />
         )}
         {rateLimited && (
-          <div className="anim-fade hairline mb-4 px-4 py-3 text-sm bg-bg-alt/40" style={{ borderLeft: "4px solid rgb(var(--warn))" }}>
-            <span className="font-mono text-[11px] uppercase tracking-widest text-warn">
+          <div
+            className="anim-fade mb-4 px-4 py-3 text-sm bg-bg-alt/40 border-l-[3px] border-warn"
+          >
+            <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-warn">
               Rate limited — retry in 60s
             </span>
           </div>
         )}
 
-        <div className="grid grid-cols-1 gap-12 md:grid-cols-[200px_1fr] lg:grid-cols-[220px_1fr] lg:gap-16">
-          <div className="hidden md:block">
-            <FilterSidebar
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-14">
+          <div className="hidden lg:block">
+            <CatalogSidebar
               facets={facets.data}
-              filters={filters}
-              onChange={pushFilters}
+              filters={sidebarFilters}
+              onChange={onSidebarChange}
+              totalCount={total}
             />
           </div>
 
-          <main>
+          <div>
+            <div className="border-t border-line/10 flex flex-wrap items-center justify-between gap-4 py-4">
+              <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
+                02 / Results · {total} {total === 1 ? "piece" : "pieces"}
+              </span>
+              <label className="inline-flex items-center gap-2">
+                <span className="sr-only">Sort</span>
+                <select
+                  value={currentSort}
+                  onChange={(e) =>
+                    pushFilters({ ...filters, sort: e.target.value as SortKey, offset: 0 })
+                  }
+                  className="bg-transparent border border-line/15 px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.18em] focus:outline-none focus:border-foreground transition-colors cursor-pointer"
+                >
+                  {SORT_LABELS.map((o) => (
+                    <option key={o.value} value={o.value}>
+                      {o.label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+
             <IntentChips
               parsed={intent?.parsed ?? null}
               filters={filters}
@@ -379,34 +372,43 @@ export function SearchView() {
             {search.isLoading ? (
               <SkeletonGrid />
             ) : items.length === 0 ? (
-              <EmptyState
-                filters={filters}
-                onClear={clearSearch}
-                onDrop={pushFilters}
-              />
+              <div className="border border-line/10 mt-2 flex flex-col items-center gap-3 py-24 text-center">
+                <span className="font-display text-4xl tracking-[-0.04em]">
+                  Nothing matched.
+                </span>
+                <p className="text-sm text-muted">
+                  Drop a filter or refine your query.
+                </p>
+                <button
+                  type="button"
+                  onClick={clearSearch}
+                  className="mt-2 font-mono text-[10px] uppercase tracking-[0.22em] text-muted hover:text-foreground underline underline-offset-4"
+                >
+                  Clear all
+                </button>
+              </div>
             ) : (
-              <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
+              <ul className="mt-6 grid grid-cols-2 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
                 {items.map((p, idx) => (
-                  <div
+                  <li
                     key={p.id}
                     className="anim-rise"
                     style={{ animationDelay: `${Math.min(idx, 8) * 40}ms` }}
                   >
                     <ProductCard product={p} requestedFeatures={requestedFeatures} />
-                  </div>
+                  </li>
                 ))}
-              </div>
+              </ul>
             )}
 
             {(hasNext || hasPrev) && (
-              <div className="hairline-t mt-12 flex items-center justify-between pt-6">
-                <span className="kicker">
+              <div className="border-t border-line/10 mt-12 flex items-center justify-between pt-6">
+                <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
                   {offset + 1}–{Math.min(offset + items.length, total)} / {total}
                 </span>
                 <div className="flex gap-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
+                  <button
+                    type="button"
                     disabled={!hasPrev}
                     onClick={() =>
                       pushFilters({
@@ -414,46 +416,39 @@ export function SearchView() {
                         offset: Math.max(0, offset - PAGE_SIZE),
                       })
                     }
+                    className="border border-line/15 px-3 py-2 font-mono text-[11px] uppercase tracking-[0.18em] hover:border-foreground transition-colors disabled:opacity-30 disabled:pointer-events-none"
                   >
                     ← Prev
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
+                  </button>
+                  <button
+                    type="button"
                     disabled={!hasNext}
                     onClick={() =>
                       pushFilters({ ...filters, offset: offset + PAGE_SIZE })
                     }
+                    className="border border-line/15 px-3 py-2 font-mono text-[11px] uppercase tracking-[0.18em] hover:border-foreground transition-colors disabled:opacity-30 disabled:pointer-events-none"
                   >
                     Next →
-                  </Button>
+                  </button>
                 </div>
               </div>
             )}
-          </main>
+          </div>
         </div>
       </section>
 
-      <MobileFilterSheet
-        open={filterSheetOpen}
-        onClose={() => setFilterSheetOpen(false)}
-        facets={facets.data}
-        filters={filters}
-        onApply={pushFilters}
-      />
-
-      {/* -------- Footer -------- */}
-      <footer className="hairline-t mx-auto max-w-[1600px] px-6 py-8 lg:px-10">
+      {/* ---------- Footer ---------- */}
+      <footer className="border-t border-line/10 mx-auto max-w-[1600px] px-6 py-8 lg:px-12">
         <div className="flex flex-col items-start justify-between gap-2 text-sm text-muted sm:flex-row sm:items-center">
-          <span className="font-mono uppercase tracking-widest">
-            Clothist — vertical slice
+          <span className="font-mono uppercase tracking-[0.18em] text-[11px]">
+            Clothist — prototype build
           </span>
-          <span className="font-mono uppercase tracking-widest">
+          <span className="font-mono uppercase tracking-[0.18em] text-[11px]">
             {intent && !intent.degraded
               ? `AI: ${intent.model} · ${intent.duration_ms}ms${fxDate ? ` · FX ${fxDate}` : ""}`
               : intent?.degraded
                 ? `AI: offline — keyword fallback${fxDate ? ` · FX ${fxDate}` : ""}`
-                : "Prototype · No purchases happen here"}
+                : `No purchases here${fxDate ? ` · FX ${fxDate}` : ""}`}
           </span>
         </div>
       </footer>
