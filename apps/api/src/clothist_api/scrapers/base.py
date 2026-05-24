@@ -19,6 +19,7 @@ from typing import Any, AsyncIterator
 import httpx
 
 from clothist_api.scrapers.normalize import (
+    CATEGORY_IMPLIED_GENDER,
     Gender,
     normalize_category,
     normalize_color,
@@ -435,6 +436,17 @@ class ShopifyAdapter:
 
         gender = self.gender_for(raw, counters=counters)
         category, raw_category = self.category_for(raw)
+
+        # Category-implied gender — if gender came out "unisex" but the
+        # category is one that's overwhelmingly women's (dresses, skirts,
+        # swimwear), trust the category. Helps catch products whose tags
+        # didn't say women's but whose category is unambiguous.
+        if gender == "unisex" and category in CATEGORY_IMPLIED_GENDER:
+            implied = CATEGORY_IMPLIED_GENDER[category]
+            if implied == "women" or implied == "men":
+                gender = implied  # type: ignore[assignment]
+                counters.gender_inferred_from_fallback += 1
+
         if category is None:
             counters.skipped_unmapped_category += 1
             logger.info(

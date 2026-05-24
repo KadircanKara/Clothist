@@ -14,10 +14,15 @@ from selectolax.parser import HTMLParser
 Gender = Literal["men", "women", "unisex"]
 
 
-# Canonical 10-token taxonomy (matches the seed corpus).
+# Canonical taxonomy. Extended from the original 10-token seed corpus with
+# 3 categories that real Shopify retailers heavily populate:
+#   - accessories (hats, bags, belts, jewelry, sunglasses, wallets)
+#   - swimwear (bikinis, swim shorts/tops)
+#   - underwear (briefs, boxers, lingerie, bras)
 CANONICAL_CATEGORIES = frozenset({
     "hoodies", "tshirts", "pants", "jeans", "shorts",
     "skirts", "dresses", "jackets", "sneakers", "sweaters",
+    "accessories", "swimwear", "underwear",
 })
 
 
@@ -73,6 +78,70 @@ CATEGORY_ALIASES: dict[str, str] = {
     "loafer": "sneakers", "loafers": "sneakers",
     "trainer": "sneakers", "trainers": "sneakers",
     "runner": "sneakers", "runners": "sneakers",
+    "espadrille": "sneakers", "espadrilles": "sneakers",
+    "mary jane": "sneakers", "ballerina": "sneakers", "ballerinas": "sneakers",
+    "clog": "sneakers", "clogs": "sneakers",
+    "heel": "sneakers", "heels": "sneakers",
+    "high top": "sneakers", "high tops": "sneakers",
+    "low top": "sneakers", "low tops": "sneakers",
+    "slide": "sneakers", "slides": "sneakers",
+    # Accessories — bags, hats, belts, eyewear, jewelry, wallets
+    "accessories": "accessories", "accessory": "accessories",
+    "bag": "accessories", "bags": "accessories",
+    "tote": "accessories", "totes": "accessories",
+    "backpack": "accessories", "backpacks": "accessories",
+    "sling": "accessories", "duffel": "accessories",
+    "clutch": "accessories", "clutches": "accessories",
+    "pouch": "accessories", "pouches": "accessories",
+    "wallet": "accessories", "wallets": "accessories",
+    "cardholder": "accessories", "cardholders": "accessories",
+    "hat": "accessories", "hats": "accessories",
+    "cap": "accessories", "caps": "accessories",
+    "beanie": "accessories", "beanies": "accessories",
+    "bucket hat": "accessories", "snapback": "accessories",
+    "belt": "accessories", "belts": "accessories",
+    "sunglasses": "accessories", "eyewear": "accessories",
+    "scarf": "accessories", "scarves": "accessories",
+    "necklace": "accessories", "necklaces": "accessories",
+    "earring": "accessories", "earrings": "accessories",
+    "ring": "accessories", "rings": "accessories",
+    "bracelet": "accessories", "bracelets": "accessories",
+    "charm": "accessories", "charms": "accessories",
+    "leather goods": "accessories",
+    "soft goods": "accessories",
+    # Swimwear — bikinis, swim shorts, swim tops
+    "swim": "swimwear", "swimwear": "swimwear", "swimsuit": "swimwear",
+    "bikini": "swimwear", "bikinis": "swimwear",
+    "bikini top": "swimwear", "bikini tops": "swimwear",
+    "bikini bottom": "swimwear", "bikini bottoms": "swimwear",
+    "one-piece": "swimwear", "one piece": "swimwear",
+    "swim short": "swimwear", "swim shorts": "swimwear",
+    # Underwear — briefs, boxers, bras, lingerie
+    "underwear": "underwear",
+    "brief": "underwear", "briefs": "underwear",
+    "boxer": "underwear", "boxers": "underwear",
+    "bra": "underwear", "bras": "underwear",
+    "bralette": "underwear", "lingerie": "underwear",
+    "panty": "underwear", "panties": "underwear",
+    "thong": "underwear", "thongs": "underwear",
+    "intimate": "underwear", "intimates": "underwear",
+    "sock": "underwear", "socks": "underwear",  # bundle socks into underwear vs accessories
+    # Rompers & playsuits — fold into dresses (they're whole-body women's pieces)
+    "romper": "dresses", "rompers": "dresses",
+    "playsuit": "dresses", "playsuits": "dresses",
+    "jumpsuit": "dresses", "jumpsuits": "dresses",
+    # Misc remaining
+    "jersey": "tshirts", "jerseys": "tshirts",  # team jerseys = oversized tees
+}
+
+# Categories whose presence implies a gender even when tags don't say so.
+# Used as a last-step inference after vendor/tag/title scans yielded nothing
+# more specific.
+CATEGORY_IMPLIED_GENDER: dict[str, str] = {
+    "dresses": "women",   # incl. rompers/playsuits/jumpsuits via alias
+    "skirts": "women",
+    "swimwear": "women",  # weak — many stores DO carry men's swim, but ours
+                          # mostly Kith's "Kith Women X Bikini" line
 }
 
 
@@ -94,11 +163,13 @@ def normalize_category(product_type: str | None) -> str | None:
 
 
 # Gender canonicalization — handles common vendor spellings.
+# Includes industry-standard "WMNS" (Nike/Jordan/adidas footwear) and "MNS".
 GENDER_ALIASES: dict[str, Gender] = {
     "men": "men", "mens": "men", "men's": "men", "man": "men", "male": "men",
-    "guys": "men", "guy": "men",
+    "guys": "men", "guy": "men", "mns": "men",
     "women": "women", "womens": "women", "women's": "women", "woman": "women",
-    "female": "women", "ladies": "women", "ladies'": "women",
+    "female": "women", "ladies": "women", "ladies'": "women", "wmns": "women",
+    "girls": "women", "girl": "women",
     "unisex": "unisex", "uni": "unisex", "neutral": "unisex",
     "all-gender": "unisex", "any": "unisex",
 }
