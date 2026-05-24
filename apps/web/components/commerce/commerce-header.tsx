@@ -62,7 +62,7 @@ export function CommerceHeader() {
         <div className="flex items-center justify-end gap-1">
           <ThemeToggle />
           <Link
-            href="/"
+            href="/search"
             aria-label="AI search"
             className="grid h-10 w-10 place-items-center rounded-full text-muted hover:text-foreground hover:bg-bg-alt transition-colors"
           >

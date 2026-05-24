@@ -1,10 +1,11 @@
-import { Suspense } from "react";
-import { SearchView } from "@/components/search/search-view";
+import { LandingView } from "@/components/marketing/landing-view";
+
+export const metadata = {
+  title: "Clothist — Describe it. Find it. Wear it.",
+  description:
+    "AI-native fashion meta-search. Write a sentence. We translate it into filters and rank across every store.",
+};
 
 export default function HomePage() {
-  return (
-    <Suspense fallback={<div className="p-8 text-sm text-muted-foreground">Loading…</div>}>
-      <SearchView />
-    </Suspense>
-  );
+  return <LandingView />;
 }
