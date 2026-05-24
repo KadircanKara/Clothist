@@ -32,7 +32,9 @@ logger = logging.getLogger(__name__)
 
 CATEGORY_PROMPTS: dict[str, list[str]] = {
     "hoodies":     ["a photo of a hoodie",
-                    "a product photo of a sweatshirt"],
+                    "a product photo of a hooded sweatshirt"],
+    "sweatshirts": ["a photo of a crewneck sweatshirt",
+                    "a product photo of a pullover sweatshirt without hood"],
     "tshirts":     ["a photo of a t-shirt",
                     "a product photo of a tank top"],
     "pants":       ["a photo of trousers",

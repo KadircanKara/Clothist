@@ -55,7 +55,8 @@ _CANONICAL_TOKEN_SETS = {
                     # Tops with style-specific names
                     "henley", "henleys", "rugby", "rugbys",
                     "thermal", "thermals"},
-    "hoodies":     {"hoodie", "hoodies", "sweatshirt", "sweatshirts"},
+    "hoodies":     {"hoodie", "hoodies"},
+    "sweatshirts": {"sweatshirt", "sweatshirts", "crewneck sweatshirt"},
     "sweaters":    {"sweater", "sweaters", "cardigan", "cardigans",
                     # Pullovers — knit tops you pull over the head. Was a
                     # weak (0.80) alias for hoodies but hits like "ALD
@@ -377,6 +378,17 @@ class TextCategoryVerdict:
 
 CANONICAL_TITLE_CONF = 0.97   # canonical-token OR strong-multi-word match
 WEAK_ALIAS_CONF = 0.80
+
+
+def is_non_clothing(title: str) -> bool:
+    """Quick test: does the title contain a non-clothing token AND no
+    clothing token at a later position?
+
+    Same head-noun tournament as `categorize_by_text`, just collapsed to a
+    boolean. Used at ingest to flag homewares / decor that fall through
+    the vendor product_type mapping.
+    """
+    return categorize_by_text(title=title).category == EXCLUDED_CATEGORY
 
 
 def categorize_by_text(*, title: str, brand: str | None = None) -> TextCategoryVerdict:

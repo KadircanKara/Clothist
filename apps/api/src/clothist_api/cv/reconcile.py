@@ -1,27 +1,26 @@
 """Pure-Python reconciliation policy.
 
-Categories: STRICT CASCADE. Each source is consulted in order and the first
-one to hit the confidence threshold (default 0.95) wins. If nothing clears
-the bar the product lands in `"other"`. Order: text-by-title → LLM → CV.
+Category assignment (simplified 2026-05-25 — user direction "only
+categorize by the actual category from the source"):
 
-  text — fastest (sub-ms, deterministic regex)
-  llm  — slow (Groq round-trip, batched)
-  cv   — moderate (local CLIP inference)
+  1. vendor product_type via scrapers/normalize.py:normalize_category
+       — when it maps, that's the answer.
+  2. else title-based non-clothing detection (categorize_by_text)
+       — flags homewares / decor that vendors mistag.
+  3. else "uncategorized".
 
-The cascade has two virtues over the previous parallel 3-way vote:
-  1. Correctness: when text is unambiguous (title contains "T-Shirt"), we
-     don't let the LLM or CV second-guess. CV in particular can be fooled
-     by photography (a "Striped Beach Towel" looks like a striped t-shirt
-     to CLIP) — locking the answer at the title stage avoids that.
-  2. Cost: high-confidence text matches skip the LLM call entirely, saving
-     Groq tokens and wall-clock at scale.
+Title + LLM + CV are no longer consulted for category — they were
+swing-and-miss heuristics next to vendor-supplied taxonomy. The
+"uncategorized" bucket exists as the catch-all but in practice should
+be tiny because every storefront we ingest from already tags
+product_type.
 
-Gender / colors: unchanged 2-way scraper-vs-CV policy.
+Gender + colors keep the same 2-way scraper-vs-CV policy: vendors are
+unreliable about gender (mostly tag-unisex) and don't surface a
+structured color signal, so CV remains the recovery layer.
 
-Has NO torch/transformers/openai dependency so unit tests can run without
-`--extra cv`. The LLM verdict is passed in as a dataclass; no network here.
-
-Spec: user request 2026-05-24 (Striped Beach Towel regression).
+Has NO torch/transformers/openai dependency — unit tests can run
+without `--extra cv`.
 """
 from __future__ import annotations
 
@@ -31,26 +30,15 @@ from typing import Literal
 from clothist_api.cv.types import CVVerdict
 
 
-# ----------------------- Category cascade ----------------------- #
+# ----------------------- Category ----------------------- #
 
-# The threshold each source's confidence must clear to "decide" the
-# category. When NO source clears its threshold the product is bucketed
-# as `"other"`. Text and LLM remain at 0.95 (both are calibrated to emit
-# high values only on clear matches), but CV gets a lower floor: CLIP's
-# 13-class softmax dilutes probability mass, so legitimate "this is
-# obviously a sneaker" verdicts often land 0.85-0.94. Raising the gate
-# would dump them into "other" and bloat the catch-all bucket — the
-# user's reported "Other contains shoes/socks/vests" regression.
-CASCADE_THRESHOLD = 0.95          # text + LLM
-CASCADE_CV_THRESHOLD = 0.85       # CV-specific, looser per the above
-OTHER_CATEGORY = "other"
-
+UNCATEGORIZED = "uncategorized"
+EXCLUDED = "excluded"
 
 CategoryEvent = Literal[
-    "cascade_text",   # text-by-title cleared threshold
-    "cascade_llm",    # text didn't; LLM cleared threshold
-    "cascade_cv",     # text + LLM didn't; CV cleared threshold
-    "cascade_other",  # nothing cleared → "other"
+    "category_vendor",         # vendor product_type mapped cleanly
+    "category_non_clothing",   # title flagged the item as non-clothing → excluded
+    "category_uncategorized",  # vendor mapped to nothing; title looks like clothing
 ]
 
 
@@ -72,59 +60,43 @@ ColorEvent = Literal["cv_color_replaced", "cv_color_kept"]
 
 
 @dataclass(slots=True)
-class TextCatVote:
-    """Text-by-title verdict. Pure data — no regex deps here.
-
-    `category=None` ⇒ no alias matched the title. The cascade treats this
-    as the text stage abstaining; the LLM stage is consulted next.
-    """
-    category: str | None
-    confidence: float
-    matched_alias: str | None = None
-
-
-@dataclass(slots=True)
-class LLMCatVote:
-    """LLM-by-name verdict. Pure data — no dependency on openai/etc."""
-    category: str | None
-    confidence: float
-
-
-@dataclass(slots=True)
 class ReconciledRow:
     """The post-reconciliation winner for one product."""
 
-    category: str | None
+    category: str
     gender: str | None
     colors: list[str] | None
     category_event: CategoryEvent
     gender_event: GenderEvent
     color_event: ColorEvent
     scraper_previous: dict
-    # Per-stage breakdown — written to attributes.cv_verdict.category_cascade
-    # for auditing. Format:
-    #   {"text": [cat|null, conf], "llm": [...], "cv": [...],
-    #    "winner_stage": "text"|"llm"|"cv"|"other", "threshold": 0.95}
-    category_cascade: dict = field(default_factory=dict)
+    # Audit payload — written to attributes.cv_verdict.category_source.
+    # Format: {"vendor_product_type": "...", "vendor_canonical": "...",
+    #          "non_clothing_match": "..." | None, "winner": "vendor"|...}
+    category_source: dict = field(default_factory=dict)
 
 
 def reconcile(
     *,
-    scraper_category: str | None,  # legacy: ignored by the cascade but kept for API compat
+    scraper_category: str | None,
     scraper_gender: str | None,
     scraper_colors: list[str] | None,
     verdict: CVVerdict,
-    text_vote: TextCatVote | None = None,
-    llm_vote: LLMCatVote | None = None,
-    cascade_threshold: float = CASCADE_THRESHOLD,
-    cv_cascade_threshold: float = CASCADE_CV_THRESHOLD,
+    vendor_category: str | None,
+    title: str,
+    non_clothing_alias: str | None = None,
 ) -> ReconciledRow:
-    """Apply the cascade for category, plus the existing 2-way policy for
-    gender and color. Pure function — no I/O.
+    """Apply the simplified category logic + the 2-way gender/color
+    reconciliation. Pure function — no I/O.
 
-    `text_vote=None` falls back to a synthetic vote from scraper_category at
-    a moderate confidence (0.85), preserving compatibility with callers that
-    haven't been ported to the new title-based text classifier yet.
+    Args:
+      vendor_category: result of `normalize_category(product_type)`,
+        already a canonical token or None.
+      title: product title — checked for non-clothing tokens when
+        vendor mapping fails.
+      non_clothing_alias: which non-clothing token matched the title
+        (debug only — passed in from the caller so we don't double-run
+        the regex tournament inside reconcile).
     """
     scraper_previous = {
         "category": scraper_category,
@@ -132,20 +104,10 @@ def reconcile(
         "colors":   list(scraper_colors) if scraper_colors else None,
     }
 
-    if text_vote is None:
-        # Back-compat path: synthesize a text vote from the scraper's stored
-        # category. Below 0.95 → falls through to LLM/CV as expected.
-        text_vote = TextCatVote(
-            category=scraper_category,
-            confidence=0.85 if scraper_category else 0.0,
-        )
-    if llm_vote is None:
-        llm_vote = LLMCatVote(category=None, confidence=0.0)
-
-    final_category, cat_evt, cascade_breakdown = _cascade_category(
-        text=text_vote, llm=llm_vote, verdict=verdict,
-        text_llm_threshold=cascade_threshold,
-        cv_threshold=cv_cascade_threshold,
+    final_category, cat_evt, source = _resolve_category(
+        vendor_category=vendor_category,
+        non_clothing_alias=non_clothing_alias,
+        title=title,
     )
     final_gender, gen_evt = _reconcile_gender(
         scraper_gender, verdict.gender, verdict.gender_confidence,
@@ -160,46 +122,27 @@ def reconcile(
         gender_event=gen_evt,
         color_event=col_evt,
         scraper_previous=scraper_previous,
-        category_cascade=cascade_breakdown,
+        category_source=source,
     )
 
 
-def _cascade_category(
+def _resolve_category(
     *,
-    text: TextCatVote,
-    llm: LLMCatVote,
-    verdict: CVVerdict,
-    text_llm_threshold: float,
-    cv_threshold: float,
+    vendor_category: str | None,
+    non_clothing_alias: str | None,
+    title: str,
 ) -> tuple[str, CategoryEvent, dict]:
-    """Strict cascade — first source ≥ threshold wins; fall back to "other".
-
-    The text and LLM stages share `text_llm_threshold` (default 0.95). The
-    CV stage uses the looser `cv_threshold` (default 0.85) since CLIP's
-    13-class softmax rarely peaks at 0.95 on real fashion photos.
-    """
-    cv_cat = verdict.category
-    cv_conf = verdict.category_confidence
-
-    breakdown_base = {
-        "text": [text.category, round(text.confidence, 4)],
-        "llm":  [llm.category,  round(llm.confidence, 4)],
-        "cv":   [cv_cat,        round(cv_conf, 4)],
-        "threshold_text_llm": text_llm_threshold,
-        "threshold_cv":       cv_threshold,
+    """Three-step decision: vendor → non-clothing → uncategorized."""
+    base = {
+        "vendor": vendor_category,
+        "non_clothing_alias": non_clothing_alias,
+        "title": title,
     }
-
-    if text.category and text.confidence >= text_llm_threshold:
-        return (text.category, "cascade_text",
-                {**breakdown_base, "winner_stage": "text"})
-    if llm.category and llm.confidence >= text_llm_threshold:
-        return (llm.category, "cascade_llm",
-                {**breakdown_base, "winner_stage": "llm"})
-    if cv_cat and cv_conf >= cv_threshold:
-        return (cv_cat, "cascade_cv",
-                {**breakdown_base, "winner_stage": "cv"})
-    return (OTHER_CATEGORY, "cascade_other",
-            {**breakdown_base, "winner_stage": "other"})
+    if vendor_category:
+        return (vendor_category, "category_vendor", {**base, "winner": "vendor"})
+    if non_clothing_alias:
+        return (EXCLUDED, "category_non_clothing", {**base, "winner": "non_clothing"})
+    return (UNCATEGORIZED, "category_uncategorized", {**base, "winner": "uncategorized"})
 
 
 # ----------------------- Gender (unchanged 2-way) ----------------------- #

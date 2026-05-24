@@ -7,6 +7,7 @@ a new product type we extend the map once and every source benefits.
 from __future__ import annotations
 
 import re
+from functools import lru_cache
 from typing import Literal
 
 from selectolax.parser import HTMLParser
@@ -20,14 +21,14 @@ Gender = Literal["men", "women", "unisex"]
 #   - swimwear (bikinis, swim shorts/tops)
 #   - underwear (briefs, boxers, lingerie, bras)
 CANONICAL_CATEGORIES = frozenset({
-    "hoodies", "tshirts", "pants", "jeans", "shorts",
+    "hoodies", "sweatshirts", "tshirts", "pants", "jeans", "shorts",
     "skirts", "dresses", "jackets", "footwear", "sweaters",
     "accessories", "swimwear", "underwear",
-    # Catch-all bucket assigned by the cascade classifier when no source
-    # (text/LLM/CV) clears its confidence threshold AND the item isn't
-    # detected as non-clothing. Surfaces in the UI as the "Other" filter
-    # chip — keeps ambiguous clothing items out of the wrong categories.
-    "other",
+    # Vendor product_type didn't map AND the title wasn't flagged as
+    # non-clothing. Expected to be tiny — every storefront we ingest
+    # already tags product_type. Renamed from "other" 2026-05-25 to
+    # match the simplified vendor-only pipeline.
+    "uncategorized",
     # Items detected as non-clothing (flasks, cigar cutters, ceramic
     # homewares, golf gear, model sailboats, paper fans). The search API
     # filters these out by default; they exist in the DB so a future
@@ -48,15 +49,22 @@ CATEGORY_ALIASES: dict[str, str] = {
     "tshirt": "tshirts", "tshirts": "tshirts",
     "tank": "tshirts", "tank top": "tshirts", "tank tops": "tshirts",
     "polo": "tshirts", "polos": "tshirts",
-    "sweatshirt": "hoodies", "sweatshirts": "hoodies",
+    # Sweatshirts and hoodies are now separate canonical buckets — vendor
+    # tagging treats them distinctly (a crewneck sweatshirt is not a hood),
+    # so we honor that on the filter UI.
+    "sweatshirt": "sweatshirts", "sweatshirts": "sweatshirts",
+    "crewneck sweatshirt": "sweatshirts",
     "hoodie": "hoodies", "hoodies": "hoodies",
     "pullover": "hoodies", "pullovers": "hoodies",
     "sweater": "sweaters", "sweaters": "sweaters",
     "cardigan": "sweaters", "cardigans": "sweaters",
     "knit": "sweaters", "knits": "sweaters", "knitwear": "sweaters",
+    "jumper": "sweaters", "jumpers": "sweaters",        # UK English for sweater
+    "pullover": "sweaters", "pullovers": "sweaters",
     "shirt": "tshirts", "shirts": "tshirts",  # button-up shirts; conflates with tees but workable
     "top": "tshirts", "tops": "tshirts",
     "blouse": "tshirts", "blouses": "tshirts",
+    "crewneck": "tshirts", "crewnecks": "tshirts",  # crewneck-tee cut
     # Bottoms
     "pant": "pants", "pants": "pants",
     "trouser": "pants", "trousers": "pants",
@@ -118,6 +126,8 @@ CATEGORY_ALIASES: dict[str, str] = {
     "ring": "accessories", "rings": "accessories",
     "bracelet": "accessories", "bracelets": "accessories",
     "charm": "accessories", "charms": "accessories",
+    "jewelry": "accessories", "jewellery": "accessories",
+    "pendant": "accessories", "pendants": "accessories",
     "leather goods": "accessories",
     "soft goods": "accessories",
     # Swimwear — bikinis, swim shorts, swim tops
@@ -141,6 +151,11 @@ CATEGORY_ALIASES: dict[str, str] = {
     "romper": "dresses", "rompers": "dresses",
     "playsuit": "dresses", "playsuits": "dresses",
     "jumpsuit": "dresses", "jumpsuits": "dresses",
+    "shortall": "dresses", "shortalls": "dresses",
+    "coverall": "dresses", "coveralls": "dresses",
+    "onesie": "dresses", "onesies": "dresses",
+    "one piece": "dresses", "one pieces": "dresses",
+    "one-piece": "dresses", "one-pieces": "dresses",
     # Misc remaining
     "jersey": "tshirts", "jerseys": "tshirts",  # team jerseys = oversized tees
 }
@@ -158,30 +173,49 @@ CATEGORY_IMPLIED_GENDER: dict[str, str] = {
 
 def normalize_category(product_type: str | None) -> str | None:
     """Return the canonical category token for a vendor `product_type`, or
-    None if no alias matches (caller logs an alias miss).
+    None if no alias matches.
 
-    Substring scan goes longest-alias-first so multi-word phrases beat their
-    constituent substrings: `"high top"` beats `"top"` for "High Top
-    Sneakers" — without this, "top" in the alias map (intended for "tank
-    top" / "crop top") wrongly routes Jordan footwear to `tshirts`. See
-    plans/cv_classify/senior_dev_v2.md §0 + §12 #11 for the empirical case.
+    Matching uses whole-word boundaries (not raw substring), then picks
+    the LATEST-ending match — the head noun of an English noun phrase
+    typically lives at the end. Length tie-break.
+
+    Why both rules matter:
+      - whole-word: "Short Sleeve Tees" must not return shorts via the
+        substring "short". With boundaries, "short" doesn't match a
+        token of the phrase ("short" the standalone word IS however
+        present in "Shorts" — separate case).
+      - last-position: "Mini Skirt" and "skirt" both match; we want
+        "skirt" via the multi-word "mini skirt" mapping. Latest-ending
+        beats earlier matches.
+      - length tiebreak: "tank top" and "top" both end at the same
+        position; longer alias wins so the more specific phrase routes.
     """
     if not product_type:
         return None
     key = product_type.lower().strip()
     if key in CATEGORY_ALIASES:
         return CATEGORY_ALIASES[key]
-    for alias in _ALIASES_BY_LENGTH_DESC:
-        if alias in key:
-            return CATEGORY_ALIASES[alias]
-    return None
+
+    # Find every alias that matches as a whole-word span. Collect
+    # (end_pos, alias_length, canonical) and pick latest-ending +
+    # longest. Mirrors text_categorize.categorize_by_text's tournament.
+    matches: list[tuple[int, int, str]] = []
+    for alias in CATEGORY_ALIASES:
+        pat = _alias_re(alias)
+        for m in pat.finditer(key):
+            matches.append((m.end(), len(alias), CATEGORY_ALIASES[alias]))
+    if not matches:
+        return None
+    matches.sort(key=lambda t: (t[0], t[1]))
+    return matches[-1][2]
 
 
-# Pre-compute the descending-length order once; the alias map is module-level
-# and immutable at runtime, so it's safe to memoize.
-_ALIASES_BY_LENGTH_DESC: tuple[str, ...] = tuple(
-    sorted(CATEGORY_ALIASES.keys(), key=len, reverse=True)
-)
+@lru_cache(maxsize=None)
+def _alias_re(alias: str) -> "re.Pattern[str]":
+    # Word-boundary regex per alias. Cached so repeated calls don't
+    # recompile. `re.escape` handles "high top" / "t-shirt" / "button-up"
+    # safely.
+    return re.compile(rf"(?<!\w){re.escape(alias)}(?!\w)", re.IGNORECASE)
 
 
 # Gender canonicalization — handles common vendor spellings.

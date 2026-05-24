@@ -28,16 +28,12 @@ import httpx
 from sqlalchemy import select, text
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from clothist_api.cv.reconcile import LLMCatVote, TextCatVote, reconcile
+from clothist_api.cv.reconcile import reconcile
 from clothist_api.cv.types import CVVerdict
 from clothist_api.db.session import SessionLocal
 from clothist_api.models import Product
-from clothist_api.services.llm_categorize import (
-    LLMCategoryVerdict, categorize_batch as llm_categorize_batch,
-)
-from clothist_api.services.text_categorize import (
-    CANONICAL_TITLE_CONF, categorize_by_text,
-)
+from clothist_api.scrapers.normalize import normalize_category
+from clothist_api.services.text_categorize import categorize_by_text, EXCLUDED_CATEGORY
 
 logger = logging.getLogger(__name__)
 
@@ -118,12 +114,13 @@ def _verdict_to_jsonb(
     *,
     scraper_previous: dict,
     colors_previous: list[str] | None,
-    llm_verdict: LLMCategoryVerdict | None,
-    text_verdict,  # TextCategoryVerdict — late-typed to avoid circular import
-    category_cascade: dict,
+    category_source: dict,
 ) -> dict:
     return {
-        "category": {
+        # CV's image-derived category guess. Kept for audit only — the
+        # writeback no longer uses it; vendor product_type is the single
+        # source of truth for category as of 2026-05-25.
+        "category_cv_audit": {
             "value": verdict.category,
             "confidence": round(verdict.category_confidence, 4),
             "runner_up": (
@@ -143,21 +140,7 @@ def _verdict_to_jsonb(
             {"value": name, "confidence": round(conf, 4), "source": "pillow+clip"}
             for name, conf in verdict.colors
         ],
-        "text_category": (
-            {
-                "value":         text_verdict.category,
-                "confidence":    round(text_verdict.confidence, 4),
-                "matched_alias": text_verdict.matched_alias,
-            } if text_verdict else None
-        ),
-        "llm_category": (
-            {
-                "value":      llm_verdict.category,
-                "confidence": round(llm_verdict.confidence, 4),
-                "model_id":   llm_verdict.model_id,
-            } if llm_verdict else None
-        ),
-        "category_cascade": category_cascade,
+        "category_source": category_source,
         "scraper_previous": scraper_previous,
         "colors_previous": colors_previous,
     }
@@ -176,16 +159,16 @@ async def classify(
     """Returns a counters dict for the summary line."""
     counters = {
         "fetched": 0, "image_fetch_failed": 0, "classified": 0,
-        # Cascade events — exactly one fires per product.
-        "cascade_text": 0, "cascade_llm": 0, "cascade_cv": 0, "cascade_other": 0,
-        # LLM call efficiency — how many products were skipped at the text stage.
-        "llm_calls_skipped_high_text_conf": 0,
-        # Gender (2-way).
+        # Category events — exactly one fires per product.
+        "category_vendor": 0,         # vendor product_type mapped
+        "category_non_clothing": 0,   # title flagged non-clothing → excluded
+        "category_uncategorized": 0,  # neither — fallback bucket
+        # Gender (2-way scraper-vs-CV).
         "cv_gender_corroborated": 0, "cv_gender_override": 0,
         "cv_gender_below_threshold": 0, "cv_gender_filled_gap": 0,
         "cv_gender_gap_unfilled": 0, "cv_gender_flatlay_guard": 0,
         "cv_gender_both_unknown": 0,
-        # Color (2-way).
+        # Color (2-way scraper-vs-CV).
         "cv_color_replaced": 0, "cv_color_kept": 0,
     }
 
@@ -220,56 +203,20 @@ async def classify(
                 for start in range(0, len(rows), batch_size):
                     chunk = rows[start:start + batch_size]
 
-                    # 4a. Text classify ALL rows synchronously (sub-ms each).
-                    text_verdicts = [
-                        categorize_by_text(title=r["title"], brand=r["brand"])
-                        for r in chunk
-                    ]
-
-                    # 4b. Only call the LLM for rows that text DIDN'T clear at
-                    #     the cascade threshold. Build a sparse list mapped
-                    #     back to original chunk indices.
-                    llm_indices: list[int] = []
-                    llm_rows: list[dict] = []
-                    for i, (r, tv) in enumerate(zip(chunk, text_verdicts, strict=True)):
-                        if tv.confidence >= CANONICAL_TITLE_CONF:
-                            counters["llm_calls_skipped_high_text_conf"] += 1
-                            continue
-                        llm_indices.append(i)
-                        llm_rows.append({
-                            "title": r["title"],
-                            "brand": r["brand"],
-                            "description": r["description"],
-                        })
-
-                    # 4c. Run image download + (filtered) LLM in parallel.
-                    #     llm_categorize_batch returns [] for empty input
-                    #     (handles the all-text-confident case naturally).
-                    image_bytes, sparse_llm_verdicts = await asyncio.gather(
-                        asyncio.gather(
-                            *[_download_image(client, r["image_url"]) for r in chunk],
-                            return_exceptions=False,
-                        ),
-                        llm_categorize_batch(llm_rows),
+                    # 4a. Image download. LLM is no longer called for
+                    #     category — vendor product_type carries that
+                    #     (services/text_categorize is now query-only).
+                    image_bytes = await asyncio.gather(
+                        *[_download_image(client, r["image_url"]) for r in chunk],
+                        return_exceptions=False,
                     )
 
-                    # 4d. Re-expand the sparse LLM verdicts back to chunk-length.
-                    llm_verdicts: list[LLMCategoryVerdict] = [
-                        LLMCategoryVerdict(None, 0.0, model_id) for _ in chunk
-                    ]
-                    for idx, v in zip(llm_indices, sparse_llm_verdicts, strict=True):
-                        llm_verdicts[idx] = v
-
-                    # 4e. Group: only CV-classify rows whose image_bytes is not None.
+                    # 4b. Group: only CV-classify rows whose image_bytes is not None.
                     images: list["PILImage.Image"] = []
                     urls: list[str] = []
                     byte_list: list[bytes] = []
                     keepers: list[dict] = []
-                    keeper_text_verdicts = []
-                    keeper_llm_verdicts: list[LLMCategoryVerdict] = []
-                    for r, b, tv, llm_v in zip(
-                        chunk, image_bytes, text_verdicts, llm_verdicts, strict=True,
-                    ):
+                    for r, b in zip(chunk, image_bytes, strict=True):
                         if not b:
                             counters["image_fetch_failed"] += 1
                             await _bump_fetch_failure(session, r["id"])
@@ -280,8 +227,6 @@ async def classify(
                             urls.append(r["image_url"])
                             byte_list.append(b)
                             keepers.append(r)
-                            keeper_text_verdicts.append(tv)
-                            keeper_llm_verdicts.append(llm_v)
                         except Exception as e:
                             logger.warning("cv_image_decode_failed id=%s err=%s", r["id"], e)
                             counters["image_fetch_failed"] += 1
@@ -294,26 +239,33 @@ async def classify(
                     verdicts = clf.classify_batch(images, urls, byte_list)
 
                     # 5. Reconcile + write per row.
-                    for r, v, tv, llm_v in zip(
-                        keepers, verdicts, keeper_text_verdicts, keeper_llm_verdicts,
-                        strict=True,
-                    ):
+                    for r, v in zip(keepers, verdicts, strict=True):
                         existing_attrs = r["attributes"] or {}
-                        text_vote = TextCatVote(
-                            category=tv.category,
-                            confidence=tv.confidence,
-                            matched_alias=tv.matched_alias,
-                        )
-                        llm_vote = LLMCatVote(
-                            category=llm_v.category, confidence=llm_v.confidence,
-                        )
+
+                        # Vendor product_type — the only category signal we
+                        # use. `raw_category` is the literal string from
+                        # /products.json ("Swimwear", "Sweatshirts", "Mini
+                        # dresses"). normalize_category maps it to a canonical
+                        # token or returns None for generic tags like
+                        # "Apparel". When None, we check the title for non-
+                        # clothing tokens (homewares / decor) → excluded;
+                        # else uncategorized.
+                        raw_cat = existing_attrs.get("raw_category")
+                        vendor_category = normalize_category(raw_cat)
+                        non_clothing_alias: str | None = None
+                        if vendor_category is None:
+                            tv = categorize_by_text(title=r["title"], brand=r["brand"])
+                            if tv.category == EXCLUDED_CATEGORY:
+                                non_clothing_alias = tv.matched_alias
+
                         decision = reconcile(
                             scraper_category=r["category"],
                             scraper_gender=r["gender"],
                             scraper_colors=r["colors"],
                             verdict=v,
-                            text_vote=text_vote,
-                            llm_vote=llm_vote,
+                            vendor_category=vendor_category,
+                            title=r["title"],
+                            non_clothing_alias=non_clothing_alias,
                         )
                         counters[decision.category_event] += 1
                         counters[decision.gender_event] += 1
@@ -326,9 +278,7 @@ async def classify(
                             colors_previous=(
                                 r["colors"] if decision.color_event == "cv_color_replaced" else None
                             ),
-                            text_verdict=tv,
-                            llm_verdict=llm_v,
-                            category_cascade=decision.category_cascade,
+                            category_source=decision.category_source,
                         )
                         merge_payload = {
                             "cv_verdict": cv_jsonb,

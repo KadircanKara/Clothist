@@ -30,7 +30,8 @@ logger = logging.getLogger(__name__)
 
 
 CANONICAL_CATEGORIES = [
-    "tshirts", "hoodies", "sweaters", "jackets", "pants", "jeans", "shorts",
+    "tshirts", "hoodies", "sweatshirts", "sweaters", "jackets", "pants",
+    "jeans", "shorts",
     "skirts", "dresses", "footwear", "accessories", "swimwear", "underwear",
 ]
 
@@ -40,7 +41,8 @@ You categorize fashion products into a fixed taxonomy. You will receive a JSON
 array of up to 10 products. For each product return one of these categories or
 null if no category is a clear fit:
 
-  tshirts, hoodies, sweaters, jackets, pants, jeans, shorts, skirts, dresses,
+  tshirts, hoodies, sweatshirts, sweaters, jackets, pants, jeans, shorts,
+  skirts, dresses,
   footwear, accessories, swimwear, underwear
 
 Rules
@@ -52,6 +54,8 @@ Rules
 - "swimwear" covers bikinis, swimsuits, swim shorts, board shorts.
 - A "polo" or "button-up shirt" is tshirts.
 - A "cardigan" or "knit" is sweaters; a "blazer" or "coat" is jackets.
+- A "hoodie" is hoodies; a "sweatshirt" / "crewneck sweatshirt" without a
+  hood is sweatshirts. Don't conflate them.
 - Pick AT MOST ONE category. If genuinely ambiguous, return null.
 
 Confidence
