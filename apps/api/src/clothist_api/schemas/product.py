@@ -16,6 +16,7 @@ class ProductOut(BaseModel):
     title: str
     brand: str | None = None
     category: str | None = None
+    gender: str | None = None
     description: str | None = None
     price: Decimal | None = None
     currency: str | None = None

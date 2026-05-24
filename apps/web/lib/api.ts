@@ -55,6 +55,12 @@ export function searchProducts(params: SearchParams): Promise<SearchResponse> {
   return request<SearchResponse>(`/search${buildQuery(params as Record<string, unknown>)}`);
 }
 
+import type { Product } from "./types";
+
+export function getProduct(idOrSlug: string): Promise<Product> {
+  return request<Product>(`/search/products/${encodeURIComponent(idOrSlug)}`);
+}
+
 export function getFacets(): Promise<FacetsResponse> {
   return request<FacetsResponse>("/search/facets");
 }

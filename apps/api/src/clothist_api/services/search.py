@@ -53,6 +53,7 @@ class SearchFilters:
     q: str | None = None
     category: str | None = None
     brand: str | None = None
+    gender: str | None = None
     color: str | None = None
     min_price: Decimal | None = None
     max_price: Decimal | None = None
@@ -78,6 +79,15 @@ def _build_where(f: SearchFilters, *, with_ts: bool) -> tuple[list[str], dict]:
     if f.brand:
         parts.append("brand = :p_brand")
         params["p_brand"] = f.brand
+    if f.gender:
+        # Men/Women catalog pages include unisex items by convention; an
+        # explicit unisex filter still narrows to unisex-only.
+        if f.gender in ("men", "women"):
+            parts.append("(gender = :p_gender OR gender = 'unisex')")
+            params["p_gender"] = f.gender
+        else:
+            parts.append("gender = :p_gender")
+            params["p_gender"] = f.gender
     if f.color:
         parts.append("colors @> ARRAY[:p_color]::text[]")
         params["p_color"] = f.color.lower()
@@ -190,6 +200,7 @@ def _row_to_product(row) -> Product:
         title=row["title"],
         brand=row["brand"],
         category=row["category"],
+        gender=row["gender"],
         description=row["description"],
         price=row["price"],
         currency=row["currency"],
@@ -284,6 +295,7 @@ def _orm_to_dict(p: Product) -> dict:
         "title": p.title,
         "brand": p.brand,
         "category": p.category,
+        "gender": p.gender,
         "description": p.description,
         "price": p.price,
         "currency": p.currency,

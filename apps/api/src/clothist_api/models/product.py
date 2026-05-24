@@ -36,6 +36,7 @@ class Product(Base):
     title: Mapped[str] = mapped_column(Text, nullable=False)
     brand: Mapped[str | None] = mapped_column(String(128))
     category: Mapped[str | None] = mapped_column(String(64), index=True)
+    gender: Mapped[str | None] = mapped_column(String(16), index=True)
     description: Mapped[str | None] = mapped_column(Text)
 
     price: Mapped[Decimal | None] = mapped_column(Numeric(10, 2))

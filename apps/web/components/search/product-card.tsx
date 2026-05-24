@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { formatPrice } from "@/lib/utils";
 import type { Product } from "@/lib/types";
@@ -26,17 +27,15 @@ export function ProductCard({ product, requestedFeatures = [] }: Props) {
   const matched = requestedFeatures.filter((f) => productFeatures.includes(f));
   const extra = matched.length - 2;
 
+  const v = product.attributes?.variants;
+  const hero = v && v.length > 0 ? v[0].image_url : product.image_url;
+
   return (
-    <a
-      href={product.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="group block"
-    >
+    <Link href={`/product/${product.retailer_product_id}`} className="group block">
       <div className="relative aspect-[3/4] w-full overflow-hidden bg-bg-alt hairline">
-        {product.image_url ? (
+        {hero ? (
           <Image
-            src={product.image_url}
+            src={hero}
             alt={product.title}
             fill
             sizes="(max-width: 768px) 50vw, (max-width: 1280px) 33vw, 25vw"
@@ -61,11 +60,7 @@ export function ProductCard({ product, requestedFeatures = [] }: Props) {
         >
           <div className="bg-gradient-to-t from-background via-background/85 to-transparent px-3 pb-3 pt-8">
             <p className="font-mono text-[11px] uppercase tracking-widest text-muted">
-              View at{" "}
-              {product.retailer === "seed"
-                ? (product.brand ?? "retailer").toUpperCase()
-                : product.retailer.toUpperCase()}{" "}
-              →
+              View product →
             </p>
           </div>
         </div>
@@ -108,6 +103,6 @@ export function ProductCard({ product, requestedFeatures = [] }: Props) {
           </div>
         )}
       </div>
-    </a>
+    </Link>
   );
 }

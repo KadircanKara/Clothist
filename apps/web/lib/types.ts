@@ -1,3 +1,9 @@
+export type ProductVariant = {
+  color: string;
+  image_url: string;
+  ai_generated?: boolean;
+};
+
 export type Product = {
   id: string;
   retailer: string;
@@ -6,6 +12,7 @@ export type Product = {
   title: string;
   brand: string | null;
   category: string | null;
+  gender: string | null;
   description: string | null;
   price: string | null;
   currency: string | null;
@@ -15,7 +22,9 @@ export type Product = {
   image_url: string | null;
   colors: string[] | null;
   sizes: string[] | null;
-  attributes: ({ features?: string[] } & Record<string, unknown>) | null;
+  attributes:
+    | ({ features?: string[]; variants?: ProductVariant[] } & Record<string, unknown>)
+    | null;
   in_stock: boolean;
 };
 
@@ -48,6 +57,7 @@ export type SearchParams = {
   q?: string;
   category?: string;
   brand?: string;
+  gender?: "men" | "women" | "unisex";
   color?: string;
   min_price?: number;
   max_price?: number;

@@ -3,10 +3,12 @@ from __future__ import annotations
 import logging
 from decimal import Decimal
 
-from fastapi import APIRouter, Depends, HTTPException, Query, Request, status
+from fastapi import APIRouter, Depends, HTTPException, Path, Query, Request, status
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from clothist_api.db.session import get_session
+from clothist_api.models import Product
 from clothist_api.rate_limit import limiter
 from clothist_api.schemas import (
     FacetsResponse,
@@ -19,6 +21,7 @@ from clothist_api.services.intent import parse_intent_cached
 from clothist_api.services.search import (
     SearchFilters,
     SearchPaging,
+    _orm_to_dict,
     apply_display_currency,
     get_facets,
     get_taxonomy_version,
@@ -38,6 +41,7 @@ async def search(
     q: str | None = Query(default=None, max_length=200, description="Free-text query"),
     category: str | None = None,
     brand: str | None = None,
+    gender: str | None = Query(default=None, pattern="^(?:men|women|unisex)$"),
     color: str | None = Query(default=None, max_length=32),
     min_price: Decimal | None = Query(default=None, ge=0),
     max_price: Decimal | None = Query(default=None, ge=0),
@@ -63,6 +67,7 @@ async def search(
         q=q,
         category=category,
         brand=brand,
+        gender=gender,
         color=color,
         min_price=min_price,
         max_price=max_price,
@@ -80,6 +85,42 @@ async def search(
         offset=offset,
         items=[ProductOut.model_validate(row) for row in rows],
     )
+
+
+@router.get("/products/{product_id}", response_model=ProductOut)
+async def get_product(
+    product_id: str = Path(min_length=1),
+    currency: str | None = Query(default=None, min_length=3, max_length=3),
+    session: AsyncSession = Depends(get_session),
+) -> ProductOut:
+    """Fetch a single product by UUID OR retailer_product_id (slug-friendly)."""
+    import uuid as _uuid
+
+    stmt = select(Product)
+    try:
+        as_uuid = _uuid.UUID(product_id)
+    except ValueError:
+        as_uuid = None
+    if as_uuid is not None:
+        stmt = stmt.where(Product.id == as_uuid)
+    else:
+        stmt = stmt.where(Product.retailer_product_id == product_id)
+    row = (await session.execute(stmt)).scalar_one_or_none()
+    if row is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="product not found")
+    raw = _orm_to_dict(row)
+    if currency:
+        from decimal import Decimal as _D
+
+        from clothist_api.services.fx import UnknownCurrencyError, rate_for
+
+        try:
+            rate = rate_for(currency.upper())
+            if row.price_usd is not None:
+                raw["display_price"] = (_D(row.price_usd) * rate).quantize(_D("0.01"))
+        except UnknownCurrencyError:
+            pass
+    return ProductOut.model_validate(raw)
 
 
 @router.get("/facets", response_model=FacetsResponse)

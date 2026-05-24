@@ -28,8 +28,26 @@
         "kangaroo_pocket",
         "oversized",
         "relaxed_fit"
+      ],
+      "variants": [
+        {
+          "color": "black",
+          "image_url": "https://images.unsplash.com/photo-1633292750937-120a94f5c2bb?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "cream",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20cream%20hoodie%20named%20%27Black%20Oversized%20Cotton%20Hoodie%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "navy",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20navy%20hoodie%20named%20%27Black%20Oversized%20Cotton%20Hoodie%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
       ]
-    }
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -59,8 +77,31 @@
         "hidden_pockets",
         "zip_pockets",
         "slim_fit"
+      ],
+      "variants": [
+        {
+          "color": "grey",
+          "image_url": "https://images.unsplash.com/photo-1564557287817-3785e38ec1f5?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20black%20hoodie%20named%20%27Minimalist%20Grey%20Hoodie%20with%20Hidden%20Zip%20Pocket%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "cream",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20cream%20hoodie%20named%20%27Minimalist%20Grey%20Hoodie%20with%20Hidden%20Zip%20Pocket%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "navy",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20navy%20hoodie%20named%20%27Minimalist%20Grey%20Hoodie%20with%20Hidden%20Zip%20Pocket%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
       ]
-    }
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -89,8 +130,26 @@
       "pocket_count": 2,
       "features": [
         "tapered_leg"
+      ],
+      "variants": [
+        {
+          "color": "navy",
+          "image_url": "https://images.unsplash.com/photo-1729780922545-8e940500c172?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20black%20hoodie%20named%20%27Navy%20Tech%20Fleece%20Full-Zip%20Hoodie%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "cream",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20cream%20hoodie%20named%20%27Navy%20Tech%20Fleece%20Full-Zip%20Hoodie%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
       ]
-    }
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -120,8 +179,26 @@
       "features": [
         "cargo_pockets",
         "relaxed_fit"
+      ],
+      "variants": [
+        {
+          "color": "black",
+          "image_url": "https://images.unsplash.com/photo-1548883354-7622d03aca27?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "khaki",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20khaki%20pant%20named%20%27Black%20Cargo%20Pants%20with%206%20Pockets%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "stone",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20stone%20pant%20named%20%27Black%20Cargo%20Pants%20with%206%20Pockets%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
       ]
-    }
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -151,8 +228,31 @@
         "cargo_pockets",
         "drawstring_hem",
         "reinforced_knees"
+      ],
+      "variants": [
+        {
+          "color": "olive",
+          "image_url": "https://images.unsplash.com/photo-1584865288642-42078afe6942?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "khaki",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20khaki%20pant%20named%20%27Olive%20Tactical%20Cargo%20Pants%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "black",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20black%20pant%20named%20%27Olive%20Tactical%20Cargo%20Pants%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "stone",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20stone%20pant%20named%20%27Olive%20Tactical%20Cargo%20Pants%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
       ]
-    }
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -180,8 +280,31 @@
       "pocket_count": 4,
       "features": [
         "wide_leg"
+      ],
+      "variants": [
+        {
+          "color": "beige",
+          "image_url": "https://images.unsplash.com/photo-1763673375433-e425a50a3464?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "khaki",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20khaki%20pant%20named%20%27Beige%20Wide-Leg%20Chinos%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "black",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20black%20pant%20named%20%27Beige%20Wide-Leg%20Chinos%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "stone",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20stone%20pant%20named%20%27Beige%20Wide-Leg%20Chinos%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
       ]
-    }
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -209,8 +332,26 @@
       "pocket_count": 4,
       "features": [
         "slim_fit"
+      ],
+      "variants": [
+        {
+          "color": "black",
+          "image_url": "https://images.unsplash.com/photo-1618886614638-80e3c103d31a?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "khaki",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20khaki%20pant%20named%20%27Slim%20Black%20Dress%20Trousers%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "stone",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20stone%20pant%20named%20%27Slim%20Black%20Dress%20Trousers%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
       ]
-    }
+    },
+    "gender": "women"
   },
   {
     "retailer": "seed",
@@ -237,8 +378,26 @@
       "fit": "straight",
       "material": "denim",
       "pocket_count": 5,
-      "features": []
-    }
+      "features": [],
+      "variants": [
+        {
+          "color": "indigo",
+          "image_url": "https://images.unsplash.com/photo-1631112230741-446762ee05ac?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20black%20jean%20named%20%27Classic%20501%20Original%20Fit%20Jeans%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "stone-wash",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20stone-wash%20jean%20named%20%27Classic%20501%20Original%20Fit%20Jeans%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
+      ]
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -266,8 +425,26 @@
       "pocket_count": 5,
       "features": [
         "relaxed_fit"
+      ],
+      "variants": [
+        {
+          "color": "black",
+          "image_url": "https://images.unsplash.com/photo-1718252540511-e958742e4165?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "indigo",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20indigo%20jean%20named%20%27Loose%20Black%20Wash%20Jeans%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "stone-wash",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20stone-wash%20jean%20named%20%27Loose%20Black%20Wash%20Jeans%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
       ]
-    }
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -295,8 +472,31 @@
       "pocket_count": 5,
       "features": [
         "slim_fit"
+      ],
+      "variants": [
+        {
+          "color": "light-blue",
+          "image_url": "https://images.unsplash.com/photo-1602293589930-45aad59ba3ab?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "indigo",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20indigo%20jean%20named%20%27Light%20Wash%20Slim%20Jeans%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "black",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20black%20jean%20named%20%27Light%20Wash%20Slim%20Jeans%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "stone-wash",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20stone-wash%20jean%20named%20%27Light%20Wash%20Slim%20Jeans%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
       ]
-    }
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -324,8 +524,31 @@
       "pocket_count": 4,
       "features": [
         "waterproof"
+      ],
+      "variants": [
+        {
+          "color": "forest",
+          "image_url": "https://images.unsplash.com/photo-1548883354-94bcfe321cbb?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20black%20jacket%20named%20%27Waterproof%20Rain%20Jacket%20-%20Trail%203L%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "olive",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20olive%20jacket%20named%20%27Waterproof%20Rain%20Jacket%20-%20Trail%203L%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "tan",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20tan%20jacket%20named%20%27Waterproof%20Rain%20Jacket%20-%20Trail%203L%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
       ]
-    }
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -353,8 +576,26 @@
       "pocket_count": 3,
       "features": [
         "zip_pockets"
+      ],
+      "variants": [
+        {
+          "color": "black",
+          "image_url": "https://images.unsplash.com/photo-1557418669-db3f781a58c0?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "olive",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20olive%20jacket%20named%20%27Insulated%20Puffer%20Jacket%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "tan",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20tan%20jacket%20named%20%27Insulated%20Puffer%20Jacket%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
       ]
-    }
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -381,8 +622,26 @@
       "pocket_count": 4,
       "features": [
         "cropped"
+      ],
+      "variants": [
+        {
+          "color": "black",
+          "image_url": "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "olive",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20olive%20jacket%20named%20%27Black%20Faux%20Leather%20Biker%20Jacket%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "tan",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20tan%20jacket%20named%20%27Black%20Faux%20Leather%20Biker%20Jacket%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
       ]
-    }
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -408,8 +667,31 @@
       "fit": "regular",
       "material": "cotton-twill",
       "pocket_count": 4,
-      "features": []
-    }
+      "features": [],
+      "variants": [
+        {
+          "color": "beige",
+          "image_url": "https://images.unsplash.com/photo-1676716105765-e19fe6a01851?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20black%20jacket%20named%20%27Beige%20Trench%20Coat%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "olive",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20olive%20jacket%20named%20%27Beige%20Trench%20Coat%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "tan",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20tan%20jacket%20named%20%27Beige%20Trench%20Coat%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
+      ]
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -436,8 +718,26 @@
       "fit": "boxy",
       "material": "cotton",
       "weight_gsm": 240,
-      "features": []
-    }
+      "features": [],
+      "variants": [
+        {
+          "color": "white",
+          "image_url": "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20black%20tshirt%20named%20%27Heavyweight%20White%20Cotton%20T-Shirt%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "olive",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20olive%20tshirt%20named%20%27Heavyweight%20White%20Cotton%20T-Shirt%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
+      ]
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -462,8 +762,31 @@
     "attributes": {
       "fit": "regular",
       "material": "cotton",
-      "features": []
-    }
+      "features": [],
+      "variants": [
+        {
+          "color": "faded-black",
+          "image_url": "https://images.unsplash.com/photo-1758300012429-d46a483777d8?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "white",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20white%20tshirt%20named%20%27Vintage%20Wash%20Graphic%20Tee%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "black",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20black%20tshirt%20named%20%27Vintage%20Wash%20Graphic%20Tee%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "olive",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20olive%20tshirt%20named%20%27Vintage%20Wash%20Graphic%20Tee%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
+      ]
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -493,8 +816,26 @@
       "material": "polyester",
       "features": [
         "moisture_wicking"
+      ],
+      "variants": [
+        {
+          "color": "black",
+          "image_url": "https://images.unsplash.com/photo-1686247166132-be2e27035108?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "white",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20white%20tshirt%20named%20%27Dri-FIT%20Performance%20Tee%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "olive",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20olive%20tshirt%20named%20%27Dri-FIT%20Performance%20Tee%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
       ]
-    }
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -519,8 +860,31 @@
     "attributes": {
       "fit": "regular",
       "material": "cotton",
-      "features": []
-    }
+      "features": [],
+      "variants": [
+        {
+          "color": "navy/white",
+          "image_url": "https://images.unsplash.com/photo-1686135153032-ce4813dfbcff?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "white",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20white%20tshirt%20named%20%27Striped%20Long-Sleeve%20Tee%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "black",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20black%20tshirt%20named%20%27Striped%20Long-Sleeve%20Tee%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "olive",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20olive%20tshirt%20named%20%27Striped%20Long-Sleeve%20Tee%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
+      ]
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -546,8 +910,26 @@
     "attributes": {
       "material": "leather",
       "style": "low-top",
-      "features": []
-    }
+      "features": [],
+      "variants": [
+        {
+          "color": "white",
+          "image_url": "https://images.unsplash.com/photo-1615109255406-2a4354fc6b3e?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20black%20sneaker%20named%20%27Air%20Force%201%20%2707%20Sneakers%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "grey",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20grey%20sneaker%20named%20%27Air%20Force%201%20%2707%20Sneakers%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
+      ]
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -573,8 +955,31 @@
     "attributes": {
       "material": "leather-suede",
       "style": "low-top",
-      "features": []
-    }
+      "features": [],
+      "variants": [
+        {
+          "color": "black/white",
+          "image_url": "https://images.unsplash.com/photo-1587563871167-1ee9c731aefb?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "white",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20white%20sneaker%20named%20%27Samba%20OG%20Sneakers%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "black",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20black%20sneaker%20named%20%27Samba%20OG%20Sneakers%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "grey",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20grey%20sneaker%20named%20%27Samba%20OG%20Sneakers%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
+      ]
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -599,8 +1004,31 @@
     "attributes": {
       "material": "synthetic",
       "style": "chunky",
-      "features": []
-    }
+      "features": [],
+      "variants": [
+        {
+          "color": "beige",
+          "image_url": "https://images.unsplash.com/photo-1748354815058-b098acf7f009?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "white",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20white%20sneaker%20named%20%27Chunky%20Dad%20Sneakers%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "black",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20black%20sneaker%20named%20%27Chunky%20Dad%20Sneakers%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "grey",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20grey%20sneaker%20named%20%27Chunky%20Dad%20Sneakers%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
+      ]
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -625,8 +1053,26 @@
     "attributes": {
       "fit": "regular",
       "material": "wool-blend",
-      "features": []
-    }
+      "features": [],
+      "variants": [
+        {
+          "color": "cream",
+          "image_url": "https://images.unsplash.com/photo-1631541909061-71e349d1f203?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "navy",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20navy%20sweater%20named%20%27Cable-Knit%20Wool%20Sweater%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "rust",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20rust%20sweater%20named%20%27Cable-Knit%20Wool%20Sweater%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
+      ]
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -652,8 +1098,31 @@
       "material": "acrylic-wool",
       "features": [
         "oversized"
+      ],
+      "variants": [
+        {
+          "color": "charcoal",
+          "image_url": "https://images.unsplash.com/photo-1610901157620-340856d0a50f?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "cream",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20cream%20sweater%20named%20%27Oversized%20Mock-Neck%20Sweater%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "navy",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20navy%20sweater%20named%20%27Oversized%20Mock-Neck%20Sweater%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "rust",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20rust%20sweater%20named%20%27Oversized%20Mock-Neck%20Sweater%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
       ]
-    }
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -680,8 +1149,31 @@
       "material": "rib-knit",
       "features": [
         "cropped"
+      ],
+      "variants": [
+        {
+          "color": "pink",
+          "image_url": "https://images.unsplash.com/photo-1738927609747-6846c608fdfe?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "cream",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20cream%20sweater%20named%20%27Cropped%20Cardigan%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "navy",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20navy%20sweater%20named%20%27Cropped%20Cardigan%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "rust",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20rust%20sweater%20named%20%27Cropped%20Cardigan%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
       ]
-    }
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -707,8 +1199,31 @@
       "fit": "regular",
       "material": "linen",
       "length": "midi",
-      "features": []
-    }
+      "features": [],
+      "variants": [
+        {
+          "color": "sand",
+          "image_url": "https://images.unsplash.com/photo-1733043014211-8d699f6a82b1?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20black%20dresse%20named%20%27Linen%20Midi%20Dress%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "cream",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20cream%20dresse%20named%20%27Linen%20Midi%20Dress%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "rust",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20rust%20dresse%20named%20%27Linen%20Midi%20Dress%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
+      ]
+    },
+    "gender": "women"
   },
   {
     "retailer": "seed",
@@ -733,8 +1248,31 @@
     "attributes": {
       "fit": "wrap",
       "material": "viscose",
-      "features": []
-    }
+      "features": [],
+      "variants": [
+        {
+          "color": "floral",
+          "image_url": "https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20black%20dresse%20named%20%27Floral%20Wrap%20Dress%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "cream",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20cream%20dresse%20named%20%27Floral%20Wrap%20Dress%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "rust",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20rust%20dresse%20named%20%27Floral%20Wrap%20Dress%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
+      ]
+    },
+    "gender": "women"
   },
   {
     "retailer": "seed",
@@ -759,8 +1297,26 @@
     "attributes": {
       "fit": "slip",
       "material": "satin",
-      "features": []
-    }
+      "features": [],
+      "variants": [
+        {
+          "color": "black",
+          "image_url": "https://images.unsplash.com/photo-1656284518334-710b60cd63a0?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "cream",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20cream%20dresse%20named%20%27Little%20Black%20Slip%20Dress%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "rust",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20rust%20dresse%20named%20%27Little%20Black%20Slip%20Dress%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
+      ]
+    },
+    "gender": "women"
   },
   {
     "retailer": "seed",
@@ -785,8 +1341,31 @@
     "attributes": {
       "fit": "regular",
       "material": "cotton-twill",
-      "features": []
-    }
+      "features": [],
+      "variants": [
+        {
+          "color": "khaki",
+          "image_url": "https://images.unsplash.com/photo-1730651424770-a27017708af2?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20black%20short%20named%20%27Cotton%20Twill%20Shorts%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "olive",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20olive%20short%20named%20%27Cotton%20Twill%20Shorts%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "stone",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20stone%20short%20named%20%27Cotton%20Twill%20Shorts%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
+      ]
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -811,8 +1390,26 @@
     "attributes": {
       "fit": "athletic",
       "material": "polyester-mesh",
-      "features": []
-    }
+      "features": [],
+      "variants": [
+        {
+          "color": "black",
+          "image_url": "https://images.unsplash.com/photo-1680492775002-641a20e202ca?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "olive",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20olive%20short%20named%20%27Athletic%20Mesh%20Running%20Shorts%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "stone",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20stone%20short%20named%20%27Athletic%20Mesh%20Running%20Shorts%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
+      ]
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -837,8 +1434,31 @@
     "attributes": {
       "fit": "regular",
       "material": "denim",
-      "features": []
-    }
+      "features": [],
+      "variants": [
+        {
+          "color": "blue",
+          "image_url": "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20black%20short%20named%20%27Denim%20Cut-Off%20Shorts%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "olive",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20olive%20short%20named%20%27Denim%20Cut-Off%20Shorts%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "stone",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20stone%20short%20named%20%27Denim%20Cut-Off%20Shorts%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
+      ]
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -863,8 +1483,31 @@
     "attributes": {
       "fit": "pleated",
       "material": "polyester",
-      "features": []
-    }
+      "features": [],
+      "variants": [
+        {
+          "color": "white",
+          "image_url": "https://images.unsplash.com/photo-1677368744545-c5a4d7de7225?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20black%20skirt%20named%20%27Pleated%20Tennis%20Skirt%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "cream",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20cream%20skirt%20named%20%27Pleated%20Tennis%20Skirt%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "tan",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20tan%20skirt%20named%20%27Pleated%20Tennis%20Skirt%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
+      ]
+    },
+    "gender": "women"
   },
   {
     "retailer": "seed",
@@ -889,8 +1532,31 @@
     "attributes": {
       "fit": "high-waist",
       "material": "faux-leather",
-      "features": []
-    }
+      "features": [],
+      "variants": [
+        {
+          "color": "brown",
+          "image_url": "https://images.unsplash.com/photo-1714205901200-4662d2911ed0?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20black%20skirt%20named%20%27Leather%20Midi%20Skirt%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "cream",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20cream%20skirt%20named%20%27Leather%20Midi%20Skirt%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "tan",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20tan%20skirt%20named%20%27Leather%20Midi%20Skirt%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
+      ]
+    },
+    "gender": "women"
   },
   {
     "retailer": "seed",
@@ -916,8 +1582,31 @@
       "fit": "regular",
       "material": "wool-blend",
       "pocket_count": 4,
-      "features": []
-    }
+      "features": [],
+      "variants": [
+        {
+          "color": "camel",
+          "image_url": "https://images.unsplash.com/photo-1539533113208-f6df8cc8b543?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20black%20jacket%20named%20%27Long%20Wool%20Overcoat%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "olive",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20olive%20jacket%20named%20%27Long%20Wool%20Overcoat%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "tan",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20tan%20jacket%20named%20%27Long%20Wool%20Overcoat%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
+      ]
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -945,8 +1634,31 @@
       "pocket_count": 4,
       "features": [
         "fleece_lined"
+      ],
+      "variants": [
+        {
+          "color": "sand",
+          "image_url": "https://images.unsplash.com/photo-1608976198709-5e70a09b9ff0?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20black%20jacket%20named%20%27Detroit%20Workwear%20Jacket%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "olive",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20olive%20jacket%20named%20%27Detroit%20Workwear%20Jacket%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "tan",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20tan%20jacket%20named%20%27Detroit%20Workwear%20Jacket%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
       ]
-    }
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -972,8 +1684,31 @@
       "fit": "regular",
       "material": "denim",
       "pocket_count": 4,
-      "features": []
-    }
+      "features": [],
+      "variants": [
+        {
+          "color": "blue",
+          "image_url": "https://images.unsplash.com/photo-1611312449408-fcece27cdbb7?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20black%20jacket%20named%20%27Denim%20Trucker%20Jacket%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "olive",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20olive%20jacket%20named%20%27Denim%20Trucker%20Jacket%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "tan",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20tan%20jacket%20named%20%27Denim%20Trucker%20Jacket%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
+      ]
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -1001,8 +1736,26 @@
       "pocket_count": 2,
       "features": [
         "wide_leg"
+      ],
+      "variants": [
+        {
+          "color": "black",
+          "image_url": "https://images.unsplash.com/photo-1618886614638-80e3c103d31a?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "khaki",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20khaki%20pant%20named%20%27Black%20Pleated%20Wide-Leg%20Trousers%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "stone",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20stone%20pant%20named%20%27Black%20Pleated%20Wide-Leg%20Trousers%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
       ]
-    }
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -1031,8 +1784,26 @@
       "features": [
         "tapered_leg",
         "elastic_waist"
+      ],
+      "variants": [
+        {
+          "color": "black",
+          "image_url": "https://images.unsplash.com/photo-1618453292507-4959ece6429e?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "khaki",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20khaki%20pant%20named%20%27Joggers%20with%20Tapered%20Leg%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "stone",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20stone%20pant%20named%20%27Joggers%20with%20Tapered%20Leg%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
       ]
-    }
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -1057,8 +1828,31 @@
     "attributes": {
       "fit": "regular",
       "material": "cotton-loopback",
-      "features": []
-    }
+      "features": [],
+      "variants": [
+        {
+          "color": "grey",
+          "image_url": "https://images.unsplash.com/photo-1610222034376-8dd1149e0e60?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20black%20hoodie%20named%20%27Crewneck%20Sweatshirt%20in%20Heather%20Grey%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "cream",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20cream%20hoodie%20named%20%27Crewneck%20Sweatshirt%20in%20Heather%20Grey%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "navy",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20navy%20hoodie%20named%20%27Crewneck%20Sweatshirt%20in%20Heather%20Grey%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
+      ]
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -1085,8 +1879,26 @@
       "pocket_count": 2,
       "features": [
         "slim_fit"
+      ],
+      "variants": [
+        {
+          "color": "navy",
+          "image_url": "https://images.unsplash.com/photo-1710330972862-dfdce0fc821f?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20black%20hoodie%20named%20%27Zip-Front%20Sweatshirt%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "cream",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20cream%20hoodie%20named%20%27Zip-Front%20Sweatshirt%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
       ]
-    }
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -1113,8 +1925,31 @@
     "attributes": {
       "fit": "regular",
       "material": "pique-cotton",
-      "features": []
-    }
+      "features": [],
+      "variants": [
+        {
+          "color": "navy",
+          "image_url": "https://images.unsplash.com/photo-1625910513413-c23b8bb81cba?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "white",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20white%20tshirt%20named%20%27Polo%20Shirt%20in%20Pique%20Cotton%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "black",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20black%20tshirt%20named%20%27Polo%20Shirt%20in%20Pique%20Cotton%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "olive",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20olive%20tshirt%20named%20%27Polo%20Shirt%20in%20Pique%20Cotton%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
+      ]
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -1143,8 +1978,31 @@
       "pocket_count": 1,
       "features": [
         "oversized"
+      ],
+      "variants": [
+        {
+          "color": "washed-black",
+          "image_url": "https://images.unsplash.com/photo-1618453292459-53424b66bb6a?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "white",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20white%20tshirt%20named%20%27Oversized%20Pocket%20Tee%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "black",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20black%20tshirt%20named%20%27Oversized%20Pocket%20Tee%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "olive",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20olive%20tshirt%20named%20%27Oversized%20Pocket%20Tee%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
       ]
-    }
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -1171,8 +2029,26 @@
     "attributes": {
       "material": "leather",
       "style": "low-top",
-      "features": []
-    }
+      "features": [],
+      "variants": [
+        {
+          "color": "white",
+          "image_url": "https://images.unsplash.com/photo-1615109255406-2a4354fc6b3e?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20black%20sneaker%20named%20%27Stan%20Smith%20Sneakers%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "grey",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20grey%20sneaker%20named%20%27Stan%20Smith%20Sneakers%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
+      ]
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -1199,8 +2075,26 @@
     "attributes": {
       "material": "mesh",
       "style": "running",
-      "features": []
-    }
+      "features": [],
+      "variants": [
+        {
+          "color": "black",
+          "image_url": "https://images.unsplash.com/photo-1491553895911-0055eca6402d?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "white",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20white%20sneaker%20named%20%27Pegasus%2041%20Running%20Shoe%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "grey",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20grey%20sneaker%20named%20%27Pegasus%2041%20Running%20Shoe%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
+      ]
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -1225,8 +2119,31 @@
       "fit": "baggy",
       "material": "denim",
       "pocket_count": 5,
-      "features": []
-    }
+      "features": [],
+      "variants": [
+        {
+          "color": "light-blue",
+          "image_url": "https://images.unsplash.com/photo-1616956455145-7c40e34a1c2a?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "indigo",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20indigo%20jean%20named%20%27Aesthetic%20Y2K%20Baggy%20Jeans%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "black",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20black%20jean%20named%20%27Aesthetic%20Y2K%20Baggy%20Jeans%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "stone-wash",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20stone-wash%20jean%20named%20%27Aesthetic%20Y2K%20Baggy%20Jeans%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
+      ]
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -1255,8 +2172,31 @@
       "features": [
         "relaxed_fit",
         "tapered_leg"
+      ],
+      "variants": [
+        {
+          "color": "vintage-blue",
+          "image_url": "https://images.unsplash.com/photo-1546635834-78554e816d55?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "indigo",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20indigo%20jean%20named%20%27High-Rise%20Mom%20Jeans%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "black",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20black%20jean%20named%20%27High-Rise%20Mom%20Jeans%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "stone-wash",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20stone-wash%20jean%20named%20%27High-Rise%20Mom%20Jeans%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
       ]
-    }
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -1284,8 +2224,26 @@
       "pocket_count": 2,
       "features": [
         "zip_pockets"
+      ],
+      "variants": [
+        {
+          "color": "olive",
+          "image_url": "https://images.unsplash.com/photo-1579592608950-061960817dac?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20black%20jacket%20named%20%27Quilted%20Vest%20in%20Olive%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "tan",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20tan%20jacket%20named%20%27Quilted%20Vest%20in%20Olive%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
       ]
-    }
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -1313,8 +2271,26 @@
       "pocket_count": 1,
       "features": [
         "fleece_lined"
+      ],
+      "variants": [
+        {
+          "color": "cream",
+          "image_url": "https://images.unsplash.com/photo-1760661696925-85cd09cac428?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20black%20hoodie%20named%20%27Sherpa-Lined%20Fleece%20Pullover%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "navy",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20navy%20hoodie%20named%20%27Sherpa-Lined%20Fleece%20Pullover%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
       ]
-    }
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -1343,8 +2319,26 @@
       "features": [
         "embroidered_logo",
         "kangaroo_pocket"
+      ],
+      "variants": [
+        {
+          "color": "navy",
+          "image_url": "https://images.unsplash.com/photo-1633292750937-120a94f5c2bb?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20black%20hoodie%20named%20%27Champion%20Reverse%20Weave%20Hoodie%20with%20Big%20C%20Logo%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "cream",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20cream%20hoodie%20named%20%27Champion%20Reverse%20Weave%20Hoodie%20with%20Big%20C%20Logo%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
       ]
-    }
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -1372,8 +2366,26 @@
     "attributes": {
       "fit": "regular",
       "material": "cotton",
-      "features": []
-    }
+      "features": [],
+      "variants": [
+        {
+          "color": "white",
+          "image_url": "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20black%20tshirt%20named%20%27Basic%20Cotton%20Crew%20Neck%20Tee%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "olive",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20olive%20tshirt%20named%20%27Basic%20Cotton%20Crew%20Neck%20Tee%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
+      ]
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -1403,8 +2415,26 @@
         "waterproof",
         "windproof",
         "breathable"
+      ],
+      "variants": [
+        {
+          "color": "black",
+          "image_url": "https://images.unsplash.com/photo-1548883354-94bcfe321cbb?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "olive",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20olive%20jacket%20named%20%27Beta%20AR%20Waterproof%20Shell%20Jacket%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "tan",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20tan%20jacket%20named%20%27Beta%20AR%20Waterproof%20Shell%20Jacket%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
       ]
-    }
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -1434,8 +2464,26 @@
         "cropped",
         "fleece_lined",
         "hidden_pockets"
+      ],
+      "variants": [
+        {
+          "color": "black",
+          "image_url": "https://images.unsplash.com/photo-1564557287817-3785e38ec1f5?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "cream",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20cream%20hoodie%20named%20%27Cropped%20Fleece%20Hoodie%20with%20Hidden%20Zip%20Pocket%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "navy",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20navy%20hoodie%20named%20%27Cropped%20Fleece%20Hoodie%20with%20Hidden%20Zip%20Pocket%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
       ]
-    }
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -1462,8 +2510,26 @@
     "attributes": {
       "material": "leather",
       "style": "low-top",
-      "features": []
-    }
+      "features": [],
+      "variants": [
+        {
+          "color": "white",
+          "image_url": "https://images.unsplash.com/photo-1587563871167-1ee9c731aefb?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20black%20sneaker%20named%20%27Minimalist%20White%20Leather%20Sneakers%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "grey",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20grey%20sneaker%20named%20%27Minimalist%20White%20Leather%20Sneakers%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
+      ]
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -1493,8 +2559,26 @@
         "hidden_pockets",
         "waterproof",
         "reflective"
+      ],
+      "variants": [
+        {
+          "color": "black",
+          "image_url": "https://images.unsplash.com/photo-1557418669-db3f781a58c0?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "olive",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20olive%20jacket%20named%20%27Storm%20Commuter%20Tech%20Jacket%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "tan",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20tan%20jacket%20named%20%27Storm%20Commuter%20Tech%20Jacket%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
       ]
-    }
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -1524,8 +2608,26 @@
       "pocket_count": 1,
       "features": [
         "logo_free"
+      ],
+      "variants": [
+        {
+          "color": "black",
+          "image_url": "https://images.unsplash.com/photo-1610222034376-8dd1149e0e60?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "cream",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20cream%20hoodie%20named%20%27Clean%20Pullover%20Hoodie%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "navy",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20navy%20hoodie%20named%20%27Clean%20Pullover%20Hoodie%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
       ]
-    }
+    },
+    "gender": "unisex"
   },
   {
     "retailer": "seed",
@@ -1552,7 +2654,25 @@
     "attributes": {
       "fit": "regular",
       "material": "supima-cotton",
-      "features": []
-    }
+      "features": [],
+      "variants": [
+        {
+          "color": "white",
+          "image_url": "https://images.unsplash.com/photo-1686135153032-ce4813dfbcff?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
+        },
+        {
+          "color": "black",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20black%20tshirt%20named%20%27Supima%20Cotton%20Crew%20Neck%20T-Shirt%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        },
+        {
+          "color": "olive",
+          "image_url": "https://image.pollinations.ai/prompt/Studio%20fashion%20product%20photo%20of%20a%20olive%20tshirt%20named%20%27Supima%20Cotton%20Crew%20Neck%20T-Shirt%27%20on%20a%20plain%20neutral%20background%2C%20front-facing%2C%20e-commerce%20catalog%20shot%2C%20minimalist%20editorial%20style%2C%20soft%20natural%20lighting%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+          "ai_generated": true
+        }
+      ]
+    },
+    "gender": "unisex"
   }
 ]

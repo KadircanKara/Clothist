@@ -59,7 +59,7 @@ async def seed() -> int:
     update_cols = {
         col: stmt.excluded[col]
         for col in (
-            "url", "title", "brand", "category", "description",
+            "url", "title", "brand", "category", "gender", "description",
             "price", "currency", "fx_rate_used",
             "image_url", "colors", "sizes",
             "attributes", "in_stock", "scraped_at",
