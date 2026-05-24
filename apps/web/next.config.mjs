@@ -6,6 +6,7 @@ const nextConfig = {
       { protocol: "https", hostname: "picsum.photos" },
       { protocol: "https", hostname: "images.unsplash.com" },
       { protocol: "https", hostname: "image.pollinations.ai" },
+      { protocol: "https", hostname: "cdn.shopify.com" },
       { protocol: "https", hostname: "*.hm.com" },
       { protocol: "https", hostname: "*.zara.net" },
       { protocol: "https", hostname: "image.uniqlo.com" },

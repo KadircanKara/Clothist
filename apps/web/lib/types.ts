@@ -2,6 +2,12 @@ export type ProductVariant = {
   color: string;
   image_url: string;
   ai_generated?: boolean;
+  /** Per-variant in-stock signal (Shopify variants[].available). Phase 1
+   *  ingests populate this; renderers may ignore it for MVP. */
+  available?: boolean;
+  /** True when the variant's image is a positional/categorical guess
+   *  rather than a vendor-confirmed color match. Reserved for Phase 2 UI. */
+  image_inferred?: boolean;
 };
 
 export type Product = {

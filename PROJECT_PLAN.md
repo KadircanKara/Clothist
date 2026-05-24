@@ -40,16 +40,11 @@ Fastest path from user intent → ideal product discovery.
 
 ## Product Aggregation
 Retailers:
-- ASOS
-- Zara
-- H&M
-- Nike
-- Uniqlo
-- Trendyol
-- Amazon
-- Etsy
-- Farfetch
-- Additional adapters later
+- **Phase 1 — Shipped (Shopify storefronts):** Allbirds, Aimé Leon Dore,
+  Rothy's, Princess Polly, Kith. Public `/products.json` endpoint; see §24.
+- **Phase 3 — Deferred** (require HTML / JSON-LD / headless): ASOS, Zara,
+  H&M, Nike, Uniqlo, Trendyol, Amazon, Etsy (official API), Farfetch.
+- Additional adapters later.
 
 ## AI Search
 Examples:
@@ -550,13 +545,27 @@ Premium features:
 
 # 24. Recommended MVP Retailers
 
-Start with:
-- ASOS
-- Zara
-- H&M
-- Nike
-- Uniqlo
-- Trendyol
+**Phase 1 (Shopify-first pivot — May 2026, shipped per `plans/scraping/senior_dev_v2.md`):**
+- Allbirds — sneakers / unisex basics; tag-rich gender/color/material
+- Aimé Leon Dore — streetwear/suiting; men + women + unisex
+- Rothy's — women's footwear; deep colorway variety
+- Princess Polly — women's fast fashion; high SKU count
+- Kith — multi-vendor streetwear (Nike/Adidas/NB/Asics resells via Kith)
+
+The H&M-first plan above was reconsidered after live validation showed
+H&M's site requires breaking HTML category pages + Akamai bot challenges,
+versus Shopify's `/products.json` endpoint which is publicly documented and
+returns the entire catalog as JSON without authentication. The Shopify-five
+ingest ~500 real products in under a minute, with a per-source adapter that
+is ~80 LoC of vendor-specific tag mapping. See the locked plan.
+
+**Phase 3 (deferred until vision feature lands and Phase 1 stabilizes):**
+- ASOS — DataDome anti-bot; out of free-tier scope
+- Zara — hidden `/api-graphql/` requires cookie warmup
+- H&M — sitemap → JSON-LD per PDP; medium difficulty
+- Nike — modern SPA with anti-bot
+- Uniqlo — JSON-LD on PDPs; same pattern as H&M
+- Trendyol — regional; sitemap walking
 
 ---
 

@@ -114,9 +114,20 @@ Output: {{"category":"jackets","brand":null,"color":null,"in_stock_only":false,"
 """
 
 
+# Top-K cap on the brand list injected into the system prompt. Kith resells
+# 30+ vendor brands; combined with our other 4 self-brand sources the facets
+# brand list can balloon to ~35, blowing past the locked 1750-token prompt
+# budget (tests/test_prompt_budget.py). Top-K-by-count covers >95% of the
+# catalog because brand counts are Zipf-like. Callers pass brands sorted by
+# count desc; we just slice. The LLM still resolves brands not in the list —
+# the prompt's brand list is a hint, not a closed enum.
+PROMPT_BRAND_TOP_K = 20
+
+
 def _build_system_prompt(categories: list[str], brands: list[str], features: list[str]) -> str:
+    capped_brands = brands[:PROMPT_BRAND_TOP_K]
     cats = "\n".join(f"  - {c}" for c in categories) or "  (none yet)"
-    brs = "\n".join(f"  - {b}" for b in brands) or "  (none yet)"
+    brs = "\n".join(f"  - {b}" for b in capped_brands) or "  (none yet)"
     feats = "\n".join(f"  - {f}" for f in features) or "  (none yet)"
     return SYSTEM_PROMPT_TEMPLATE.format(categories=cats, brands=brs, features=feats)
 
