@@ -78,30 +78,25 @@ _CANONICAL_TOKEN_SETS = {
                     "heel", "heels", "stiletto", "stilettos", "pump", "pumps",
                     "oxford", "oxfords", "derby", "derbies", "slide", "slides",
                     "jordan", "piper", "pipers"},
-    "accessories": # Anything non-garment goes here. The list is broader than
-                   # the obvious bags/hats because the corpus has many
-                   # adjacent items (laces, insoles, lighters, ceramic
-                   # homewares, golf gear) that the prior tighter mapping
-                   # was dumping into "other".
+    "accessories": # Clothing-adjacent items: wearable (hats, jewelry, watches,
+                   # gloves, sunglasses) OR made of cloth/leather (bags,
+                   # wallets, scarves, socks, towels). Non-clothing items
+                   # (flasks, lighters, ceramics, keychains, golf gear) live
+                   # in NON_CLOTHING_TOKENS below and route to "excluded".
                    {"belt", "belts", "hat", "hats", "cap", "caps", "snapback",
                     "snapbacks", "beanie", "beanies", "scarf", "scarves",
                     "bag", "bags", "tote", "totes", "backpack", "backpacks",
                     "duffel", "duffels", "sling", "slings", "pouch", "pouches",
                     "clutch", "clutches", "crossbody", "satchel", "satchels",
-                    "wallet", "wallets", "cardholder", "card", "keychain",
-                    "keychains", "bandana", "bandanas", "glove", "gloves",
+                    "wallet", "wallets", "cardholder",
+                    "bandana", "bandanas", "glove", "gloves",
                     "mitten", "mittens", "sunglasses", "glasses", "goggle",
                     "goggles", "jewelry", "necklace", "necklaces", "bracelet",
                     "bracelets", "ring", "rings", "earring", "earrings",
-                    "watch", "watches", "towel", "towels", "cover", "covers",
-                    "case", "cases", "mask", "masks", "sock", "socks",
-                    "lace", "laces", "strap", "straps", "insole", "insoles",
-                    "flask", "flasks", "lighter", "lighters", "cutter",
-                    "cutters", "tool", "tools", "holder", "holders",
-                    "ceramic", "basket", "baskets", "pin", "pins",
-                    "patch", "patches", "umbrella", "umbrellas",
-                    "headband", "headbands", "wristband", "wristbands",
-                    "charm", "charms"},
+                    "watch", "watches", "towel", "towels",
+                    "sock", "socks", "lace", "laces", "strap", "straps",
+                    "insole", "insoles", "pin", "pins", "patch", "patches",
+                    "headband", "headbands", "wristband", "wristbands"},
     "swimwear":    {"bikini", "bikinis", "swimsuit", "swimsuits", "swimwear"},
     "underwear":   {"underwear", "lingerie", "bra", "bras", "briefs", "boxer",
                     "boxers", "trunk", "trunks"},
@@ -140,15 +135,78 @@ _STRONG_MULTI_WORD_ALIASES: dict[str, str] = {
     "tote bag": "accessories",
     "duffel bag": "accessories",
     "bucket bag": "accessories",
-    "pint basket": "accessories",
+    # `card case` / `card holder` / `phone case` are leather/cloth wallet-
+    # adjacent items so they get a clothing slot. Bare "case" / "cover" /
+    # "holder" are too generic (cigar case, putter cover, egg holder) and
+    # so are NOT in the canonical tokens — non-clothing equivalents in
+    # NON_CLOTHING_MULTI_WORD catch those.
     "card case": "accessories",
     "card holder": "accessories",
+    "phone case": "accessories",
+    "phone cover": "accessories",
     "face mask": "accessories",
+    "ski mask": "accessories",
     "tie top": "swimwear",          # Kith Women bikini tops
     "tie bottom": "swimwear",       # Kith Women bikini bottoms
     "triangle top": "swimwear",
     "halter top": "tshirts",
     "strapless top": "tshirts",
+}
+
+
+# ----------------------- Non-clothing detection ----------------------- #
+#
+# The app is Clothist — it only carries clothing. Items that are neither
+# wearable nor made of cloth (a paper fan, a wooden model sailboat, a
+# ceramic egg holder, a golf cigar cutter) route to the "excluded"
+# category instead of trying to force-fit a clothing label, and the
+# search API hides them from filter facets + browse pages.
+#
+# Inspired by the user's calibration examples (2026-05-24):
+#   towel ✓   keychain ✗   flask ✗   cigar cutter ✗   bag ✓   putter cover ✗
+#
+# The detection uses the same end-position + length tiebreak as the
+# clothing matcher so "Marina Bottle Tote" routes via the later-ending
+# clothing token "tote" instead of the non-clothing "bottle".
+
+EXCLUDED_CATEGORY = "excluded"
+
+NON_CLOTHING_TOKENS: set[str] = {
+    # Drinkware / kitchenware
+    "flask", "flasks", "tumbler", "tumblers", "mug", "mugs",
+    "ashtray", "ashtrays", "candle", "candles",
+    # Tools + metal trinkets (the ALD Golf line — cigar cutters, divot
+    # tools, lighters, keychains, charms are all non-clothing).
+    "lighter", "lighters", "cutter", "cutters", "opener", "openers",
+    "keychain", "keychains", "charm", "charms",
+    # Homewares (Kith Treats Farmers Market ceramic line)
+    "ceramic", "ceramics", "basket", "baskets",
+    # Sports gear that isn't apparel
+    "putter", "putters", "divot",
+    # Tobacco
+    "cigar", "cigars",
+    # Wood/decor model items
+    "sailboat", "sailboats",
+    # Paper fans (Princess Polly novelty item) — NOT ceiling/sports fan;
+    # apparel catalogues rarely use "fan" any other way.
+    "fan", "fans",
+    # Umbrella — polyester technically a "cloth" but the user's strict
+    # reading is "wearable OR cloth used in clothing"; umbrellas don't
+    # qualify.
+    "umbrella", "umbrellas",
+}
+
+NON_CLOTHING_MULTI_WORD: set[str] = {
+    # Golf club covers — fabric-ish but for clubs, not people
+    "putter cover", "driver cover", "club cover", "head cover",
+    # Tools
+    "divot tool",
+    # Homewares with non-clothing head noun
+    "bottle holder", "egg holder", "cigar holder",
+    # Cigar/Tobacco accessories
+    "cigar case",
+    # Wood decor
+    "model sailboat",
 }
 
 
@@ -199,6 +257,16 @@ _WEAK_RE = re.compile(
     re.IGNORECASE,
 )
 
+# Non-clothing detection patterns.
+_NON_CLOTHING_TOKEN_RE = re.compile(
+    r"\b(" + "|".join(re.escape(t) for t in NON_CLOTHING_TOKENS) + r")\b",
+    re.IGNORECASE,
+)
+_NON_CLOTHING_MULTI_WORD_RE = re.compile(
+    r"\b(" + "|".join(re.escape(k) for k in NON_CLOTHING_MULTI_WORD) + r")\b",
+    re.IGNORECASE,
+)
+
 
 @dataclass(slots=True)
 class TextCategoryVerdict:
@@ -217,22 +285,26 @@ def categorize_by_text(*, title: str, brand: str | None = None) -> TextCategoryV
     """Classify a product by its title (+ optionally brand).
 
     Match algorithm:
-      1. Among ALL canonical-token + strong-multi-word matches, pick the
-         one whose match starts LATEST in the title. English noun phrases
-         put the head noun at the end ("Windbreaker Pant" → pants, not
-         jackets; "Polo Shirt" → tshirts via either polo or shirt). 0.97.
-      2. If no strong match, try weak single-word aliases (also
-         last-position). 0.80.
+      1. Gather ALL strong matches across the clothing AND non-clothing
+         vocabularies. The latest-ending match wins (with length as a
+         tiebreak). Clothing matches return their normal category at
+         0.97; non-clothing matches return "excluded" at 0.97.
+      2. If no strong match, try weak single-word clothing aliases at 0.80.
       3. No match → (None, 0.0).
+
+    The head-noun heuristic (latest position wins) handles tricky cases:
+      - "Marina Bottle Tote" → "tote" ends later than the non-clothing
+        "bottle" → accessories (kept).
+      - "ALD Golf Putter Cover" → "putter cover" (non-clothing) is the
+        only strong match → excluded (filtered out).
+      - "Swim Trunks Navy" → "swim trunks" beats bare "trunks" on length
+        tiebreak → swimwear.
     """
     haystack = title.lower()
 
-    # 1. Gather every strong match (canonical-token or multi-word) with
-    #    its (end_pos, length, category, alias). Pick the LAST-ending
-    #    winner. Sorting by end-pos (rather than start-pos) means
-    #    "Swim Trunks Navy" routes via "swim trunks" → swimwear instead
-    #    of bare "trunks" → underwear: both end at the same position, so
-    #    the longer (more specific) alias wins the tiebreak.
+    # 1. Gather every strong match (clothing canonical/multi-word AND
+    #    non-clothing). Each entry: (end_pos, length, category, alias).
+    #    Latest-ending winner with longer-alias tiebreak.
     strong_matches: list[tuple[int, int, str, str]] = []
     for m in _MULTI_WORD_RE.finditer(haystack):
         alias = m.group(1).lower()
@@ -242,6 +314,15 @@ def categorize_by_text(*, title: str, brand: str | None = None) -> TextCategoryV
         for m in pattern.finditer(haystack):
             strong_matches.append((m.end(), len(m.group(1)),
                                     cat, m.group(1).lower()))
+    # Non-clothing matches use the SAME comparison pool — they only win
+    # when they appear later than any clothing match.
+    for m in _NON_CLOTHING_MULTI_WORD_RE.finditer(haystack):
+        alias = m.group(1).lower()
+        strong_matches.append((m.end(), len(alias),
+                                EXCLUDED_CATEGORY, alias))
+    for m in _NON_CLOTHING_TOKEN_RE.finditer(haystack):
+        strong_matches.append((m.end(), len(m.group(1)),
+                                EXCLUDED_CATEGORY, m.group(1).lower()))
     if strong_matches:
         strong_matches.sort(key=lambda t: (t[0], t[1]))
         _, _, cat, alias = strong_matches[-1]

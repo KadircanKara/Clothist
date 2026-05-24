@@ -37,6 +37,7 @@ from clothist_api.services.color_groups import (
 )
 from clothist_api.services.features_vocab import get_features_vocabulary
 from clothist_api.services.fx import snapshot_date
+from clothist_api.services.text_categorize import EXCLUDED_CATEGORY
 
 logger = logging.getLogger(__name__)
 
@@ -78,6 +79,14 @@ class SearchPaging:
 def _build_where(f: SearchFilters, *, with_ts: bool) -> tuple[list[str], dict]:
     parts: list[str] = []
     params: dict = {}
+    # Non-clothing items (flasks, cigar cutters, model sailboats, etc.)
+    # never surface in the app. They live in the DB so we can re-classify
+    # if the detection improves, but the search API treats them as if
+    # they don't exist. If a caller explicitly asks for `category=excluded`
+    # we honor it (admin/debug path), otherwise we filter them out.
+    if f.category != EXCLUDED_CATEGORY:
+        parts.append("(category IS NULL OR category != :p_excluded_cat)")
+        params["p_excluded_cat"] = EXCLUDED_CATEGORY
     if f.category:
         parts.append("category = :p_category")
         params["p_category"] = f.category
@@ -241,18 +250,26 @@ async def get_taxonomy_version(session: AsyncSession) -> int:
 
 
 async def _compute_facets(session: AsyncSession) -> dict:
+    # Drop "excluded" from category facets — non-clothing items are hidden
+    # from search results, so showing the chip would let users navigate
+    # to an empty grid.
     cat_rows = (
         await session.execute(
             select(Product.category, func.count(Product.id))
             .where(Product.category.is_not(None))
+            .where(Product.category != EXCLUDED_CATEGORY)
             .group_by(Product.category)
             .order_by(func.count(Product.id).desc())
         )
     ).all()
+    # Brand facets: also hide brands that ONLY appear on excluded products
+    # (otherwise an "ALD Treats" homewares-only brand would surface a
+    # filter chip whose page is empty).
     brand_rows = (
         await session.execute(
             select(Product.brand, func.count(Product.id))
             .where(Product.brand.is_not(None))
+            .where(Product.category.is_(None) | (Product.category != EXCLUDED_CATEGORY))
             .group_by(Product.brand)
             .order_by(func.count(Product.id).desc())
         )
@@ -267,8 +284,9 @@ async def _compute_facets(session: AsyncSession) -> dict:
             text(
                 "SELECT c, COUNT(*) FROM products, "
                 "unnest(coalesce(colors, ARRAY[]::text[])) AS c "
+                "WHERE products.category IS NULL OR products.category != :excluded "
                 "GROUP BY c"
-            )
+            ).bindparams(excluded=EXCLUDED_CATEGORY)
         )
     ).all()
     group_counts: dict[str, int] = {g: 0 for g in MAIN_COLOR_GROUPS}
@@ -282,7 +300,10 @@ async def _compute_facets(session: AsyncSession) -> dict:
     # with zero products from the response.
     color_rows = [(g, group_counts[g]) for g in MAIN_COLOR_GROUPS if group_counts[g] > 0]
     price_row = (
-        await session.execute(select(func.min(Product.price_usd), func.max(Product.price_usd)))
+        await session.execute(
+            select(func.min(Product.price_usd), func.max(Product.price_usd))
+            .where(Product.category.is_(None) | (Product.category != EXCLUDED_CATEGORY))
+        )
     ).one()
     return {
         "categories": [{"value": v, "count": c} for v, c in cat_rows],
