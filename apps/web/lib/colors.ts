@@ -19,6 +19,20 @@ const COLOR_HEX: Record<string, string> = Object.fromEntries(
 );
 
 /**
+ * Granular color → main group lookup. Mirrors the backend
+ * services/color_groups.py so the search page can derive its own
+ * "result-set facets" without a roundtrip.
+ */
+export const COLOR_TO_GROUP: Record<string, string> = Object.fromEntries(
+  colorsData.colors.map((c) => [c.name, (c as { group: string }).group]),
+);
+
+/** Canonical ordering for the 12 main filter chips. */
+export const MAIN_COLOR_GROUPS: string[] = colorsData.groups.map(
+  (g: { name: string }) => g.name,
+);
+
+/**
  * Return a CSS `background` value that visually represents the color. Falls
  * back to a neutral cream→stone gradient for unknown names so the dot never
  * renders as a generic "?" placeholder.

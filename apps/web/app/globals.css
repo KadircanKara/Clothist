@@ -257,6 +257,12 @@ body:has(.commerce) .grain {
 .anim-fade {
   animation: fade 0.8s ease-out both;
 }
+.staged-spin {
+  animation: stagedSpin 0.85s linear infinite;
+}
+@keyframes stagedSpin {
+  to { transform: rotate(360deg); }
+}
 
 /* Stagger helpers */
 .delay-100 { animation-delay: 100ms; }

@@ -15,9 +15,10 @@ import { ExampleQueries } from "./example-queries";
 import { IntentChips } from "./intent-chips";
 import { ProductCard } from "./product-card";
 import { SkeletonGrid } from "./skeleton-grid";
-import { ApiError, getFacets, parseIntent, searchProducts } from "@/lib/api";
+import { StagedLoader, type LoaderStage } from "./staged-loader";
+import { ApiError, parseIntent, searchProducts } from "@/lib/api";
+import { deriveFacets } from "@/lib/derive-facets";
 import type {
-  FacetsResponse,
   IntentResponse,
   SearchParams,
   SortKey,
@@ -52,8 +53,6 @@ function paramsFromUrl(sp: URLSearchParams): SearchParams {
   );
   return {
     q: sp.get("q") ?? undefined,
-    // Multi-select: collect repeated ?category=&category= keys, fall
-    // back to undefined when nothing's set. Same for brand.
     category: (() => {
       const all = sp.getAll("category");
       return all.length === 0 ? undefined : all.length === 1 ? all[0] : all;
@@ -77,8 +76,6 @@ function paramsFromUrl(sp: URLSearchParams): SearchParams {
 function paramsToUrl(p: SearchParams): string {
   const usp = new URLSearchParams();
   if (p.q) usp.set("q", p.q);
-  // category + brand accept string | string[] — multi-select pushes
-  // arrays into the URL as repeated keys.
   if (p.category) {
     for (const c of Array.isArray(p.category) ? p.category : [p.category]) {
       usp.append("category", c);
@@ -99,7 +96,22 @@ function paramsToUrl(p: SearchParams): string {
   if (p.sort && p.sort !== "relevance") usp.set("sort", p.sort);
   if (p.offset) usp.set("offset", String(p.offset));
   const qs = usp.toString();
-  return qs ? `/?${qs}` : "/";
+  return qs ? `/search?${qs}` : "/search";
+}
+
+/** Has the user actually run a search? Used to switch between the
+ * landing-style hero and the results-grid layout. */
+function hasSearchInput(p: SearchParams): boolean {
+  return Boolean(
+    p.q ||
+      (Array.isArray(p.category) ? p.category.length > 0 : p.category) ||
+      (Array.isArray(p.brand) ? p.brand.length > 0 : p.brand) ||
+      p.color ||
+      (p.features && p.features.length > 0) ||
+      p.min_price !== undefined ||
+      p.max_price !== undefined ||
+      p.in_stock_only,
+  );
 }
 
 export function SearchView() {
@@ -112,7 +124,10 @@ export function SearchView() {
   const [parsing, setParsing] = useState(false);
   const [rateLimited, setRateLimited] = useState(false);
   const [networkError, setNetworkError] = useState<string | null>(null);
-  const [sortHint, setSortHint] = useState<string | null>(null);
+  // True from the moment the user submits until results land. Drives
+  // both the staged loader and the "hide hero, show grid" layout
+  // transition.
+  const [activeSearch, setActiveSearch] = useState(false);
 
   useEffect(() => {
     setQueryInput(filters.q ?? "");
@@ -124,10 +139,6 @@ export function SearchView() {
     },
     [router],
   );
-
-  const submitPlainSearch = (rawQ: string) => {
-    pushFilters({ ...filters, q: rawQ || undefined, offset: 0 });
-  };
 
   const applyIntent = useCallback(
     (res: IntentResponse) => {
@@ -156,12 +167,9 @@ export function SearchView() {
     setNetworkError(null);
     setRateLimited(false);
 
-    if (!trimmed) {
-      setIntent(null);
-      submitPlainSearch("");
-      return;
-    }
+    if (!trimmed) return;
 
+    setActiveSearch(true);
     setParsing(true);
     try {
       const res = await parseIntent(trimmed);
@@ -174,7 +182,7 @@ export function SearchView() {
         setNetworkError("Couldn't reach the AI parser. Falling back to keyword search.");
       }
       setIntent(null);
-      submitPlainSearch(trimmed);
+      pushFilters({ ...filters, q: trimmed, offset: 0 });
     } finally {
       setParsing(false);
     }
@@ -190,22 +198,14 @@ export function SearchView() {
     setIntent(null);
     setRateLimited(false);
     setNetworkError(null);
-    setSortHint(null);
+    setActiveSearch(false);
     pushFilters({});
   };
 
-  const acceptAmbiguity = (alternative: string) => {
-    const original = intent?.raw_query ?? queryInput;
-    const hintToken = intent?.parsed.ambiguity_hint?.token;
-    if (!hintToken) return;
-    const rewritten = original.replace(hintToken, hintToken.replace(/[\d.,]+/, alternative));
-    setQueryInput(rewritten);
-    void submitSearch(undefined, rewritten);
-  };
+  // Live URL state determines whether we render the hero or the grid.
+  const showHero = !hasSearchInput(filters) && !activeSearch;
 
-  // Translate URL-based SearchParams to the catalog-sidebar's filter shape.
-  // Sidebar uses multi-select arrays; URL filters accept either a single
-  // string (legacy ?category=x) or an array (?category=x&category=y).
+  // Translate URL filters to the catalog-sidebar's multi-select shape.
   const sidebarFilters: CatalogFilters = useMemo(
     () => ({
       categories: toArr(filters.category),
@@ -229,267 +229,493 @@ export function SearchView() {
     });
   };
 
-  const dirty = (queryInput.trim() || undefined) !== (filters.q || undefined);
-
+  // Only fetch when there's an actual query or filter — keeps /search
+  // clean before the user types anything.
   const search = useQuery({
     queryKey: ["search", filters],
     queryFn: () => searchProducts(filters),
+    enabled: hasSearchInput(filters),
   });
 
-  const facets = useQuery({
-    queryKey: ["facets"],
-    queryFn: getFacets,
-    staleTime: 60_000,
-  });
+  // Once results arrive (or fail) we can release activeSearch — the
+  // grid takes over.
+  useEffect(() => {
+    if (activeSearch && !parsing && !search.isFetching) {
+      // Brief dwell so the third loader stage actually reads instead of
+      // flashing past.
+      const t = setTimeout(() => setActiveSearch(false), 380);
+      return () => clearTimeout(t);
+    }
+  }, [activeSearch, parsing, search.isFetching]);
+
+  // Staged loader signal: stage 1 = parsing, stage 2 = catalog fetch,
+  // stage 3 = post-fetch dwell before reveal.
+  const stage: LoaderStage = parsing
+    ? 1
+    : search.isFetching
+      ? 2
+      : activeSearch
+        ? 3
+        : 0;
 
   const total = search.data?.total ?? 0;
   const items = search.data?.items ?? [];
   const offset = filters.offset ?? 0;
   const hasNext = offset + items.length < total;
   const hasPrev = offset > 0;
-  const fxDate = facets.data?.fx_date ?? null;
   const currentSort: SortKey = filters.sort ?? "relevance";
   const requestedFeatures = filters.features ?? intent?.parsed.features ?? [];
 
+  // Derived facets — only chips that actually appear in the returned
+  // products. Falls back to an empty shape while loading.
+  const derivedFacets = useMemo(
+    () => (items.length > 0 ? deriveFacets(items) : null),
+    [items],
+  );
+  const allCount = items.length;
+
   return (
-    <div className="commerce relative z-10 min-h-screen">
+    <div className="relative z-10 min-h-screen">
       <CommerceHeader />
 
-      {/* ---------- AI search hero ---------- */}
-      <section className="mx-auto max-w-[1600px] px-6 pt-10 lg:px-12 lg:pt-16">
+      {showHero ? (
+        <HeroPane
+          queryInput={queryInput}
+          onChange={setQueryInput}
+          onSubmit={submitSearch}
+          onPickExample={pickExample}
+          stage={stage}
+          parsing={parsing}
+        />
+      ) : (
+        <ResultsPane
+          queryInput={queryInput}
+          onChange={setQueryInput}
+          onSubmit={submitSearch}
+          onClear={clearSearch}
+          parsing={parsing}
+          stage={stage}
+          rateLimited={rateLimited}
+          networkError={networkError}
+          intent={intent}
+          filters={filters}
+          pushFilters={pushFilters}
+          search={search}
+          requestedFeatures={requestedFeatures}
+          currentSort={currentSort}
+          total={total}
+          items={items}
+          offset={offset}
+          hasNext={hasNext}
+          hasPrev={hasPrev}
+          sidebarFilters={sidebarFilters}
+          onSidebarChange={onSidebarChange}
+          derivedFacets={derivedFacets}
+          allCount={allCount}
+          acceptAmbiguity={(alt) => {
+            const original = intent?.raw_query ?? queryInput;
+            const hintToken = intent?.parsed.ambiguity_hint?.token;
+            if (!hintToken) return;
+            const rewritten = original.replace(
+              hintToken,
+              hintToken.replace(/[\d.,]+/, alt),
+            );
+            setQueryInput(rewritten);
+            void submitSearch(undefined, rewritten);
+          }}
+        />
+      )}
+    </div>
+  );
+}
+
+/* -----------------------------------------------------------------
+ * Hero pane — landing-style entry state
+ * ---------------------------------------------------------------- */
+
+function HeroPane({
+  queryInput,
+  onChange,
+  onSubmit,
+  onPickExample,
+  stage,
+  parsing,
+}: {
+  queryInput: string;
+  onChange: (v: string) => void;
+  onSubmit: (e?: React.FormEvent) => void;
+  onPickExample: (q: string) => void;
+  stage: LoaderStage;
+  parsing: boolean;
+}) {
+  return (
+    <section className="relative px-6 pt-16 pb-32 lg:px-12 lg:pt-24 lg:pb-44">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-y-0 left-6 right-6 lg:left-12 lg:right-12"
+      >
+        <div className="absolute inset-y-0 left-0 w-px bg-line/[0.06]" />
+        <div className="absolute inset-y-0 right-0 w-px bg-line/[0.06]" />
+      </div>
+
+      <div className="relative mx-auto max-w-[1280px]">
         <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted">
-          01 / Discovery · AI search
+          — Try the search
         </p>
-        <h1 className="font-display-tight text-[40px] sm:text-[64px] lg:text-[88px] leading-[0.92] tracking-[-0.04em] mt-3 max-w-[14ch]">
-          Type the piece.
+        <h1
+          className="
+            mt-10 font-display-tight leading-[0.86] tracking-[-0.045em] text-foreground
+          "
+          style={{ fontSize: "clamp(48px, 9vw, 140px)" }}
+        >
+          <span className="block anim-rise" style={{ animationDelay: "60ms" }}>
+            Describe it.
+          </span>
+          <span className="block anim-rise" style={{ animationDelay: "180ms" }}>
+            <span className="text-foreground/30">Find it.</span>{" "}
+            <span>Wear it.</span>
+          </span>
         </h1>
 
         <form
-          onSubmit={(e) => void submitSearch(e)}
+          onSubmit={onSubmit}
           role="search"
-          className="mt-8 max-w-[820px]"
+          className="mt-16 anim-rise"
+          style={{ animationDelay: "320ms" }}
         >
-          <div className="flex items-center gap-3 border-b border-line/40 py-2 focus-within:border-foreground transition-colors">
-            <span className="font-mono text-sm text-muted">/</span>
+          <div className="hairline-b grid grid-cols-[minmax(0,1fr)_auto] gap-3 items-stretch">
+            <div className="relative flex items-center">
+              <span
+                aria-hidden
+                className="font-mono text-base text-muted/70 pr-3 select-none"
+              >
+                /
+              </span>
+              <input
+                type="text"
+                value={queryInput}
+                onChange={(e) => onChange(e.target.value)}
+                placeholder="vintage washed denim, loose fit"
+                autoFocus
+                enterKeyHint="search"
+                className="
+                  w-full bg-transparent
+                  font-sans text-[clamp(20px,2.2vw,28px)] leading-tight
+                  text-foreground placeholder:text-muted/55
+                  py-5 pr-4 outline-none
+                "
+                spellCheck={false}
+                aria-label="Describe what you're looking for"
+              />
+            </div>
+            <button
+              type="submit"
+              disabled={parsing || !queryInput.trim()}
+              className="
+                self-center my-3 px-7 py-3
+                bg-foreground text-background
+                font-mono text-[11px] uppercase tracking-[0.22em]
+                hover:bg-foreground/90 transition-colors
+                disabled:opacity-40 disabled:pointer-events-none
+                inline-flex items-center gap-2
+              "
+            >
+              {parsing ? "Reading…" : "Search"}
+              <svg
+                viewBox="0 0 14 14"
+                className="h-3.5 w-3.5"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden
+              >
+                <path d="M3 11L11 3" />
+                <path d="M5 3h6v6" />
+              </svg>
+            </button>
+          </div>
+          <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.22em] text-muted/80">
+            ↵ Submits · AI parses to filters, then ranks across the catalog
+          </p>
+        </form>
+
+        {stage > 0 && <StagedLoader stage={stage} />}
+
+        {stage === 0 && (
+          <div className="mt-14 anim-fade">
+            <ExampleQueries onPick={onPickExample} fxDate={null} />
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+/* -----------------------------------------------------------------
+ * Results pane — compact bar on top, grid + sidebar below
+ * ---------------------------------------------------------------- */
+
+type ResultsPaneProps = {
+  queryInput: string;
+  onChange: (v: string) => void;
+  onSubmit: (e?: React.FormEvent) => void;
+  onClear: () => void;
+  parsing: boolean;
+  stage: LoaderStage;
+  rateLimited: boolean;
+  networkError: string | null;
+  intent: IntentResponse | null;
+  filters: SearchParams;
+  pushFilters: (next: SearchParams) => void;
+  search: ReturnType<typeof useQuery>;
+  requestedFeatures: string[];
+  currentSort: SortKey;
+  total: number;
+  items: import("@/lib/types").Product[];
+  offset: number;
+  hasNext: boolean;
+  hasPrev: boolean;
+  sidebarFilters: CatalogFilters;
+  onSidebarChange: (next: CatalogFilters) => void;
+  derivedFacets: ReturnType<typeof deriveFacets> | null;
+  allCount: number;
+  acceptAmbiguity: (alt: string) => void;
+};
+
+function ResultsPane({
+  queryInput,
+  onChange,
+  onSubmit,
+  onClear,
+  parsing,
+  stage,
+  rateLimited,
+  networkError,
+  intent,
+  filters,
+  pushFilters,
+  search,
+  requestedFeatures,
+  currentSort,
+  total,
+  items,
+  offset,
+  hasNext,
+  hasPrev,
+  sidebarFilters,
+  onSidebarChange,
+  derivedFacets,
+  allCount,
+  acceptAmbiguity,
+}: ResultsPaneProps) {
+  return (
+    <>
+      {/* Compact search bar — sticks to the top of the results area */}
+      <section className="hairline-b mx-auto max-w-[1600px] px-6 pt-8 pb-6 lg:px-12">
+        <form
+          onSubmit={onSubmit}
+          role="search"
+          className="grid grid-cols-[minmax(0,1fr)_auto] gap-3 items-center"
+        >
+          <div className="relative flex items-center hairline-b">
+            <span aria-hidden className="font-mono text-sm text-muted/70 pr-2.5 select-none">
+              /
+            </span>
             <input
-              id="clothist-search"
               type="text"
               value={queryInput}
-              onChange={(e) => setQueryInput(e.target.value)}
-              placeholder="black cargo pants under $100"
-              autoFocus
+              onChange={(e) => onChange(e.target.value)}
+              placeholder="Describe what you're after…"
               enterKeyHint="search"
-              className="flex-1 bg-transparent border-0 outline-none h-12 text-lg placeholder:text-muted/70"
+              spellCheck={false}
+              className="w-full bg-transparent text-lg py-3 pr-3 outline-none placeholder:text-muted/55"
+              aria-label="Describe what you're looking for"
             />
             {queryInput && (
               <button
                 type="button"
-                onClick={clearSearch}
+                onClick={onClear}
                 aria-label="Clear search"
-                className="font-mono text-xs text-muted hover:text-foreground transition-colors"
+                className="font-mono text-xs text-muted hover:text-foreground transition-colors px-2"
               >
                 ×
               </button>
             )}
-            <button
-              type="submit"
-              disabled={parsing || (!queryInput.trim() && !filters.q)}
-              className={[
-                "shrink-0 px-5 py-3 font-mono text-[11px] uppercase tracking-[0.18em] transition-colors",
-                dirty
-                  ? "bg-foreground text-background hover:bg-foreground/90"
-                  : "border border-line/20 text-foreground hover:bg-foreground hover:text-background",
-                "disabled:opacity-40 disabled:pointer-events-none",
-              ].join(" ")}
-            >
-              {parsing ? "Parsing…" : "Search"}
-            </button>
           </div>
-          <p className="font-mono text-[11px] uppercase tracking-[0.18em] mt-3 text-muted">
-            {parsing
-              ? "Asking the AI to interpret…"
-              : rateLimited
-                ? "Rate limited — try again in 60s"
-                : networkError
-                  ? networkError
-                  : dirty
-                    ? "Press Enter — AI extracts category, brand, color, price, features"
-                    : "↵ submits — AI parses to filters, then ranks across the catalog"}
-          </p>
+          <button
+            type="submit"
+            disabled={parsing || !queryInput.trim()}
+            className="
+              shrink-0 px-5 py-3
+              bg-foreground text-background
+              font-mono text-[11px] uppercase tracking-[0.22em]
+              hover:bg-foreground/90 transition-colors
+              disabled:opacity-40 disabled:pointer-events-none
+            "
+          >
+            {parsing ? "Reading…" : "Search"}
+          </button>
         </form>
-
-        {!filters.q && !intent && (
-          <div className="mt-8 max-w-[820px]">
-            <ExampleQueries onPick={pickExample} fxDate={fxDate} />
-          </div>
-        )}
       </section>
 
-      {/* ---------- Results ---------- */}
-      <section className="mx-auto max-w-[1600px] px-6 pb-32 pt-12 lg:px-12">
-        {intent?.degraded && intent.degraded_reason && (
-          <DegradedBanner reason={intent.degraded_reason} />
-        )}
-        {rateLimited && (
-          <div
-            className="anim-fade mb-4 px-4 py-3 text-sm bg-bg-alt/40 border-l-[3px] border-warn"
-          >
-            <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-warn">
-              Rate limited — retry in 60s
-            </span>
-          </div>
-        )}
+      {/* Mid-flight: staged loader overlay sits where the grid will be */}
+      {stage > 0 && (
+        <section className="mx-auto max-w-[1600px] px-6 pt-16 pb-32 lg:px-12">
+          <StagedLoader stage={stage} />
+        </section>
+      )}
 
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-14">
-          <div className="hidden lg:block">
-            <CatalogSidebar
-              facets={facets.data}
-              filters={sidebarFilters}
-              onChange={onSidebarChange}
-              // Unfiltered total = sum of category-facet counts (already
-              // gender-scoped and excluded-filtered by the API). Cast
-              // because the surrounding useQuery type-erases facets.data.
-              allCount={
-                ((facets.data as FacetsResponse | undefined)?.categories ?? [])
-                  .reduce((sum, c) => sum + c.count, 0)
-              }
-            />
-          </div>
-
-          <div>
-            <div className="border-t border-line/10 flex flex-wrap items-center justify-between gap-4 py-4">
-              <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
-                02 / Results · {total} {total === 1 ? "piece" : "pieces"}
+      {stage === 0 && (
+        <section className="mx-auto max-w-[1600px] px-6 pb-32 pt-10 lg:px-12">
+          {intent?.degraded && intent.degraded_reason && (
+            <DegradedBanner reason={intent.degraded_reason} />
+          )}
+          {rateLimited && (
+            <div className="anim-fade mb-4 px-4 py-3 text-sm bg-bg-alt/40 border-l-[3px] border-warn">
+              <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-warn">
+                Rate limited — retry in 60s
               </span>
-              <label className="inline-flex items-center gap-2">
-                <span className="sr-only">Sort</span>
-                <select
-                  value={currentSort}
-                  onChange={(e) =>
-                    pushFilters({ ...filters, sort: e.target.value as SortKey, offset: 0 })
-                  }
-                  className="bg-transparent border border-line/15 px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.18em] focus:outline-none focus:border-foreground transition-colors cursor-pointer"
-                >
-                  {SORT_LABELS.map((o) => (
-                    <option key={o.value} value={o.value}>
-                      {o.label}
-                    </option>
-                  ))}
-                </select>
-              </label>
+            </div>
+          )}
+          {networkError && (
+            <div className="anim-fade mb-4 px-4 py-3 text-sm bg-bg-alt/40 border-l-[3px] border-warn">
+              <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-warn">
+                {networkError}
+              </span>
+            </div>
+          )}
+
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-14">
+            <div className="hidden lg:block">
+              {derivedFacets ? (
+                <CatalogSidebar
+                  facets={derivedFacets}
+                  filters={sidebarFilters}
+                  onChange={onSidebarChange}
+                  allCount={allCount}
+                />
+              ) : (
+                <div className="space-y-3">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted">
+                    Filters appear once results land.
+                  </p>
+                </div>
+              )}
             </div>
 
-            <IntentChips
-              parsed={intent?.parsed ?? null}
-              filters={filters}
-              fxDate={fxDate}
-              onChange={pushFilters}
-            />
-            {intent?.parsed.ambiguity_hint && (
-              <AmbiguityNudge
-                hint={intent.parsed.ambiguity_hint}
-                onAccept={acceptAmbiguity}
-              />
-            )}
-            {sortHint && (
-              <div className="mb-4">
-                <span className="hairline inline-flex items-center gap-2 rounded-full px-3 py-1 font-mono text-[11px] uppercase tracking-widest text-muted">
-                  Sort hint: {sortHint}
-                  <button
-                    type="button"
-                    aria-label="Dismiss sort hint"
-                    onClick={() => setSortHint(null)}
-                    className="text-muted hover:text-foreground"
-                  >
-                    ×
-                  </button>
+            <div>
+              <div className="flex flex-wrap items-center justify-between gap-4 pb-4">
+                <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">
+                  {total} {total === 1 ? "piece" : "pieces"}
+                  {intent?.parsed.explanation
+                    ? ` · ${intent.parsed.explanation}`
+                    : ""}
                 </span>
-              </div>
-            )}
-
-            {search.isLoading ? (
-              <SkeletonGrid />
-            ) : items.length === 0 ? (
-              <div className="border border-line/10 mt-2 flex flex-col items-center gap-3 py-24 text-center">
-                <span className="font-display text-4xl tracking-[-0.04em]">
-                  Nothing matched.
-                </span>
-                <p className="text-sm text-muted">
-                  Drop a filter or refine your query.
-                </p>
-                <button
-                  type="button"
-                  onClick={clearSearch}
-                  className="mt-2 font-mono text-[10px] uppercase tracking-[0.22em] text-muted hover:text-foreground underline underline-offset-4"
-                >
-                  Clear all
-                </button>
-              </div>
-            ) : (
-              <ul className="mt-6 grid grid-cols-2 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
-                {items.map((p, idx) => (
-                  <li
-                    key={p.id}
-                    className="anim-rise"
-                    style={{ animationDelay: `${Math.min(idx, 8) * 40}ms` }}
-                  >
-                    <ProductCard product={p} requestedFeatures={requestedFeatures} />
-                  </li>
-                ))}
-              </ul>
-            )}
-
-            {(hasNext || hasPrev) && (
-              <div className="border-t border-line/10 mt-12 flex items-center justify-between pt-6">
-                <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
-                  {offset + 1}–{Math.min(offset + items.length, total)} / {total}
-                </span>
-                <div className="flex gap-2">
-                  <button
-                    type="button"
-                    disabled={!hasPrev}
-                    onClick={() =>
+                <label className="inline-flex items-center gap-2">
+                  <span className="sr-only">Sort</span>
+                  <select
+                    value={currentSort}
+                    onChange={(e) =>
                       pushFilters({
                         ...filters,
-                        offset: Math.max(0, offset - PAGE_SIZE),
+                        sort: e.target.value as SortKey,
+                        offset: 0,
                       })
                     }
-                    className="border border-line/15 px-3 py-2 font-mono text-[11px] uppercase tracking-[0.18em] hover:border-foreground transition-colors disabled:opacity-30 disabled:pointer-events-none"
+                    className="bg-transparent border border-line/15 px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.18em] focus:outline-none focus:border-foreground transition-colors cursor-pointer"
                   >
-                    ← Prev
-                  </button>
+                    {SORT_LABELS.map((o) => (
+                      <option key={o.value} value={o.value}>
+                        {o.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+
+              <IntentChips
+                parsed={intent?.parsed ?? null}
+                filters={filters}
+                fxDate={null}
+                onChange={pushFilters}
+              />
+              {intent?.parsed.ambiguity_hint && (
+                <AmbiguityNudge
+                  hint={intent.parsed.ambiguity_hint}
+                  onAccept={acceptAmbiguity}
+                />
+              )}
+
+              {search.isLoading ? (
+                <SkeletonGrid />
+              ) : items.length === 0 ? (
+                <div className="border border-line/10 mt-2 flex flex-col items-center gap-3 py-24 text-center">
+                  <span className="font-display text-4xl tracking-[-0.04em]">
+                    Nothing matched.
+                  </span>
+                  <p className="text-sm text-muted">
+                    Drop a filter or refine your query.
+                  </p>
                   <button
                     type="button"
-                    disabled={!hasNext}
-                    onClick={() =>
-                      pushFilters({ ...filters, offset: offset + PAGE_SIZE })
-                    }
-                    className="border border-line/15 px-3 py-2 font-mono text-[11px] uppercase tracking-[0.18em] hover:border-foreground transition-colors disabled:opacity-30 disabled:pointer-events-none"
+                    onClick={onClear}
+                    className="mt-2 font-mono text-[10px] uppercase tracking-[0.22em] text-muted hover:text-foreground underline underline-offset-4"
                   >
-                    Next →
+                    Clear all
                   </button>
                 </div>
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
+              ) : (
+                <ul className="mt-6 grid grid-cols-2 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+                  {items.map((p, idx) => (
+                    <li
+                      key={p.id}
+                      className="anim-rise"
+                      style={{ animationDelay: `${Math.min(idx, 8) * 40}ms` }}
+                    >
+                      <ProductCard product={p} requestedFeatures={requestedFeatures} />
+                    </li>
+                  ))}
+                </ul>
+              )}
 
-      {/* ---------- Footer ---------- */}
-      <footer className="border-t border-line/10 mx-auto max-w-[1600px] px-6 py-8 lg:px-12">
-        <div className="flex flex-col items-start justify-between gap-2 text-sm text-muted sm:flex-row sm:items-center">
-          <span className="font-mono uppercase tracking-[0.18em] text-[11px]">
-            Clothist — prototype build
-          </span>
-          <span className="font-mono uppercase tracking-[0.18em] text-[11px]">
-            {intent && !intent.degraded
-              ? `AI: ${intent.model} · ${intent.duration_ms}ms${fxDate ? ` · FX ${fxDate}` : ""}`
-              : intent?.degraded
-                ? `AI: offline — keyword fallback${fxDate ? ` · FX ${fxDate}` : ""}`
-                : `No purchases here${fxDate ? ` · FX ${fxDate}` : ""}`}
-          </span>
-        </div>
-      </footer>
-    </div>
+              {(hasNext || hasPrev) && (
+                <div className="border-t border-line/10 mt-12 flex items-center justify-between pt-6">
+                  <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
+                    {offset + 1}–{Math.min(offset + items.length, total)} / {total}
+                  </span>
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      disabled={!hasPrev}
+                      onClick={() =>
+                        pushFilters({
+                          ...filters,
+                          offset: Math.max(0, offset - PAGE_SIZE),
+                        })
+                      }
+                      className="border border-line/15 px-3 py-2 font-mono text-[11px] uppercase tracking-[0.22em] hover:border-foreground transition-colors disabled:opacity-30 disabled:pointer-events-none"
+                    >
+                      ← Prev
+                    </button>
+                    <button
+                      type="button"
+                      disabled={!hasNext}
+                      onClick={() =>
+                        pushFilters({ ...filters, offset: offset + PAGE_SIZE })
+                      }
+                      className="border border-line/15 px-3 py-2 font-mono text-[11px] uppercase tracking-[0.22em] hover:border-foreground transition-colors disabled:opacity-30 disabled:pointer-events-none"
+                    >
+                      Next →
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+      )}
+    </>
   );
 }
