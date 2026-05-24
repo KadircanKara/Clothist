@@ -1,11 +1,12 @@
-"""One-shot seed enricher: infers `gender` from titles + brand cues, assigns
-3 color variants per product with gender-aware Pollinations.ai prompts.
+"""One-shot seed enricher: infers `gender` from titles + brand cues, then
+seeds a single primary variant entry per product. Multi-color variants are
+populated separately by `fetch_variant_images.py` (which hits Unsplash via
+the official API).
 
-Pollinations is a free, no-key image-generation endpoint. URL shape:
-    https://image.pollinations.ai/prompt/{URL_ENCODED_PROMPT}?...
-
-This is seed-only — we will NOT use this at scale once real retailer scrapers
-run.
+History: this script used to generate Pollinations.ai URLs for alternate
+colors, but Pollinations monetized after the initial seed and now returns
+402. Pollinations references were stripped on 2026-05-24. To regenerate
+alternate-color variants, use `fetch_variant_images.py` instead.
 
 Usage:
     uv run python -m clothist_api.scripts.enrich_seed [--force]
@@ -84,58 +85,25 @@ def _build_pollinations_url(title: str, category: str | None, color: str, gender
     return f"{POLLINATIONS_BASE}{quote(prompt)}{POLLINATIONS_PARAMS}"
 
 
-def _color_variants_for(product: dict, gender: str) -> list[dict]:
-    """Return [{color, image_url, ai_generated}] for the product.
-
-    For unisex products: primary = existing Unsplash image (kept as-is),
-    alternates = Pollinations.
-    For gendered (men/women) products: PRIMARY is also Pollinations with a
-    gender-aware prompt so the displayed model matches the catalog page.
-    The original Unsplash URL is preserved on the product as
-    `attributes.original_unsplash_url` for provenance / future reseed.
+def _primary_variant_for(product: dict) -> dict | None:
+    """Return the single primary variant entry: the product's existing
+    listing image, keyed by its first color. Alternate colors are added
+    by fetch_variant_images.py.
     """
     primary_color = (product.get("colors") or [None])[0]
-    category = product.get("category")
-    title = product.get("title", "")
-    out: list[dict] = []
-
-    if primary_color:
-        if gender in ("men", "women"):
-            # Override the primary with a gender-aware generated image so the
-            # /men and /women pages never show a mis-gendered model.
-            out.append({
-                "color": primary_color,
-                "image_url": _build_pollinations_url(title, category, primary_color, gender),
-                "ai_generated": True,
-            })
-        elif product.get("image_url"):
-            out.append({
-                "color": primary_color,
-                "image_url": product["image_url"],
-                "ai_generated": False,
-            })
-
-    seen = {primary_color} if primary_color else set()
-    pool = SECONDARY_COLORS_BY_CATEGORY.get(category or "", DEFAULT_SECONDARY)
-    for color in pool:
-        if color in seen:
-            continue
-        seen.add(color)
-        out.append({
-            "color": color,
-            "image_url": _build_pollinations_url(title, category, color, gender),
-            "ai_generated": True,
-        })
-        if len(out) >= 4:
-            break
-    return out
+    if not (primary_color and product.get("image_url")):
+        return None
+    return {
+        "color": primary_color,
+        "image_url": product["image_url"],
+        "ai_generated": False,
+    }
 
 
 def enrich(force: bool) -> tuple[int, int]:
     raw = json.loads(SEED_FILE.read_text())
     n_gender = 0
     n_variants = 0
-    n_primary_swapped = 0
     for p in raw:
         if force or not p.get("gender"):
             p["gender"] = _infer_gender(
@@ -144,21 +112,12 @@ def enrich(force: bool) -> tuple[int, int]:
                 p.get("brand"),
             )
             n_gender += 1
-        gender = p.get("gender", "unisex")
         attrs = p.setdefault("attributes", {})
-        if force or "variants" not in attrs:
-            attrs["variants"] = _color_variants_for(p, gender)
+        if force or "variants" not in attrs or not attrs["variants"]:
+            primary = _primary_variant_for(p)
+            attrs["variants"] = [primary] if primary else []
             n_variants += 1
-        # For gendered products, also overwrite the top-level image_url so
-        # the catalog card hero matches; preserve the original.
-        if gender in ("men", "women") and attrs["variants"]:
-            primary = attrs["variants"][0]
-            if primary.get("ai_generated") and p.get("image_url") != primary["image_url"]:
-                attrs.setdefault("original_unsplash_url", p.get("image_url"))
-                p["image_url"] = primary["image_url"]
-                n_primary_swapped += 1
     SEED_FILE.write_text(json.dumps(raw, indent=2) + "\n")
-    print(f"Primary image swapped to gender-aware AI on {n_primary_swapped} products.")
     return n_gender, n_variants
 
 

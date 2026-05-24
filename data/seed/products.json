@@ -11,7 +11,9 @@
     "currency": "EUR",
     "image_url": "https://images.unsplash.com/photo-1633292750937-120a94f5c2bb?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "black"
+      "black",
+      "cream",
+      "navy"
     ],
     "sizes": [
       "XS",
@@ -37,13 +39,13 @@
         },
         {
           "color": "cream",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20cream%20hoodie%20named%20%27Black%20Oversized%20Cotton%20Hoodie%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-001_cream.jpg",
+          "ai_generated": false
         },
         {
           "color": "navy",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20navy%20hoodie%20named%20%27Black%20Oversized%20Cotton%20Hoodie%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-001_navy.jpg",
+          "ai_generated": false
         }
       ]
     },
@@ -61,7 +63,9 @@
     "currency": "JPY",
     "image_url": "https://images.unsplash.com/photo-1564557287817-3785e38ec1f5?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "grey"
+      "grey",
+      "cream",
+      "black"
     ],
     "sizes": [
       "S",
@@ -85,19 +89,14 @@
           "ai_generated": false
         },
         {
-          "color": "black",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20hoodie%20named%20%27Minimalist%20Grey%20Hoodie%20with%20Hidden%20Zip%20Pocket%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
           "color": "cream",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20cream%20hoodie%20named%20%27Minimalist%20Grey%20Hoodie%20with%20Hidden%20Zip%20Pocket%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-002_cream.jpg",
+          "ai_generated": false
         },
         {
-          "color": "navy",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20navy%20hoodie%20named%20%27Minimalist%20Grey%20Hoodie%20with%20Hidden%20Zip%20Pocket%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "color": "black",
+          "image_url": "/variants/seed-002_black.jpg",
+          "ai_generated": false
         }
       ]
     },
@@ -115,7 +114,9 @@
     "currency": "USD",
     "image_url": "https://images.unsplash.com/photo-1711964429491-a8200d660b6d?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "navy"
+      "navy",
+      "black",
+      "cream"
     ],
     "sizes": [
       "S",
@@ -139,13 +140,13 @@
         },
         {
           "color": "black",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20hoodie%20named%20%27Navy%20Tech%20Fleece%20Full-Zip%20Hoodie%27%2C%20worn%20by%20a%20male%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-003_black.jpg",
+          "ai_generated": false
         },
         {
           "color": "cream",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20cream%20hoodie%20named%20%27Navy%20Tech%20Fleece%20Full-Zip%20Hoodie%27%2C%20worn%20by%20a%20male%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-003_cream.jpg",
+          "ai_generated": false
         }
       ],
       "original_unsplash_url": "https://images.unsplash.com/photo-1729780922545-8e940500c172?w=600&h=800&fit=crop&auto=format&q=75"
@@ -164,7 +165,9 @@
     "currency": "USD",
     "image_url": "https://images.unsplash.com/photo-1758267927982-57d1e8f8dcea?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "black"
+      "black",
+      "khaki",
+      "stone"
     ],
     "sizes": [
       "28",
@@ -189,13 +192,13 @@
         },
         {
           "color": "khaki",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20khaki%20pant%20named%20%27Black%20Cargo%20Pants%20with%206%20Pockets%27%2C%20worn%20by%20a%20male%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-010_khaki.jpg",
+          "ai_generated": false
         },
         {
           "color": "stone",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20stone%20pant%20named%20%27Black%20Cargo%20Pants%20with%206%20Pockets%27%2C%20worn%20by%20a%20male%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-010_stone.jpg",
+          "ai_generated": false
         }
       ],
       "original_unsplash_url": "https://images.unsplash.com/photo-1548883354-7622d03aca27?w=600&h=800&fit=crop&auto=format&q=75"
@@ -214,7 +217,9 @@
     "currency": "TRY",
     "image_url": "https://images.unsplash.com/photo-1778495351275-d14f16e86688?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "olive"
+      "olive",
+      "khaki",
+      "black"
     ],
     "sizes": [
       "S",
@@ -239,18 +244,13 @@
         },
         {
           "color": "khaki",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20khaki%20pant%20named%20%27Olive%20Tactical%20Cargo%20Pants%27%2C%20worn%20by%20a%20male%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-011_khaki.jpg",
+          "ai_generated": false
         },
         {
           "color": "black",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20pant%20named%20%27Olive%20Tactical%20Cargo%20Pants%27%2C%20worn%20by%20a%20male%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "stone",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20stone%20pant%20named%20%27Olive%20Tactical%20Cargo%20Pants%27%2C%20worn%20by%20a%20male%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-011_black.jpg",
+          "ai_generated": false
         }
       ],
       "original_unsplash_url": "https://images.unsplash.com/photo-1584865288642-42078afe6942?w=600&h=800&fit=crop&auto=format&q=75"
@@ -269,7 +269,9 @@
     "currency": "USD",
     "image_url": "https://images.unsplash.com/photo-1763673375433-e425a50a3464?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "beige"
+      "beige",
+      "khaki",
+      "black"
     ],
     "sizes": [
       "S",
@@ -292,18 +294,13 @@
         },
         {
           "color": "khaki",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20khaki%20pant%20named%20%27Beige%20Wide-Leg%20Chinos%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-012_khaki.jpg",
+          "ai_generated": false
         },
         {
           "color": "black",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20pant%20named%20%27Beige%20Wide-Leg%20Chinos%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "stone",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20stone%20pant%20named%20%27Beige%20Wide-Leg%20Chinos%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-012_black.jpg",
+          "ai_generated": false
         }
       ]
     },
@@ -321,7 +318,9 @@
     "currency": "EUR",
     "image_url": "https://images.unsplash.com/photo-1654512697681-8434b50096dd?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "black"
+      "black",
+      "khaki",
+      "stone"
     ],
     "sizes": [
       "28",
@@ -344,13 +343,13 @@
         },
         {
           "color": "khaki",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20khaki%20pant%20named%20%27Slim%20Black%20Dress%20Trousers%27%2C%20worn%20by%20a%20female%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-013_khaki.jpg",
+          "ai_generated": false
         },
         {
           "color": "stone",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20stone%20pant%20named%20%27Slim%20Black%20Dress%20Trousers%27%2C%20worn%20by%20a%20female%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-013_stone.jpg",
+          "ai_generated": false
         }
       ],
       "original_unsplash_url": "https://images.unsplash.com/photo-1618886614638-80e3c103d31a?w=600&h=800&fit=crop&auto=format&q=75"
@@ -369,7 +368,9 @@
     "currency": "USD",
     "image_url": "https://images.unsplash.com/photo-1631112230741-446762ee05ac?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "indigo"
+      "indigo",
+      "black",
+      "stone-wash"
     ],
     "sizes": [
       "28",
@@ -391,13 +392,13 @@
         },
         {
           "color": "black",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20jean%20named%20%27Classic%20501%20Original%20Fit%20Jeans%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-020_black.jpg",
+          "ai_generated": false
         },
         {
           "color": "stone-wash",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20stone-wash%20jean%20named%20%27Classic%20501%20Original%20Fit%20Jeans%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-020_stone-wash.jpg",
+          "ai_generated": false
         }
       ]
     },
@@ -415,7 +416,9 @@
     "currency": "GBP",
     "image_url": "https://images.unsplash.com/photo-1718252540511-e958742e4165?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "black"
+      "black",
+      "indigo",
+      "stone-wash"
     ],
     "sizes": [
       "28",
@@ -438,13 +441,13 @@
         },
         {
           "color": "indigo",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20indigo%20jean%20named%20%27Loose%20Black%20Wash%20Jeans%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-021_indigo.jpg",
+          "ai_generated": false
         },
         {
           "color": "stone-wash",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20stone-wash%20jean%20named%20%27Loose%20Black%20Wash%20Jeans%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-021_stone-wash.jpg",
+          "ai_generated": false
         }
       ]
     },
@@ -462,7 +465,9 @@
     "currency": "TRY",
     "image_url": "https://images.unsplash.com/photo-1602293589930-45aad59ba3ab?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "light-blue"
+      "indigo",
+      "light-blue",
+      "black"
     ],
     "sizes": [
       "28",
@@ -485,18 +490,13 @@
         },
         {
           "color": "indigo",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20indigo%20jean%20named%20%27Light%20Wash%20Slim%20Jeans%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-022_indigo.jpg",
+          "ai_generated": false
         },
         {
           "color": "black",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20jean%20named%20%27Light%20Wash%20Slim%20Jeans%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "stone-wash",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20stone-wash%20jean%20named%20%27Light%20Wash%20Slim%20Jeans%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-022_black.jpg",
+          "ai_generated": false
         }
       ]
     },
@@ -514,7 +514,9 @@
     "currency": "USD",
     "image_url": "https://images.unsplash.com/photo-1548883354-94bcfe321cbb?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "forest"
+      "forest",
+      "black",
+      "olive"
     ],
     "sizes": [
       "S",
@@ -537,18 +539,13 @@
         },
         {
           "color": "black",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20jacket%20named%20%27Waterproof%20Rain%20Jacket%20-%20Trail%203L%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-030_black.jpg",
+          "ai_generated": false
         },
         {
           "color": "olive",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20olive%20jacket%20named%20%27Waterproof%20Rain%20Jacket%20-%20Trail%203L%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "tan",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20tan%20jacket%20named%20%27Waterproof%20Rain%20Jacket%20-%20Trail%203L%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-030_olive.jpg",
+          "ai_generated": false
         }
       ]
     },
@@ -566,7 +563,9 @@
     "currency": "USD",
     "image_url": "https://images.unsplash.com/photo-1557418669-db3f781a58c0?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "black"
+      "black",
+      "olive",
+      "tan"
     ],
     "sizes": [
       "S",
@@ -589,13 +588,13 @@
         },
         {
           "color": "olive",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20olive%20jacket%20named%20%27Insulated%20Puffer%20Jacket%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-031_olive.jpg",
+          "ai_generated": false
         },
         {
           "color": "tan",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20tan%20jacket%20named%20%27Insulated%20Puffer%20Jacket%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-031_tan.jpg",
+          "ai_generated": false
         }
       ]
     },
@@ -613,7 +612,9 @@
     "currency": "GBP",
     "image_url": "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "black"
+      "black",
+      "olive",
+      "tan"
     ],
     "sizes": [
       "S",
@@ -635,13 +636,13 @@
         },
         {
           "color": "olive",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20olive%20jacket%20named%20%27Black%20Faux%20Leather%20Biker%20Jacket%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-032_olive.jpg",
+          "ai_generated": false
         },
         {
           "color": "tan",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20tan%20jacket%20named%20%27Black%20Faux%20Leather%20Biker%20Jacket%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-032_tan.jpg",
+          "ai_generated": false
         }
       ]
     },
@@ -659,7 +660,9 @@
     "currency": "EUR",
     "image_url": "https://images.unsplash.com/photo-1676716105765-e19fe6a01851?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "beige"
+      "beige",
+      "black",
+      "olive"
     ],
     "sizes": [
       "XS",
@@ -680,18 +683,13 @@
         },
         {
           "color": "black",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20jacket%20named%20%27Beige%20Trench%20Coat%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-033_black.jpg",
+          "ai_generated": false
         },
         {
           "color": "olive",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20olive%20jacket%20named%20%27Beige%20Trench%20Coat%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "tan",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20tan%20jacket%20named%20%27Beige%20Trench%20Coat%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-033_olive.jpg",
+          "ai_generated": false
         }
       ]
     },
@@ -709,7 +707,9 @@
     "currency": "USD",
     "image_url": "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "white"
+      "white",
+      "black",
+      "olive"
     ],
     "sizes": [
       "XS",
@@ -731,13 +731,13 @@
         },
         {
           "color": "black",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20tshirt%20named%20%27Heavyweight%20White%20Cotton%20T-Shirt%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-040_black.jpg",
+          "ai_generated": false
         },
         {
           "color": "olive",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20olive%20tshirt%20named%20%27Heavyweight%20White%20Cotton%20T-Shirt%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-040_olive.jpg",
+          "ai_generated": false
         }
       ]
     },
@@ -755,7 +755,9 @@
     "currency": "USD",
     "image_url": "https://images.unsplash.com/photo-1758300012429-d46a483777d8?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "faded-black"
+      "faded-black",
+      "white",
+      "black"
     ],
     "sizes": [
       "S",
@@ -775,18 +777,13 @@
         },
         {
           "color": "white",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20white%20tshirt%20named%20%27Vintage%20Wash%20Graphic%20Tee%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-041_white.jpg",
+          "ai_generated": false
         },
         {
           "color": "black",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20tshirt%20named%20%27Vintage%20Wash%20Graphic%20Tee%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "olive",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20olive%20tshirt%20named%20%27Vintage%20Wash%20Graphic%20Tee%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-041_black.jpg",
+          "ai_generated": false
         }
       ]
     },
@@ -805,8 +802,8 @@
     "image_url": "https://images.unsplash.com/photo-1686247166132-be2e27035108?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
       "black",
-      "grey",
-      "navy"
+      "white",
+      "olive"
     ],
     "sizes": [
       "S",
@@ -829,13 +826,13 @@
         },
         {
           "color": "white",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20white%20tshirt%20named%20%27Dri-FIT%20Performance%20Tee%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-042_white.jpg",
+          "ai_generated": false
         },
         {
           "color": "olive",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20olive%20tshirt%20named%20%27Dri-FIT%20Performance%20Tee%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-042_olive.jpg",
+          "ai_generated": false
         }
       ]
     },
@@ -853,7 +850,9 @@
     "currency": "JPY",
     "image_url": "https://images.unsplash.com/photo-1686135153032-ce4813dfbcff?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "navy/white"
+      "navy/white",
+      "white",
+      "black"
     ],
     "sizes": [
       "S",
@@ -873,18 +872,13 @@
         },
         {
           "color": "white",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20white%20tshirt%20named%20%27Striped%20Long-Sleeve%20Tee%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-043_white.jpg",
+          "ai_generated": false
         },
         {
           "color": "black",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20tshirt%20named%20%27Striped%20Long-Sleeve%20Tee%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "olive",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20olive%20tshirt%20named%20%27Striped%20Long-Sleeve%20Tee%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-043_black.jpg",
+          "ai_generated": false
         }
       ]
     },
@@ -902,7 +896,9 @@
     "currency": "USD",
     "image_url": "https://images.unsplash.com/photo-1615109255406-2a4354fc6b3e?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "white"
+      "white",
+      "black",
+      "grey"
     ],
     "sizes": [
       "8",
@@ -923,13 +919,13 @@
         },
         {
           "color": "black",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20sneaker%20named%20%27Air%20Force%201%20%2707%20Sneakers%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-050_black.jpg",
+          "ai_generated": false
         },
         {
           "color": "grey",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20grey%20sneaker%20named%20%27Air%20Force%201%20%2707%20Sneakers%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-050_grey.jpg",
+          "ai_generated": false
         }
       ]
     },
@@ -947,7 +943,9 @@
     "currency": "USD",
     "image_url": "https://images.unsplash.com/photo-1587563871167-1ee9c731aefb?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "black/white"
+      "black/white",
+      "white",
+      "black"
     ],
     "sizes": [
       "8",
@@ -968,18 +966,13 @@
         },
         {
           "color": "white",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20white%20sneaker%20named%20%27Samba%20OG%20Sneakers%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-051_white.jpg",
+          "ai_generated": false
         },
         {
           "color": "black",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20sneaker%20named%20%27Samba%20OG%20Sneakers%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "grey",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20grey%20sneaker%20named%20%27Samba%20OG%20Sneakers%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-051_black.jpg",
+          "ai_generated": false
         }
       ]
     },
@@ -997,7 +990,9 @@
     "currency": "TRY",
     "image_url": "https://images.unsplash.com/photo-1748354815058-b098acf7f009?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "beige"
+      "beige",
+      "white",
+      "black"
     ],
     "sizes": [
       "8",
@@ -1017,18 +1012,13 @@
         },
         {
           "color": "white",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20white%20sneaker%20named%20%27Chunky%20Dad%20Sneakers%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-052_white.jpg",
+          "ai_generated": false
         },
         {
           "color": "black",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20sneaker%20named%20%27Chunky%20Dad%20Sneakers%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "grey",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20grey%20sneaker%20named%20%27Chunky%20Dad%20Sneakers%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-052_black.jpg",
+          "ai_generated": false
         }
       ]
     },
@@ -1046,7 +1036,9 @@
     "currency": "USD",
     "image_url": "https://images.unsplash.com/photo-1631541909061-71e349d1f203?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "cream"
+      "cream",
+      "navy",
+      "rust"
     ],
     "sizes": [
       "S",
@@ -1066,13 +1058,13 @@
         },
         {
           "color": "navy",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20navy%20sweater%20named%20%27Cable-Knit%20Wool%20Sweater%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-060_navy.jpg",
+          "ai_generated": false
         },
         {
           "color": "rust",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20rust%20sweater%20named%20%27Cable-Knit%20Wool%20Sweater%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-060_rust.jpg",
+          "ai_generated": false
         }
       ]
     },
@@ -1090,7 +1082,9 @@
     "currency": "EUR",
     "image_url": "https://images.unsplash.com/photo-1610901157620-340856d0a50f?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "charcoal"
+      "charcoal",
+      "cream",
+      "navy"
     ],
     "sizes": [
       "S",
@@ -1111,18 +1105,13 @@
         },
         {
           "color": "cream",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20cream%20sweater%20named%20%27Oversized%20Mock-Neck%20Sweater%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-061_cream.jpg",
+          "ai_generated": false
         },
         {
           "color": "navy",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20navy%20sweater%20named%20%27Oversized%20Mock-Neck%20Sweater%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "rust",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20rust%20sweater%20named%20%27Oversized%20Mock-Neck%20Sweater%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-061_navy.jpg",
+          "ai_generated": false
         }
       ]
     },
@@ -1140,7 +1129,8 @@
     "currency": "USD",
     "image_url": "https://images.unsplash.com/photo-1738927609747-6846c608fdfe?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "pink"
+      "pink",
+      "cream"
     ],
     "sizes": [
       "XS",
@@ -1162,18 +1152,8 @@
         },
         {
           "color": "cream",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20cream%20sweater%20named%20%27Cropped%20Cardigan%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "navy",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20navy%20sweater%20named%20%27Cropped%20Cardigan%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "rust",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20rust%20sweater%20named%20%27Cropped%20Cardigan%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/seed-062_cream.jpg",
+          "ai_generated": false
         }
       ]
     },
@@ -1209,21 +1189,6 @@
           "color": "sand",
           "image_url": "https://images.unsplash.com/photo-1593913534956-a8d913b9394f?w=600&h=800&fit=crop&auto=format&q=75",
           "ai_generated": false
-        },
-        {
-          "color": "black",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20dresse%20named%20%27Linen%20Midi%20Dress%27%2C%20worn%20by%20a%20female%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "cream",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20cream%20dresse%20named%20%27Linen%20Midi%20Dress%27%2C%20worn%20by%20a%20female%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "rust",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20rust%20dresse%20named%20%27Linen%20Midi%20Dress%27%2C%20worn%20by%20a%20female%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
         }
       ],
       "original_unsplash_url": "https://images.unsplash.com/photo-1733043014211-8d699f6a82b1?w=600&h=800&fit=crop&auto=format&q=75"
@@ -1259,21 +1224,6 @@
           "color": "floral",
           "image_url": "https://images.unsplash.com/photo-1511130558090-00af810c21b1?w=600&h=800&fit=crop&auto=format&q=75",
           "ai_generated": false
-        },
-        {
-          "color": "black",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20dresse%20named%20%27Floral%20Wrap%20Dress%27%2C%20worn%20by%20a%20female%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "cream",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20cream%20dresse%20named%20%27Floral%20Wrap%20Dress%27%2C%20worn%20by%20a%20female%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "rust",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20rust%20dresse%20named%20%27Floral%20Wrap%20Dress%27%2C%20worn%20by%20a%20female%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
         }
       ],
       "original_unsplash_url": "https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=600&h=800&fit=crop&auto=format&q=75"
@@ -1309,16 +1259,6 @@
           "color": "black",
           "image_url": "https://images.unsplash.com/photo-1586024795129-38d4e68bdd0c?w=600&h=800&fit=crop&auto=format&q=75",
           "ai_generated": false
-        },
-        {
-          "color": "cream",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20cream%20dresse%20named%20%27Little%20Black%20Slip%20Dress%27%2C%20worn%20by%20a%20female%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "rust",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20rust%20dresse%20named%20%27Little%20Black%20Slip%20Dress%27%2C%20worn%20by%20a%20female%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
         }
       ],
       "original_unsplash_url": "https://images.unsplash.com/photo-1656284518334-710b60cd63a0?w=600&h=800&fit=crop&auto=format&q=75"
@@ -1354,21 +1294,6 @@
           "color": "khaki",
           "image_url": "https://images.unsplash.com/photo-1730651424770-a27017708af2?w=600&h=800&fit=crop&auto=format&q=75",
           "ai_generated": false
-        },
-        {
-          "color": "black",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20short%20named%20%27Cotton%20Twill%20Shorts%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "olive",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20olive%20short%20named%20%27Cotton%20Twill%20Shorts%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "stone",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20stone%20short%20named%20%27Cotton%20Twill%20Shorts%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
         }
       ]
     },
@@ -1403,16 +1328,6 @@
           "color": "black",
           "image_url": "https://images.unsplash.com/photo-1680492775002-641a20e202ca?w=600&h=800&fit=crop&auto=format&q=75",
           "ai_generated": false
-        },
-        {
-          "color": "olive",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20olive%20short%20named%20%27Athletic%20Mesh%20Running%20Shorts%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "stone",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20stone%20short%20named%20%27Athletic%20Mesh%20Running%20Shorts%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
         }
       ]
     },
@@ -1447,21 +1362,6 @@
           "color": "blue",
           "image_url": "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=600&h=800&fit=crop&auto=format&q=75",
           "ai_generated": false
-        },
-        {
-          "color": "black",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20short%20named%20%27Denim%20Cut-Off%20Shorts%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "olive",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20olive%20short%20named%20%27Denim%20Cut-Off%20Shorts%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "stone",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20stone%20short%20named%20%27Denim%20Cut-Off%20Shorts%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
         }
       ]
     },
@@ -1496,21 +1396,6 @@
           "color": "white",
           "image_url": "https://images.unsplash.com/photo-1714291067169-0ad497681c83?w=600&h=800&fit=crop&auto=format&q=75",
           "ai_generated": false
-        },
-        {
-          "color": "black",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20skirt%20named%20%27Pleated%20Tennis%20Skirt%27%2C%20worn%20by%20a%20female%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "cream",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20cream%20skirt%20named%20%27Pleated%20Tennis%20Skirt%27%2C%20worn%20by%20a%20female%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "tan",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20tan%20skirt%20named%20%27Pleated%20Tennis%20Skirt%27%2C%20worn%20by%20a%20female%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
         }
       ],
       "original_unsplash_url": "https://images.unsplash.com/photo-1677368744545-c5a4d7de7225?w=600&h=800&fit=crop&auto=format&q=75"
@@ -1546,21 +1431,6 @@
           "color": "brown",
           "image_url": "https://images.unsplash.com/photo-1714205901200-4662d2911ed0?w=600&h=800&fit=crop&auto=format&q=75",
           "ai_generated": false
-        },
-        {
-          "color": "black",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20skirt%20named%20%27Leather%20Midi%20Skirt%27%2C%20worn%20by%20a%20female%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "cream",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20cream%20skirt%20named%20%27Leather%20Midi%20Skirt%27%2C%20worn%20by%20a%20female%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "tan",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20tan%20skirt%20named%20%27Leather%20Midi%20Skirt%27%2C%20worn%20by%20a%20female%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
         }
       ],
       "original_unsplash_url": "https://images.unsplash.com/photo-1714205901200-4662d2911ed0?w=600&h=800&fit=crop&auto=format&q=75"
@@ -1597,21 +1467,6 @@
           "color": "camel",
           "image_url": "https://images.unsplash.com/photo-1539533113208-f6df8cc8b543?w=600&h=800&fit=crop&auto=format&q=75",
           "ai_generated": false
-        },
-        {
-          "color": "black",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20jacket%20named%20%27Long%20Wool%20Overcoat%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "olive",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20olive%20jacket%20named%20%27Long%20Wool%20Overcoat%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "tan",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20tan%20jacket%20named%20%27Long%20Wool%20Overcoat%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
         }
       ]
     },
@@ -1649,21 +1504,6 @@
           "color": "sand",
           "image_url": "https://images.unsplash.com/photo-1632340751148-c7a5df9b34e7?w=600&h=800&fit=crop&auto=format&q=75",
           "ai_generated": false
-        },
-        {
-          "color": "black",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20jacket%20named%20%27Detroit%20Workwear%20Jacket%27%2C%20worn%20by%20a%20male%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "olive",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20olive%20jacket%20named%20%27Detroit%20Workwear%20Jacket%27%2C%20worn%20by%20a%20male%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "tan",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20tan%20jacket%20named%20%27Detroit%20Workwear%20Jacket%27%2C%20worn%20by%20a%20male%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
         }
       ],
       "original_unsplash_url": "https://images.unsplash.com/photo-1608976198709-5e70a09b9ff0?w=600&h=800&fit=crop&auto=format&q=75"
@@ -1700,21 +1540,6 @@
           "color": "blue",
           "image_url": "https://images.unsplash.com/photo-1611312449408-fcece27cdbb7?w=600&h=800&fit=crop&auto=format&q=75",
           "ai_generated": false
-        },
-        {
-          "color": "black",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20jacket%20named%20%27Denim%20Trucker%20Jacket%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "olive",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20olive%20jacket%20named%20%27Denim%20Trucker%20Jacket%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "tan",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20tan%20jacket%20named%20%27Denim%20Trucker%20Jacket%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
         }
       ]
     },
@@ -1752,16 +1577,6 @@
           "color": "black",
           "image_url": "https://images.unsplash.com/photo-1618886614638-80e3c103d31a?w=600&h=800&fit=crop&auto=format&q=75",
           "ai_generated": false
-        },
-        {
-          "color": "khaki",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20khaki%20pant%20named%20%27Black%20Pleated%20Wide-Leg%20Trousers%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "stone",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20stone%20pant%20named%20%27Black%20Pleated%20Wide-Leg%20Trousers%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
         }
       ]
     },
@@ -1779,8 +1594,7 @@
     "currency": "USD",
     "image_url": "https://images.unsplash.com/photo-1618453292507-4959ece6429e?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "black",
-      "heather-grey"
+      "black"
     ],
     "sizes": [
       "S",
@@ -1800,16 +1614,6 @@
           "color": "black",
           "image_url": "https://images.unsplash.com/photo-1618453292507-4959ece6429e?w=600&h=800&fit=crop&auto=format&q=75",
           "ai_generated": false
-        },
-        {
-          "color": "khaki",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20khaki%20pant%20named%20%27Joggers%20with%20Tapered%20Leg%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "stone",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20stone%20pant%20named%20%27Joggers%20with%20Tapered%20Leg%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
         }
       ]
     },
@@ -1844,21 +1648,6 @@
           "color": "grey",
           "image_url": "https://images.unsplash.com/photo-1714023498660-e4c470b285b7?w=600&h=800&fit=crop&auto=format&q=75",
           "ai_generated": false
-        },
-        {
-          "color": "black",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20hoodie%20named%20%27Crewneck%20Sweatshirt%20in%20Heather%20Grey%27%2C%20worn%20by%20a%20male%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "cream",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20cream%20hoodie%20named%20%27Crewneck%20Sweatshirt%20in%20Heather%20Grey%27%2C%20worn%20by%20a%20male%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "navy",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20navy%20hoodie%20named%20%27Crewneck%20Sweatshirt%20in%20Heather%20Grey%27%2C%20worn%20by%20a%20male%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
         }
       ],
       "original_unsplash_url": "https://images.unsplash.com/photo-1610222034376-8dd1149e0e60?w=600&h=800&fit=crop&auto=format&q=75"
@@ -1896,16 +1685,6 @@
           "color": "navy",
           "image_url": "https://images.unsplash.com/photo-1710330972862-dfdce0fc821f?w=600&h=800&fit=crop&auto=format&q=75",
           "ai_generated": false
-        },
-        {
-          "color": "black",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20hoodie%20named%20%27Zip-Front%20Sweatshirt%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "cream",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20cream%20hoodie%20named%20%27Zip-Front%20Sweatshirt%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
         }
       ]
     },
@@ -1923,9 +1702,7 @@
     "currency": "USD",
     "image_url": "https://images.unsplash.com/photo-1625910513413-c23b8bb81cba?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "navy",
-      "white",
-      "black"
+      "navy"
     ],
     "sizes": [
       "S",
@@ -1942,21 +1719,6 @@
           "color": "navy",
           "image_url": "https://images.unsplash.com/photo-1625910513413-c23b8bb81cba?w=600&h=800&fit=crop&auto=format&q=75",
           "ai_generated": false
-        },
-        {
-          "color": "white",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20white%20tshirt%20named%20%27Polo%20Shirt%20in%20Pique%20Cotton%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "black",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20tshirt%20named%20%27Polo%20Shirt%20in%20Pique%20Cotton%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "olive",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20olive%20tshirt%20named%20%27Polo%20Shirt%20in%20Pique%20Cotton%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
         }
       ]
     },
@@ -1995,21 +1757,6 @@
           "color": "washed-black",
           "image_url": "https://images.unsplash.com/photo-1618453292459-53424b66bb6a?w=600&h=800&fit=crop&auto=format&q=75",
           "ai_generated": false
-        },
-        {
-          "color": "white",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20white%20tshirt%20named%20%27Oversized%20Pocket%20Tee%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "black",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20tshirt%20named%20%27Oversized%20Pocket%20Tee%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "olive",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20olive%20tshirt%20named%20%27Oversized%20Pocket%20Tee%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
         }
       ]
     },
@@ -2046,16 +1793,6 @@
           "color": "white",
           "image_url": "https://images.unsplash.com/photo-1615109255406-2a4354fc6b3e?w=600&h=800&fit=crop&auto=format&q=75",
           "ai_generated": false
-        },
-        {
-          "color": "black",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20sneaker%20named%20%27Stan%20Smith%20Sneakers%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "grey",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20grey%20sneaker%20named%20%27Stan%20Smith%20Sneakers%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
         }
       ]
     },
@@ -2073,8 +1810,7 @@
     "currency": "USD",
     "image_url": "https://images.unsplash.com/photo-1491553895911-0055eca6402d?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "black",
-      "white"
+      "black"
     ],
     "sizes": [
       "8",
@@ -2092,16 +1828,6 @@
           "color": "black",
           "image_url": "https://images.unsplash.com/photo-1491553895911-0055eca6402d?w=600&h=800&fit=crop&auto=format&q=75",
           "ai_generated": false
-        },
-        {
-          "color": "white",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20white%20sneaker%20named%20%27Pegasus%2041%20Running%20Shoe%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "grey",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20grey%20sneaker%20named%20%27Pegasus%2041%20Running%20Shoe%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
         }
       ]
     },
@@ -2136,21 +1862,6 @@
           "color": "light-blue",
           "image_url": "https://images.unsplash.com/photo-1616956455145-7c40e34a1c2a?w=600&h=800&fit=crop&auto=format&q=75",
           "ai_generated": false
-        },
-        {
-          "color": "indigo",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20indigo%20jean%20named%20%27Aesthetic%20Y2K%20Baggy%20Jeans%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "black",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20jean%20named%20%27Aesthetic%20Y2K%20Baggy%20Jeans%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "stone-wash",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20stone-wash%20jean%20named%20%27Aesthetic%20Y2K%20Baggy%20Jeans%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
         }
       ]
     },
@@ -2189,21 +1900,6 @@
           "color": "vintage-blue",
           "image_url": "https://images.unsplash.com/photo-1546635834-78554e816d55?w=600&h=800&fit=crop&auto=format&q=75",
           "ai_generated": false
-        },
-        {
-          "color": "indigo",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20indigo%20jean%20named%20%27High-Rise%20Mom%20Jeans%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "black",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20jean%20named%20%27High-Rise%20Mom%20Jeans%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "stone-wash",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20stone-wash%20jean%20named%20%27High-Rise%20Mom%20Jeans%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
         }
       ]
     },
@@ -2241,16 +1937,6 @@
           "color": "olive",
           "image_url": "https://images.unsplash.com/photo-1579592608950-061960817dac?w=600&h=800&fit=crop&auto=format&q=75",
           "ai_generated": false
-        },
-        {
-          "color": "black",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20jacket%20named%20%27Quilted%20Vest%20in%20Olive%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "tan",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20tan%20jacket%20named%20%27Quilted%20Vest%20in%20Olive%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
         }
       ]
     },
@@ -2288,16 +1974,6 @@
           "color": "cream",
           "image_url": "https://images.unsplash.com/photo-1760661696925-85cd09cac428?w=600&h=800&fit=crop&auto=format&q=75",
           "ai_generated": false
-        },
-        {
-          "color": "black",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20hoodie%20named%20%27Sherpa-Lined%20Fleece%20Pullover%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "navy",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20navy%20hoodie%20named%20%27Sherpa-Lined%20Fleece%20Pullover%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
         }
       ]
     },
@@ -2315,6 +1991,7 @@
     "currency": "USD",
     "image_url": "https://images.unsplash.com/photo-1633292750937-120a94f5c2bb?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
+      "black",
       "navy"
     ],
     "sizes": [
@@ -2339,13 +2016,8 @@
         },
         {
           "color": "black",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20hoodie%20named%20%27Champion%20Reverse%20Weave%20Hoodie%20with%20Big%20C%20Logo%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "cream",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20cream%20hoodie%20named%20%27Champion%20Reverse%20Weave%20Hoodie%20with%20Big%20C%20Logo%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/champion-logo-hoodie-1_black.jpg",
+          "ai_generated": false
         }
       ]
     },
@@ -2363,9 +2035,7 @@
     "currency": "USD",
     "image_url": "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "white",
-      "black",
-      "grey"
+      "white"
     ],
     "sizes": [
       "XS",
@@ -2383,16 +2053,6 @@
           "color": "white",
           "image_url": "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=600&h=800&fit=crop&auto=format&q=75",
           "ai_generated": false
-        },
-        {
-          "color": "black",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20tshirt%20named%20%27Basic%20Cotton%20Crew%20Neck%20Tee%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "olive",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20olive%20tshirt%20named%20%27Basic%20Cotton%20Crew%20Neck%20Tee%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
         }
       ]
     },
@@ -2432,16 +2092,6 @@
           "color": "black",
           "image_url": "https://images.unsplash.com/photo-1603960098814-684d00219f7b?w=600&h=800&fit=crop&auto=format&q=75",
           "ai_generated": false
-        },
-        {
-          "color": "olive",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20olive%20jacket%20named%20%27Beta%20AR%20Waterproof%20Shell%20Jacket%27%2C%20worn%20by%20a%20male%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "tan",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20tan%20jacket%20named%20%27Beta%20AR%20Waterproof%20Shell%20Jacket%27%2C%20worn%20by%20a%20male%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
         }
       ],
       "original_unsplash_url": "https://images.unsplash.com/photo-1548883354-94bcfe321cbb?w=600&h=800&fit=crop&auto=format&q=75"
@@ -2460,7 +2110,8 @@
     "currency": "TRY",
     "image_url": "https://images.unsplash.com/photo-1564557287817-3785e38ec1f5?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "black"
+      "black",
+      "cream"
     ],
     "sizes": [
       "XS",
@@ -2485,13 +2136,8 @@
         },
         {
           "color": "cream",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20cream%20hoodie%20named%20%27Cropped%20Fleece%20Hoodie%20with%20Hidden%20Zip%20Pocket%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "navy",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20navy%20hoodie%20named%20%27Cropped%20Fleece%20Hoodie%20with%20Hidden%20Zip%20Pocket%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "/variants/defacto-hoodie-tr-1_cream.jpg",
+          "ai_generated": false
         }
       ]
     },
@@ -2528,16 +2174,6 @@
           "color": "white",
           "image_url": "https://images.unsplash.com/photo-1587563871167-1ee9c731aefb?w=600&h=800&fit=crop&auto=format&q=75",
           "ai_generated": false
-        },
-        {
-          "color": "black",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20sneaker%20named%20%27Minimalist%20White%20Leather%20Sneakers%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "grey",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20grey%20sneaker%20named%20%27Minimalist%20White%20Leather%20Sneakers%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
         }
       ]
     },
@@ -2577,16 +2213,6 @@
           "color": "black",
           "image_url": "https://images.unsplash.com/photo-1557418669-db3f781a58c0?w=600&h=800&fit=crop&auto=format&q=75",
           "ai_generated": false
-        },
-        {
-          "color": "olive",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20olive%20jacket%20named%20%27Storm%20Commuter%20Tech%20Jacket%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "tan",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20tan%20jacket%20named%20%27Storm%20Commuter%20Tech%20Jacket%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
         }
       ]
     },
@@ -2604,9 +2230,7 @@
     "currency": "USD",
     "image_url": "https://images.unsplash.com/photo-1610222034376-8dd1149e0e60?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "black",
-      "grey",
-      "navy"
+      "black"
     ],
     "sizes": [
       "S",
@@ -2626,16 +2250,6 @@
           "color": "black",
           "image_url": "https://images.unsplash.com/photo-1610222034376-8dd1149e0e60?w=600&h=800&fit=crop&auto=format&q=75",
           "ai_generated": false
-        },
-        {
-          "color": "cream",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20cream%20hoodie%20named%20%27Clean%20Pullover%20Hoodie%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "navy",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20navy%20hoodie%20named%20%27Clean%20Pullover%20Hoodie%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
         }
       ]
     },
@@ -2653,9 +2267,7 @@
     "currency": "JPY",
     "image_url": "https://images.unsplash.com/photo-1686135153032-ce4813dfbcff?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
-      "white",
-      "black",
-      "navy"
+      "white"
     ],
     "sizes": [
       "S",
@@ -2672,16 +2284,6 @@
           "color": "white",
           "image_url": "https://images.unsplash.com/photo-1686135153032-ce4813dfbcff?w=600&h=800&fit=crop&auto=format&q=75",
           "ai_generated": false
-        },
-        {
-          "color": "black",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20tshirt%20named%20%27Supima%20Cotton%20Crew%20Neck%20T-Shirt%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
-        },
-        {
-          "color": "olive",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20olive%20tshirt%20named%20%27Supima%20Cotton%20Crew%20Neck%20T-Shirt%27%2C%20presented%20as%20a%20flat-lay%20studio%20shot%20with%20no%20person%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
         }
       ]
     },

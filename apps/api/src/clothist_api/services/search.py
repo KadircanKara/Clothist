@@ -84,7 +84,9 @@ def _build_where(f: SearchFilters, *, with_ts: bool) -> tuple[list[str], dict]:
         parts.append("gender = :p_gender")
         params["p_gender"] = f.gender
     if f.color:
-        parts.append("colors @> ARRAY[:p_color]::text[]")
+        # `colors` is varchar[] in Postgres; cast both sides to text[] so the
+        # @> operator finds a matching signature.
+        parts.append("colors::text[] @> ARRAY[:p_color]::text[]")
         params["p_color"] = f.color.lower()
     if f.min_price is not None:
         parts.append("price_usd >= :p_min_price")
