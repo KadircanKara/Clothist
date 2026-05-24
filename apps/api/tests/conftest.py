@@ -2,26 +2,31 @@
 
 Tests run against a real Postgres (per `plans/senior_dev_v3.md` §6g —
 SQLite is not supported because the GENERATED column for `price_usd`
-and JSONB operators are Postgres-only). Each integration test that
-touches the DB uses a per-test cleanup hook.
+and JSONB operators are Postgres-only).
+
+The module-level `engine` in `clothist_api.db.session` is bound to the
+first asyncio event loop that touches it. pytest-asyncio's default
+function-scoped loop creates a fresh loop per test, leaving the engine's
+pooled connections stranded. We dispose the engine after each async
+test so the next test creates fresh connections on the new loop.
 """
 from __future__ import annotations
 
-import asyncio
 from pathlib import Path
 
 import pytest
-
-
-@pytest.fixture(scope="session")
-def event_loop():
-    """Single event loop for the whole test session so async fixtures don't
-    bind to a loop that closes between tests."""
-    loop = asyncio.new_event_loop()
-    yield loop
-    loop.close()
+import pytest_asyncio
 
 
 @pytest.fixture
 def fixtures_dir() -> Path:
     return Path(__file__).parent / "fixtures"
+
+
+@pytest_asyncio.fixture(autouse=True)
+async def _dispose_engine_between_async_tests():
+    """Yield, then dispose the engine so the next test gets fresh asyncpg
+    connections bound to its own event loop. No-op for sync tests."""
+    yield
+    from clothist_api.db.session import engine
+    await engine.dispose()

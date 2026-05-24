@@ -1,48 +1,22 @@
 /**
  * Canonical mapping from seed-data color name → CSS background string.
  *
- * Compound entries ("black/white", "navy/white") render as a 50/50 split
- * via a hard-edge linear-gradient so the swatch shows both hues. "Floral"
- * gets a soft multi-hue gradient that reads as patterned rather than solid.
+ * The base palette is loaded from `data/taxonomy/colors.json` (the single
+ * source of truth shared with the Python CV pipeline at
+ * `apps/api/src/clothist_api/cv/palette.py`). Compound entries
+ * ("black/white", "navy/white") render as a 50/50 split via a hard-edge
+ * linear-gradient. "Floral" gets a soft multi-hue gradient.
  *
- * Keep this file in sync with `data/seed/products.json` colors when new
- * shades are introduced — the backend exposes the union of listing +
- * variant colors via /search/facets, so anything in the seed eventually
- * reaches a swatch.
+ * To add or rename a color: edit `data/taxonomy/colors.json` (NOT this
+ * file). The sync test in `apps/api/tests/test_color_palette_sync.py`
+ * fails the CI build if the two sources diverge.
  */
-const COLOR_HEX: Record<string, string> = {
-  black: "#0a0a09",
-  white: "#fafafa",
-  cream: "#f0e8d4",
-  grey: "#a3a3a3",
-  navy: "#1a2440",
-  blue: "#3b5bdb",
-  "light-blue": "#a4c2e0",
-  "vintage-blue": "#6c8aab",
-  indigo: "#3b3672",
-  green: "#3a8045",
-  forest: "#2d4a32",
-  olive: "#6b6b32",
-  rust: "#b54e21",
-  orange: "#e7791f",
-  red: "#c62833",
-  pink: "#e9a4ad",
-  brown: "#6b4a32",
-  tan: "#cdab83",
-  beige: "#e2d5b8",
-  khaki: "#b8a276",
-  camel: "#c39a64",
-  stone: "#d6cfc0",
-  "stone-wash": "#a8b4be",
-  "washed-black": "#3d3a36",
-  "faded-black": "#2a2724",
-  purple: "#7c5edb",
-  yellow: "#e9c33d",
-  burgundy: "#762a36",
-  sand: "#dac7a5",
-  gold: "#c9a04a",
-  charcoal: "#3a3a3a",
-};
+// Path resolves from apps/web/lib/colors.ts up to the repo root.
+import colorsData from "../../../data/taxonomy/colors.json";
+
+const COLOR_HEX: Record<string, string> = Object.fromEntries(
+  colorsData.colors.map((c) => [c.name, c.hex]),
+);
 
 /**
  * Return a CSS `background` value that visually represents the color. Falls

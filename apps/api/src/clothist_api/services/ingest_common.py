@@ -16,6 +16,7 @@ from datetime import datetime, timezone
 from decimal import Decimal
 from typing import Any
 
+from sqlalchemy import func, text
 from sqlalchemy.dialects.postgresql import insert as pg_insert
 
 from clothist_api.models import Product
@@ -83,9 +84,22 @@ def to_row(raw: dict[str, Any]) -> dict[str, Any]:
 def build_upsert_stmt(rows: list[dict[str, Any]]):
     """Build the ON CONFLICT DO UPDATE statement keyed by
     (retailer, retailer_product_id), refreshing all UPDATE_COLS.
+
+    `attributes` is special-cased: instead of a full JSONB replacement, the
+    statement does a shallow merge via Postgres's `||` operator. The scraper
+    writes its keys on top of whatever is there; CV-side keys (`cv_verdict`,
+    `cv_classified_at`, `cv_model`, `cv_image_hash`, `cv_fetch_failures`,
+    `cv_skip_until`) survive re-ingest because they're never in the
+    scraper's outgoing payload. See plans/cv_classify/senior_dev_v2.md §5b.
     """
     stmt = pg_insert(Product).values(rows)
-    update_set = {col: stmt.excluded[col] for col in UPDATE_COLS}
+    update_set = {col: stmt.excluded[col] for col in UPDATE_COLS if col != "attributes"}
+    # JSONB-merge: existing.attributes || incoming.attributes.
+    # `func.coalesce` defends against a row that somehow has NULL attributes,
+    # though `server_default '{}'::jsonb` on the column makes it unlikely.
+    update_set["attributes"] = func.coalesce(
+        Product.__table__.c.attributes, text("'{}'::jsonb")
+    ).op("||")(stmt.excluded.attributes)
     return stmt.on_conflict_do_update(
         constraint="uq_products_retailer_rpid",
         set_=update_set,

@@ -148,18 +148,29 @@ CATEGORY_IMPLIED_GENDER: dict[str, str] = {
 def normalize_category(product_type: str | None) -> str | None:
     """Return the canonical category token for a vendor `product_type`, or
     None if no alias matches (caller logs an alias miss).
+
+    Substring scan goes longest-alias-first so multi-word phrases beat their
+    constituent substrings: `"high top"` beats `"top"` for "High Top
+    Sneakers" — without this, "top" in the alias map (intended for "tank
+    top" / "crop top") wrongly routes Jordan sneakers to `tshirts`. See
+    plans/cv_classify/senior_dev_v2.md §0 + §12 #11 for the empirical case.
     """
     if not product_type:
         return None
     key = product_type.lower().strip()
     if key in CATEGORY_ALIASES:
         return CATEGORY_ALIASES[key]
-    # Substring search — many vendors use multi-word product types
-    # ("Women's Midi Dresses", "Tech Pack Tee").
-    for alias, canonical in CATEGORY_ALIASES.items():
+    for alias in _ALIASES_BY_LENGTH_DESC:
         if alias in key:
-            return canonical
+            return CATEGORY_ALIASES[alias]
     return None
+
+
+# Pre-compute the descending-length order once; the alias map is module-level
+# and immutable at runtime, so it's safe to memoize.
+_ALIASES_BY_LENGTH_DESC: tuple[str, ...] = tuple(
+    sorted(CATEGORY_ALIASES.keys(), key=len, reverse=True)
+)
 
 
 # Gender canonicalization — handles common vendor spellings.

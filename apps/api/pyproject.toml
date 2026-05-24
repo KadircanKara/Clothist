@@ -31,6 +31,12 @@ dev = [
     "tiktoken>=0.7",
     "respx>=0.21",
 ]
+cv = [
+    "transformers>=4.46",
+    "torch>=2.4",
+    "Pillow>=11.0",
+    "numpy>=1.26",
+]
 
 [build-system]
 requires = ["hatchling"]

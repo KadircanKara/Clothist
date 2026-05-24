@@ -94,3 +94,101 @@ async def test_original_price_refreshes_on_reupsert():
             f"original_price not refreshed on re-upsert: got {original_price}. "
             f"Did you forget to add 'original_price' to UPDATE_COLS?"
         )
+
+
+@pytest.mark.asyncio
+async def test_cv_keys_survive_reingest():
+    """CR-6 / CR-14 / §5b — when the scraper re-ingests a product, JSONB
+    keys that live alongside the scraper's payload (notably `cv_verdict`,
+    `cv_classified_at`, `cv_model`) MUST survive the upsert.
+
+    The fix in build_upsert_stmt is to merge `attributes` via Postgres
+    `jsonb || jsonb` rather than replace it. Without the merge, every
+    re-ingest wipes the CV verdict and demotes the catalog back to the
+    scraper's text-derived guess.
+    """
+    test_rpid = "cv-survives-reingest-test-1"
+    async with SessionLocal() as session:
+        # Cleanup any leftover.
+        await session.execute(
+            text(
+                "DELETE FROM products WHERE retailer = :r AND retailer_product_id = :id"
+            ).bindparams(r=TEST_RETAILER, id=test_rpid)
+        )
+        await session.commit()
+
+        # First upsert — scraper writes its own attributes payload.
+        row1 = to_row({
+            **_base_row(price="100.00", original_price=None),
+            "retailer_product_id": test_rpid,
+            "attributes": {"variants": [], "features": [], "raw_category": "Tees"},
+        })
+        await session.execute(build_upsert_stmt([row1]))
+        await session.commit()
+
+        # Simulate the CV pass writing into attributes via a direct UPDATE
+        # (the real CV CLI does this; we just need to ensure the shape ends
+        # up the same).
+        cv_payload = {
+            "cv_verdict": {
+                "category": {"value": "tshirts", "confidence": 0.91, "runner_up": None},
+                "gender":   {"value": "unisex",  "confidence": 0.80, "runner_up": None},
+                "colors":   [],
+                "scraper_previous": {"category": "tshirts", "gender": "unisex"},
+                "colors_previous": [],
+            },
+            "cv_classified_at": "2026-05-24T17:00:00+00:00",
+            "cv_model": "openai/clip-vit-base-patch32",
+        }
+        await session.execute(
+            text(
+                "UPDATE products "
+                "SET attributes = attributes || CAST(:p AS jsonb) "
+                "WHERE retailer = :r AND retailer_product_id = :id"
+            ).bindparams(
+                p=__import__("json").dumps(cv_payload),
+                r=TEST_RETAILER,
+                id=test_rpid,
+            )
+        )
+        await session.commit()
+
+        # Second scraper upsert — same product, scraper writes its
+        # attributes payload AGAIN. This is the re-ingest case.
+        row2 = to_row({
+            **_base_row(price="95.00", original_price=None),
+            "retailer_product_id": test_rpid,
+            "attributes": {"variants": [], "features": [], "raw_category": "Tees"},
+        })
+        await session.execute(build_upsert_stmt([row2]))
+        await session.commit()
+
+        # Verify the CV keys are still present.
+        result = await session.execute(
+            select(Product.attributes, Product.price).where(
+                (Product.retailer == TEST_RETAILER)
+                & (Product.retailer_product_id == test_rpid)
+            )
+        )
+        attrs, price = result.one()
+
+        # Cleanup.
+        await session.execute(
+            text(
+                "DELETE FROM products WHERE retailer = :r AND retailer_product_id = :id"
+            ).bindparams(r=TEST_RETAILER, id=test_rpid)
+        )
+        await session.commit()
+
+        # Scraper-side keys refreshed.
+        assert str(price) == "95.00", f"price not refreshed: {price}"
+        assert attrs.get("raw_category") == "Tees"
+
+        # CV-side keys preserved.
+        assert "cv_verdict" in attrs, (
+            "cv_verdict missing after re-ingest — JSONB merge is not preserving CV keys. "
+            "Check build_upsert_stmt in services/ingest_common.py."
+        )
+        assert attrs["cv_classified_at"] == "2026-05-24T17:00:00+00:00"
+        assert attrs["cv_model"] == "openai/clip-vit-base-patch32"
+        assert attrs["cv_verdict"]["category"]["value"] == "tshirts"
