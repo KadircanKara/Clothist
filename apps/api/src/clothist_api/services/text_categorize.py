@@ -51,9 +51,18 @@ _CANONICAL_TOKEN_SETS = {
     "tshirts":     {"t-shirt", "t-shirts", "tshirt", "tshirts", "tee", "tees",
                     "tank", "tanks", "polo", "polos", "shirt", "bodysuit",
                     "bodysuits", "cami", "top", "tops", "jersey", "jerseys",
-                    "crew", "crewneck"},
+                    "crew", "crewneck",
+                    # Tops with style-specific names
+                    "henley", "henleys", "rugby", "rugbys",
+                    "thermal", "thermals"},
     "hoodies":     {"hoodie", "hoodies", "sweatshirt", "sweatshirts"},
-    "sweaters":    {"sweater", "sweaters", "cardigan", "cardigans"},
+    "sweaters":    {"sweater", "sweaters", "cardigan", "cardigans",
+                    # Pullovers — knit tops you pull over the head. Was a
+                    # weak (0.80) alias for hoodies but hits like "ALD
+                    # Golf Quarter Zip Pullover" never cleared the
+                    # cascade. Re-homed to sweaters as canonical (0.97).
+                    "pullover", "pullovers",
+                    "poncho", "ponchos"},
     "jackets":     {"jacket", "jackets", "blazer", "blazers", "coat", "coats",
                     "parka", "windbreaker", "vest", "vests"},
     "pants":       {"pant", "pants", "trousers", "trouser", "chino", "chinos",
@@ -61,9 +70,15 @@ _CANONICAL_TOKEN_SETS = {
     "jeans":       {"jean", "jeans", "denim"},
     "shorts":      {"short", "shorts", "shorty", "shorties", "boardshort",
                     "boardshorts"},
-    "skirts":      {"skirt", "skirts"},
+    "skirts":      {"skirt", "skirts", "skort", "skorts"},
     "dresses":     {"dress", "dresses", "gown", "gowns", "romper", "rompers",
-                    "playsuit", "playsuits", "babydoll"},
+                    "playsuit", "playsuits", "babydoll",
+                    # Whole-body baby/kids pieces — usually a romper or
+                    # one-piece suit cut.
+                    "shortall", "shortalls",
+                    "coverall", "coveralls",
+                    "jumpsuit", "jumpsuits",
+                    "onesie", "onesies"},
     "footwear":    # Footwear of every kind rolls into footwear (the MVP taxonomy
                    # bundles boots / flats / loafers / sandals here — see
                    # scrapers/normalize.py:CATEGORY_ALIASES comment).
@@ -80,9 +95,20 @@ _CANONICAL_TOKEN_SETS = {
                     "flip-flops", "moccasin", "moccasins", "moc", "mocs",
                     "heel", "heels", "stiletto", "stilettos", "pump", "pumps",
                     "oxford", "oxfords", "derby", "derbies", "slide", "slides",
+                    # Boots — separately canonical so "Cowboy Boots",
+                    # "Classic Boot", "Western Bootie" all clear the
+                    # cascade. Was a weak (0.80) alias before.
+                    "boot", "boots", "bootie", "booties",
                     # Footwear-only brand names — safe additions because
                     # these brands don't sell apparel.
-                    "hoka", "asics"},
+                    "hoka", "asics",
+                    # Allbirds footwear model names (Cruiser, Dasher,
+                    # Breezer) and the adidas Samba — all are shoe-only
+                    # model lines, no apparel cross-use in the corpus.
+                    "cruiser", "cruisers",
+                    "dasher", "dashers",
+                    "breezer", "breezers",
+                    "samba", "sambas"},
     "accessories": # Clothing-adjacent items: wearable (hats, jewelry, watches,
                    # gloves, sunglasses) OR made of cloth/leather (bags,
                    # wallets, scarves, socks, towels). Non-clothing items
@@ -91,18 +117,29 @@ _CANONICAL_TOKEN_SETS = {
                    {"belt", "belts", "hat", "hats", "cap", "caps", "snapback",
                     "snapbacks", "beanie", "beanies", "scarf", "scarves",
                     "bag", "bags", "tote", "totes", "backpack", "backpacks",
-                    "duffel", "duffels", "sling", "slings", "pouch", "pouches",
+                    "duffel", "duffels", "duffle", "duffles",  # both spellings
+                    "sling", "slings", "pouch", "pouches",
                     "clutch", "clutches", "crossbody", "satchel", "satchels",
                     "wallet", "wallets", "cardholder",
                     "bandana", "bandanas", "glove", "gloves",
                     "mitten", "mittens", "sunglasses", "glasses", "goggle",
                     "goggles", "jewelry", "necklace", "necklaces", "bracelet",
                     "bracelets", "ring", "rings", "earring", "earrings",
+                    "pendant", "pendants",
                     "watch", "watches", "towel", "towels",
                     "sock", "socks", "lace", "laces", "strap", "straps",
                     "insole", "insoles", "pin", "pins", "patch", "patches",
-                    "headband", "headbands", "wristband", "wristbands"},
-    "swimwear":    {"bikini", "bikinis", "swimsuit", "swimsuits", "swimwear"},
+                    "headband", "headbands", "wristband", "wristbands",
+                    # Hair accessories
+                    "scrunchie", "scrunchies", "clip", "clips",
+                    # Sportswear add-ons (worn over the garment)
+                    "sleeve", "sleeves",
+                    # Hung-from-neck accessories
+                    "lanyard", "lanyards",
+                    # Rothy's "Carryall" — a tote-class bag
+                    "carryall", "carryalls"},
+    "swimwear":    {"bikini", "bikinis", "swimsuit", "swimsuits", "swimwear",
+                    "tankini", "tankinis", "sarong", "sarongs"},
     "underwear":   {"underwear", "lingerie", "bra", "bras", "briefs", "boxer",
                     "boxers", "trunk", "trunks"},
 }
@@ -168,8 +205,28 @@ _STRONG_MULTI_WORD_ALIASES: dict[str, str] = {
     "card holder": "accessories",
     "phone case": "accessories",
     "phone cover": "accessories",
+    "iphone case": "accessories",
+    "iphone cover": "accessories",
+    "passport holder": "accessories",
+    "ponytail holder": "accessories",
+    "pony tail holder": "accessories",   # Kith uses two-word spelling
+    "pony tail holders": "accessories",
+    "hair clip": "accessories",
+    "ear cuff": "accessories",
+    # Baby/kids one-piece outfits — "one-piece suit" is unambiguously a
+    # dress-class item; bare "one piece" / "one-piece" stays out (could
+    # be swimwear).
+    "one-piece suit": "dresses",
+    "one piece suit": "dresses",
     "face mask": "accessories",
     "ski mask": "accessories",
+    # Sweater-family multi-words. "Quarter zip" / "half zip" are
+    # canonical pullovers in sweater UX.
+    "quarter zip": "sweaters",
+    "half zip": "sweaters",
+    "half-zip": "sweaters",
+    "zip up": "sweaters",
+    "zip-up": "sweaters",
     "tie top": "swimwear",          # Kith Women bikini tops
     "tie bottom": "swimwear",       # Kith Women bikini bottoms
     "triangle top": "swimwear",
@@ -198,13 +255,19 @@ EXCLUDED_CATEGORY = "excluded"
 NON_CLOTHING_TOKENS: set[str] = {
     # Drinkware / kitchenware
     "flask", "flasks", "tumbler", "tumblers", "mug", "mugs",
-    "ashtray", "ashtrays", "candle", "candles",
+    "saucer", "saucers",
+    "ashtray", "ashtrays", "candle", "candles", "diffuser", "diffusers",
     # Tools + metal trinkets (the ALD Golf line — cigar cutters, divot
     # tools, lighters, keychains, charms are all non-clothing).
     "lighter", "lighters", "cutter", "cutters", "opener", "openers",
     "keychain", "keychains", "charm", "charms",
-    # Homewares (Kith Treats Farmers Market ceramic line)
+    # Homewares (Kith Treats Farmers Market ceramic line + ALD home decor)
     "ceramic", "ceramics", "basket", "baskets",
+    "vase", "vases",
+    "blanket", "blankets",         # wool blanket = homewares
+    "coaster", "coasters",
+    "placemat", "placemats",
+    "turntable", "turntables",
     # Sports gear that isn't apparel
     "putter", "putters", "divot",
     # Tobacco
@@ -218,6 +281,8 @@ NON_CLOTHING_TOKENS: set[str] = {
     # reading is "wearable OR cloth used in clothing"; umbrellas don't
     # qualify.
     "umbrella", "umbrellas",
+    # Decorative collectibles
+    "penny", "pennies",
 }
 
 NON_CLOTHING_MULTI_WORD: set[str] = {
@@ -225,6 +290,15 @@ NON_CLOTHING_MULTI_WORD: set[str] = {
     "putter cover", "driver cover", "club cover", "head cover",
     # Tools
     "divot tool",
+    # Homewares head-noun multi-words. "Throw pillow" / "espresso cup" /
+    # "catchall box" / "slip mat" / "wool blanket" — single-word "throw"
+    # / "cup" / "box" are too generic to mark as non-clothing on their
+    # own, but in these phrases the head is clearly homewares.
+    "throw pillow", "throw pillows",
+    "espresso cup", "espresso cups",
+    "catchall box", "catchall boxes",
+    "slip mat", "slip mats",
+    "wool blanket", "wool blankets",
     # Homewares with non-clothing head noun
     "bottle holder", "egg holder", "cigar holder",
     # Cigar/Tobacco accessories
