@@ -18,15 +18,13 @@ export function CommerceHeader() {
   const { count } = cartTotals(lines);
 
   return (
-    <header className="hairline-b bg-background/95 backdrop-blur sticky top-0 z-40">
-      <div className="mx-auto max-w-[1600px] flex items-center justify-between gap-6 px-6 py-4 lg:px-10">
-        <Link href="/" aria-label="Clothist — home" className="shrink-0">
-          <span className="font-serif italic text-2xl leading-none">
-            Clothist<span className="text-accent">.</span>
-          </span>
-        </Link>
-
-        <nav className="hidden md:flex items-center gap-8" aria-label="Catalog navigation">
+    <header className="sticky top-0 z-40 bg-background/85 backdrop-blur-md hairline-b">
+      <div className="mx-auto grid max-w-[1600px] grid-cols-[1fr_auto_1fr] items-center gap-6 px-6 py-5 lg:px-12 lg:py-6">
+        {/* Left: nav (desktop) */}
+        <nav
+          className="hidden md:flex items-center gap-9"
+          aria-label="Catalog navigation"
+        >
           {NAV.map((n) => {
             const active = pathname === n.href || pathname.startsWith(`${n.href}/`);
             return (
@@ -34,31 +32,47 @@ export function CommerceHeader() {
                 key={n.href}
                 href={n.href}
                 className={[
-                  "font-mono text-[11px] uppercase tracking-widest transition-colors",
+                  "relative font-mono text-[11px] uppercase tracking-[0.18em] transition-colors",
                   active ? "text-foreground" : "text-muted hover:text-foreground",
                 ].join(" ")}
               >
                 {n.label}
+                {active && (
+                  <span
+                    aria-hidden
+                    className="absolute -bottom-1.5 left-0 right-0 h-px bg-foreground"
+                  />
+                )}
               </Link>
             );
           })}
         </nav>
 
-        <div className="flex items-center gap-2">
+        {/* Center: wordmark */}
+        <Link
+          href="/"
+          aria-label="Clothist — home"
+          className="font-display text-[26px] sm:text-[30px] leading-none tracking-[-0.06em] lowercase justify-self-center"
+        >
+          clothist<span className="text-accent">.</span>
+        </Link>
+
+        {/* Right: icons */}
+        <div className="flex items-center justify-end gap-1">
           <ThemeToggle />
           <Link
             href="/"
             aria-label="AI search"
-            className="grid h-9 w-9 place-items-center rounded-full text-muted hover:text-foreground hover:bg-bg-alt transition-colors"
+            className="grid h-10 w-10 place-items-center rounded-full text-muted hover:text-foreground hover:bg-bg-alt transition-colors"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="18"
+              width="20"
+              height="20"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              strokeWidth="1.6"
+              strokeWidth="1.5"
               strokeLinecap="round"
               strokeLinejoin="round"
               aria-hidden
@@ -67,20 +81,24 @@ export function CommerceHeader() {
               <path d="m21 21-4.3-4.3" />
             </svg>
           </Link>
+          <span
+            aria-hidden
+            className="mx-1 h-5 w-px bg-muted/30"
+          />
           <button
             type="button"
             onClick={open}
             aria-label={`Open cart (${count} items)`}
-            className="relative grid h-9 w-9 place-items-center rounded-full text-muted hover:text-foreground hover:bg-bg-alt transition-colors"
+            className="relative grid h-10 w-10 place-items-center rounded-full text-muted hover:text-foreground hover:bg-bg-alt transition-colors"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="18"
+              width="20"
+              height="20"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              strokeWidth="1.6"
+              strokeWidth="1.5"
               strokeLinecap="round"
               strokeLinejoin="round"
               aria-hidden
@@ -89,13 +107,35 @@ export function CommerceHeader() {
               <path d="M9 7a3 3 0 0 1 6 0" />
             </svg>
             {count > 0 && (
-              <span className="absolute -top-1 -right-1 bg-accent text-accent-fg font-mono text-[9px] min-w-[16px] h-4 px-1 grid place-items-center rounded-full">
+              <span className="absolute -top-0.5 -right-0.5 grid min-w-[18px] h-[18px] place-items-center rounded-full bg-foreground px-1 font-mono text-[9px] text-background">
                 {count}
               </span>
             )}
           </button>
         </div>
       </div>
+
+      {/* Mobile nav row */}
+      <nav
+        className="md:hidden hairline-t flex items-center justify-around px-6 py-3"
+        aria-label="Catalog navigation, mobile"
+      >
+        {NAV.map((n) => {
+          const active = pathname === n.href || pathname.startsWith(`${n.href}/`);
+          return (
+            <Link
+              key={n.href}
+              href={n.href}
+              className={[
+                "font-mono text-[11px] uppercase tracking-[0.18em]",
+                active ? "text-foreground" : "text-muted",
+              ].join(" ")}
+            >
+              {n.label}
+            </Link>
+          );
+        })}
+      </nav>
     </header>
   );
 }

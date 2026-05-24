@@ -41,61 +41,47 @@ export function CatalogView({ title, eyebrow, gender }: Props) {
   const total = results.data?.total ?? 0;
 
   return (
-    <div className="relative z-10">
+    <div className="commerce relative z-10 min-h-screen">
       <CommerceHeader />
 
-      <section className="mx-auto max-w-[1600px] px-6 pb-6 pt-10 lg:px-10">
-        <p className="kicker">{eyebrow}</p>
-        <h1 className="font-serif italic text-6xl mt-3 lg:text-7xl">{title}</h1>
+      <section className="mx-auto max-w-[1600px] px-6 pb-2 pt-10 lg:px-12 lg:pt-16">
+        <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted">
+          {eyebrow}
+        </p>
+        <h1 className="font-display-tight text-[18vw] sm:text-[14vw] lg:text-[11vw] leading-[0.86] tracking-[-0.06em] mt-4">
+          {title}
+        </h1>
       </section>
 
-      <section className="mx-auto max-w-[1600px] px-6 pb-24 lg:px-10">
-        <div className="hairline-b flex flex-wrap items-center justify-between gap-4 py-4">
-          <div className="flex items-center gap-2 overflow-x-auto">
-            <button
-              type="button"
+      <section className="mx-auto max-w-[1600px] px-6 pb-32 lg:px-12">
+        <div className="border-t border-line/10 flex flex-wrap items-center justify-between gap-4 py-5">
+          <div className="flex items-center gap-2 overflow-x-auto -mx-1 px-1">
+            <CategoryChip
+              active={!category}
               onClick={() => setCategory(undefined)}
-              aria-pressed={!category}
-              className={[
-                "shrink-0 rounded-full px-3 h-8 font-mono text-[10px] uppercase tracking-widest transition-colors",
-                !category
-                  ? "bg-foreground text-background"
-                  : "hairline text-muted hover:text-foreground",
-              ].join(" ")}
-            >
-              All
-            </button>
-            {facets.data?.categories.map((c) => {
-              const active = category === c.value;
-              return (
-                <button
-                  key={c.value}
-                  type="button"
-                  onClick={() => setCategory(c.value)}
-                  aria-pressed={active}
-                  className={[
-                    "shrink-0 rounded-full px-3 h-8 font-mono text-[10px] uppercase tracking-widest transition-colors",
-                    active
-                      ? "bg-foreground text-background"
-                      : "hairline text-muted hover:text-foreground",
-                  ].join(" ")}
-                >
-                  {c.value}{" "}
-                  <span className={active ? "text-background/70" : "text-muted/70"}>
-                    {c.count}
-                  </span>
-                </button>
-              );
-            })}
+              label="All"
+              count={total}
+            />
+            {facets.data?.categories.map((c) => (
+              <CategoryChip
+                key={c.value}
+                active={category === c.value}
+                onClick={() => setCategory(c.value)}
+                label={c.value}
+                count={c.count}
+              />
+            ))}
           </div>
-          <div className="flex items-center gap-3">
-            <span className="kicker">{total} {total === 1 ? "piece" : "pieces"}</span>
+          <div className="flex items-center gap-4">
+            <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
+              {total} {total === 1 ? "piece" : "pieces"}
+            </span>
             <label className="inline-flex items-center gap-2">
               <span className="sr-only">Sort</span>
               <select
                 value={sort}
                 onChange={(e) => setSort(e.target.value as SortKey)}
-                className="hairline rounded-full bg-transparent px-3 py-1 font-mono text-[11px] uppercase tracking-widest focus:outline-none focus:ring-1 focus:ring-foreground"
+                className="bg-transparent border border-line/15 px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.18em] focus:outline-none focus:border-foreground transition-colors cursor-pointer"
               >
                 {SORT_LABELS.map((o) => (
                   <option key={o.value} value={o.value}>
@@ -110,12 +96,12 @@ export function CatalogView({ title, eyebrow, gender }: Props) {
         {results.isLoading ? (
           <Skeleton />
         ) : items.length === 0 ? (
-          <div className="hairline mt-10 flex flex-col items-center gap-3 py-20 text-center">
-            <span className="font-serif italic text-3xl">No pieces matched.</span>
+          <div className="border border-line/10 mt-10 flex flex-col items-center gap-3 py-24 text-center">
+            <span className="font-display text-4xl tracking-[-0.04em]">No pieces matched.</span>
             <p className="text-sm text-muted">Try a different category.</p>
           </div>
         ) : (
-          <ul className="mt-8 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
+          <ul className="mt-8 grid grid-cols-2 gap-x-6 gap-y-14 sm:grid-cols-3 lg:grid-cols-4">
             {items.map((p, i) => (
               <li
                 key={p.id}
@@ -132,34 +118,86 @@ export function CatalogView({ title, eyebrow, gender }: Props) {
   );
 }
 
+function CategoryChip({
+  active,
+  onClick,
+  label,
+  count,
+}: {
+  active: boolean;
+  onClick: () => void;
+  label: string;
+  count: number;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={active}
+      className={[
+        "group relative shrink-0 px-4 h-9 font-mono text-[11px] uppercase tracking-[0.18em] transition-colors capitalize",
+        active
+          ? "bg-foreground text-background"
+          : "border border-line/15 text-foreground hover:border-foreground",
+      ].join(" ")}
+    >
+      {label}{" "}
+      <span className={active ? "text-background/60 ml-1" : "text-muted ml-1"}>
+        {count}
+      </span>
+    </button>
+  );
+}
+
 function CatalogCard({ product }: { product: Product }) {
   const v = product.attributes?.variants;
   const hero = v && v.length > 0 ? v[0].image_url : product.image_url;
+  const onSale =
+    product.original_price &&
+    product.price &&
+    product.original_price !== product.price;
+
   return (
     <Link href={`/product/${product.retailer_product_id}`} className="group block">
-      <div className="relative aspect-[3/4] w-full overflow-hidden bg-bg-alt hairline">
-        {hero && (
+      <div className="relative aspect-[4/5] w-full overflow-hidden bg-bg-alt">
+        {hero ? (
           <Image
             src={hero}
             alt={product.title}
             fill
             sizes="(max-width: 768px) 50vw, (max-width: 1280px) 33vw, 25vw"
-            className="object-cover transition-transform duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
+            className="object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.05]"
           />
+        ) : (
+          <div className="grid h-full place-items-center font-mono text-[10px] uppercase tracking-[0.22em] text-muted">
+            No image
+          </div>
+        )}
+        {!product.in_stock && (
+          <span className="absolute top-3 left-3 bg-background/95 px-2 py-1 font-mono text-[9px] uppercase tracking-[0.18em] text-foreground">
+            Out of stock
+          </span>
+        )}
+        {onSale && (
+          <span className="absolute top-3 right-3 bg-foreground text-background px-2 py-1 font-mono text-[9px] uppercase tracking-[0.18em]">
+            Sale
+          </span>
         )}
       </div>
-      <div className="pt-3 space-y-1">
-        <p className="font-mono text-[10px] uppercase tracking-widest text-muted truncate">
+      <div className="pt-4 space-y-1.5">
+        <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted truncate">
           {product.brand ?? product.retailer}
         </p>
         <h3 className="line-clamp-2 text-[15px] font-medium leading-snug">
-          <span className="link-reveal">{product.title}</span>
+          <span className="underline-offset-4 decoration-1 group-hover:underline">
+            {product.title}
+          </span>
         </h3>
-        <p className="font-mono text-sm pt-1">
+        <p className="font-mono text-[13px] pt-1">
           {product.price} <span className="text-muted">{product.currency}</span>
         </p>
         {v && v.length > 1 && (
-          <p className="font-mono text-[10px] uppercase tracking-widest text-muted">
+          <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted">
             +{v.length - 1} {v.length - 1 === 1 ? "color" : "colors"}
           </p>
         )}
@@ -170,10 +208,10 @@ function CatalogCard({ product }: { product: Product }) {
 
 function Skeleton() {
   return (
-    <ul className="mt-8 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
+    <ul className="mt-8 grid grid-cols-2 gap-x-6 gap-y-14 sm:grid-cols-3 lg:grid-cols-4">
       {Array.from({ length: 8 }).map((_, i) => (
         <li key={i} aria-hidden>
-          <div className="skeleton aspect-[3/4] w-full hairline" />
+          <div className="skeleton aspect-[4/5] w-full" />
           <div className="mt-3 space-y-2">
             <div className="skeleton h-3 w-1/3" />
             <div className="skeleton h-4 w-2/3" />

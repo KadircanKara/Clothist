@@ -6,7 +6,6 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
 import { CommerceHeader } from "@/components/commerce/commerce-header";
-import { Button } from "@/components/ui/button";
 import { getProduct, searchProducts } from "@/lib/api";
 import { useCart } from "@/lib/cart-store";
 import type { Product, ProductVariant } from "@/lib/types";
@@ -43,6 +42,7 @@ function PdpBody({ product }: { product: Product }) {
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [qty, setQty] = useState(1);
   const [adding, setAdding] = useState(false);
+  const [justAdded, setJustAdded] = useState(false);
 
   const addLine = useCart((s) => s.addLine);
   const openCart = useCart((s) => s.open);
@@ -82,6 +82,8 @@ function PdpBody({ product }: { product: Product }) {
       qty,
     );
     setAdding(false);
+    setJustAdded(true);
+    setTimeout(() => setJustAdded(false), 1800);
   };
 
   const handleBuyNow = () => {
@@ -90,15 +92,15 @@ function PdpBody({ product }: { product: Product }) {
   };
 
   return (
-    <div className="relative z-10">
+    <div className="commerce relative z-10 min-h-screen">
       <CommerceHeader />
 
-      <main className="mx-auto max-w-[1440px] px-6 pb-24 pt-8 lg:px-10">
-        <nav className="kicker mb-6 flex items-center gap-2 text-muted">
+      <main className="mx-auto max-w-[1480px] px-6 pb-32 pt-6 lg:px-12 lg:pt-10">
+        <nav className="font-mono text-[10px] uppercase tracking-[0.18em] mb-8 flex items-center gap-2 text-muted">
           <Link href="/products" className="hover:text-foreground">Products</Link>
           {product.gender && (
             <>
-              <span aria-hidden>·</span>
+              <span aria-hidden>/</span>
               <Link href={`/${product.gender}`} className="hover:text-foreground capitalize">
                 {product.gender}
               </Link>
@@ -106,31 +108,34 @@ function PdpBody({ product }: { product: Product }) {
           )}
           {product.category && (
             <>
-              <span aria-hidden>·</span>
+              <span aria-hidden>/</span>
               <span className="text-foreground capitalize">{product.category}</span>
             </>
           )}
         </nav>
 
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_440px] lg:gap-16">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_440px] lg:gap-20">
           <Gallery
             variants={variants}
             activeColor={selectedColor}
             onSelect={setSelectedColor}
+            title={product.title}
           />
 
-          <aside className="self-start lg:sticky lg:top-24 space-y-8">
-            <header className="space-y-3">
-              <p className="font-mono text-[10px] uppercase tracking-widest text-muted">
+          <aside className="self-start lg:sticky lg:top-32 space-y-10">
+            <header className="space-y-4">
+              <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted">
                 {product.brand ?? product.retailer}
-                {product.category && <> · {product.category}</>}
               </p>
-              <h1 className="font-serif italic text-4xl leading-tight">
+              <h1 className="font-display text-[44px] sm:text-[52px] lg:text-[60px] tracking-[-0.045em] leading-[0.92] text-foreground">
                 {product.title}
               </h1>
-              <div className="flex items-baseline gap-3">
-                <p className="font-mono text-2xl">
-                  {product.price} <span className="text-base text-muted">{product.currency}</span>
+              <div className="flex items-baseline gap-3 pt-1">
+                <p className="font-display text-3xl tracking-tight">
+                  {product.price}
+                  <span className="text-base text-muted font-normal tracking-normal ml-2">
+                    {product.currency}
+                  </span>
                 </p>
                 {onSale && (
                   <p className="font-mono text-sm text-muted line-through">
@@ -143,10 +148,15 @@ function PdpBody({ product }: { product: Product }) {
               )}
             </header>
 
-            <section aria-labelledby="color-heading" className="space-y-3">
-              <p id="color-heading" className="kicker">
-                Select color · <span className="text-foreground capitalize">{selectedColor}</span>
-              </p>
+            <section aria-labelledby="color-heading" className="space-y-4">
+              <div className="flex items-baseline justify-between">
+                <p id="color-heading" className="font-mono text-[10px] uppercase tracking-[0.22em]">
+                  Color
+                </p>
+                <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted capitalize">
+                  {selectedColor}
+                </p>
+              </div>
               <ColorSwatches
                 variants={variants}
                 active={selectedColor}
@@ -154,14 +164,16 @@ function PdpBody({ product }: { product: Product }) {
               />
             </section>
 
-            <section aria-labelledby="size-heading" className="space-y-3">
+            <section aria-labelledby="size-heading" className="space-y-4">
               <div className="flex items-center justify-between">
-                <p id="size-heading" className="kicker">Select size</p>
+                <p id="size-heading" className="font-mono text-[10px] uppercase tracking-[0.22em]">
+                  Size
+                </p>
                 <button
                   type="button"
-                  className="font-mono text-[10px] uppercase tracking-widest text-muted hover:text-foreground"
+                  className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted hover:text-foreground"
                 >
-                  Size guide
+                  Size guide →
                 </button>
               </div>
               <SizeGrid
@@ -171,25 +183,27 @@ function PdpBody({ product }: { product: Product }) {
               />
             </section>
 
-            <section aria-labelledby="qty-heading" className="space-y-3">
-              <p id="qty-heading" className="kicker">Quantity</p>
-              <div className="inline-flex items-center hairline">
+            <section aria-labelledby="qty-heading" className="space-y-4">
+              <p id="qty-heading" className="font-mono text-[10px] uppercase tracking-[0.22em]">
+                Quantity
+              </p>
+              <div className="inline-flex items-center border border-line/15">
                 <button
                   type="button"
                   onClick={() => setQty((q) => Math.max(1, q - 1))}
                   aria-label="Decrease quantity"
-                  className="grid h-10 w-10 place-items-center text-muted hover:text-foreground"
+                  className="grid h-12 w-12 place-items-center text-muted hover:text-foreground transition-colors"
                 >
                   −
                 </button>
-                <span className="font-mono text-sm px-3 min-w-[44px] text-center">
+                <span className="font-mono text-sm px-4 min-w-[48px] text-center">
                   {String(qty).padStart(2, "0")}
                 </span>
                 <button
                   type="button"
                   onClick={() => setQty((q) => Math.min(99, q + 1))}
                   aria-label="Increase quantity"
-                  className="grid h-10 w-10 place-items-center text-muted hover:text-foreground"
+                  className="grid h-12 w-12 place-items-center text-muted hover:text-foreground transition-colors"
                 >
                   +
                 </button>
@@ -197,43 +211,42 @@ function PdpBody({ product }: { product: Product }) {
             </section>
 
             <div className="space-y-3">
-              <Button
-                variant="outline"
-                size="lg"
-                className="w-full"
+              <button
+                type="button"
                 onClick={handleAddToCart}
                 disabled={adding}
+                className="block w-full border border-foreground py-4 font-mono text-[11px] uppercase tracking-[0.18em] text-foreground hover:bg-foreground hover:text-background transition-colors disabled:opacity-50"
               >
-                {adding ? "Adding…" : "Add to cart"}
-              </Button>
+                {adding ? "Adding…" : justAdded ? "Added ✓" : "Add to cart"}
+              </button>
               <button
                 type="button"
                 onClick={handleBuyNow}
-                className="block w-full bg-foreground text-background py-3 font-mono text-[11px] uppercase tracking-widest hover:bg-foreground/90 transition-colors"
+                className="block w-full bg-foreground py-4 font-mono text-[11px] uppercase tracking-[0.18em] text-background hover:bg-foreground/90 transition-colors"
               >
                 Buy it now
               </button>
             </div>
 
             {product.description && (
-              <p className="text-sm text-foreground/85 leading-relaxed">
+              <p className="text-[15px] text-foreground/80 leading-relaxed border-t border-line/10 pt-6">
                 {product.description}
               </p>
             )}
 
-            <div className="space-y-px">
+            <div>
               <Accordion title="Description">
                 <DescriptionDetails product={product} />
               </Accordion>
               <Accordion title="Shipping & returns">
-                <ul className="space-y-2 text-sm text-foreground/80">
+                <ul className="space-y-2 text-sm text-foreground/75">
                   <li>Free shipping on orders over $80 USD.</li>
                   <li>30-day returns. Original tags must be attached.</li>
                   <li>Demo build — no actual shipments are made.</li>
                 </ul>
               </Accordion>
               <Accordion title="Provenance">
-                <ul className="space-y-2 text-sm text-foreground/80 font-mono text-xs">
+                <ul className="space-y-1.5 font-mono text-[11px] text-foreground/70">
                   <li>Listing source · {product.retailer}</li>
                   <li>Product ID · {product.retailer_product_id}</li>
                   {product.gender && <li>Tagged audience · {product.gender}</li>}
@@ -256,15 +269,17 @@ function Gallery({
   variants,
   activeColor,
   onSelect,
+  title,
 }: {
   variants: ProductVariant[];
   activeColor: string;
   onSelect: (c: string) => void;
+  title: string;
 }) {
   const active = variants.find((v) => v.color === activeColor) ?? variants[0];
 
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-[88px_1fr]">
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-[96px_minmax(0,1fr)] sm:gap-5">
       <ul className="flex sm:flex-col gap-3 order-2 sm:order-1 overflow-x-auto sm:overflow-visible">
         {variants.map((v) => {
           const isActive = v.color === activeColor;
@@ -276,10 +291,10 @@ function Gallery({
                 aria-label={`Show ${v.color} variant`}
                 aria-pressed={isActive}
                 className={[
-                  "relative block h-22 w-22 sm:h-24 sm:w-24 overflow-hidden bg-bg-alt transition-all",
+                  "relative block h-24 w-24 sm:h-28 sm:w-24 overflow-hidden bg-bg-alt transition-all",
                   isActive
-                    ? "ring-2 ring-foreground ring-offset-2 ring-offset-background"
-                    : "hairline hover:ring-1 hover:ring-foreground/50",
+                    ? "outline outline-2 outline-foreground outline-offset-2"
+                    : "border border-line/15 hover:border-line/40",
                 ].join(" ")}
               >
                 {v.image_url && (
@@ -296,12 +311,12 @@ function Gallery({
           );
         })}
       </ul>
-      <div className="relative aspect-[3/4] w-full overflow-hidden bg-bg-alt hairline order-1 sm:order-2">
+      <div className="relative aspect-[4/5] w-full overflow-hidden bg-bg-alt order-1 sm:order-2">
         {active.image_url && (
           <Image
             key={active.image_url}
             src={active.image_url}
-            alt={`${activeColor} colorway`}
+            alt={`${title} — ${activeColor} colorway`}
             fill
             priority
             sizes="(max-width: 1024px) 100vw, 60vw"
@@ -360,14 +375,14 @@ function ColorSwatches({
               aria-label={`Color: ${v.color}`}
               aria-pressed={isActive}
               className={[
-                "relative grid h-8 w-8 place-items-center rounded-full transition-all",
+                "relative grid h-10 w-10 place-items-center rounded-full transition-all",
                 isActive
-                  ? "ring-2 ring-foreground ring-offset-2 ring-offset-background"
-                  : "hover:ring-1 hover:ring-foreground/50 ring-offset-2 ring-offset-background",
+                  ? "outline outline-1 outline-foreground outline-offset-2"
+                  : "hover:outline hover:outline-1 hover:outline-foreground/40 hover:outline-offset-2",
               ].join(" ")}
             >
               <span
-                className="block h-7 w-7 rounded-full hairline"
+                className="block h-8 w-8 rounded-full ring-1 ring-line/15"
                 style={{ background: bg }}
               />
             </button>
@@ -388,7 +403,7 @@ function SizeGrid({
   onSelect: (s: string) => void;
 }) {
   return (
-    <ul className="grid grid-cols-6 gap-2 sm:grid-cols-6">
+    <ul className="grid grid-cols-6 gap-2">
       {sizes.map((s) => {
         const isActive = active === s;
         return (
@@ -398,10 +413,10 @@ function SizeGrid({
               onClick={() => onSelect(s)}
               aria-pressed={isActive}
               className={[
-                "w-full font-mono text-xs uppercase tracking-widest py-3 transition-colors",
+                "w-full h-12 font-mono text-xs uppercase tracking-[0.14em] transition-colors",
                 isActive
-                  ? "bg-foreground text-background"
-                  : "hairline text-foreground hover:bg-foreground hover:text-background",
+                  ? "bg-foreground text-background border border-foreground"
+                  : "border border-line/15 text-foreground hover:border-foreground",
               ].join(" ")}
             >
               {s}
@@ -422,30 +437,30 @@ function Accordion({
 }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="hairline-b">
+    <div className="border-t border-line/10 last:border-b">
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
-        className="flex w-full items-center justify-between py-4 text-left font-medium"
+        className="flex w-full items-center justify-between py-5 text-left font-medium hover:text-foreground transition-colors"
       >
-        <span>{title}</span>
-        <span aria-hidden className="font-mono text-muted">
+        <span className="text-[15px]">{title}</span>
+        <span aria-hidden className="font-mono text-muted text-lg leading-none">
           {open ? "−" : "+"}
         </span>
       </button>
-      {open && <div className="pb-5 pt-1">{children}</div>}
+      {open && <div className="anim-fade pb-5">{children}</div>}
     </div>
   );
 }
 
 function DescriptionDetails({ product }: { product: Product }) {
   return (
-    <div className="space-y-3 text-sm text-foreground/85 leading-relaxed">
+    <div className="space-y-3 text-[14px] text-foreground/80 leading-relaxed">
       <p>{product.description ?? "No description provided by the retailer."}</p>
       {product.colors && product.colors.length > 0 && (
-        <p>
-          <span className="font-mono text-[10px] uppercase tracking-widest text-muted">
+        <p className="font-mono text-[11px]">
+          <span className="text-muted uppercase tracking-[0.18em]">
             Listing color
           </span>{" "}
           {product.colors.join(", ")}
@@ -477,42 +492,48 @@ function YouMayAlsoLike({
   if (items.length === 0) return null;
 
   return (
-    <section aria-labelledby="related-heading" className="mt-20">
-      <div className="flex items-baseline justify-between hairline-b pb-3">
-        <h2 id="related-heading" className="font-serif italic text-3xl">
-          You may also like.
+    <section aria-labelledby="related-heading" className="mt-32">
+      <div className="flex items-baseline justify-between border-b border-line/10 pb-4">
+        <h2
+          id="related-heading"
+          className="font-display text-4xl sm:text-5xl tracking-[-0.05em]"
+        >
+          You may also like
         </h2>
-        <Link href="/products" className="kicker hover:text-foreground">
+        <Link
+          href="/products"
+          className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted hover:text-foreground"
+        >
           View all →
         </Link>
       </div>
-      <ul className="mt-6 grid grid-cols-2 gap-6 sm:grid-cols-4">
+      <ul className="mt-8 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-4">
         {items.map((p) => {
           const v = p.attributes?.variants;
           const hero = v && v.length > 0 ? v[0].image_url : p.image_url;
           return (
             <li key={p.id}>
               <Link href={`/product/${p.retailer_product_id}`} className="group block">
-                <div className="relative aspect-[3/4] w-full overflow-hidden bg-bg-alt hairline">
+                <div className="relative aspect-[4/5] w-full overflow-hidden bg-bg-alt">
                   {hero && (
                     <Image
                       src={hero}
                       alt={p.title}
                       fill
                       sizes="(max-width: 640px) 50vw, 25vw"
-                      className="object-cover transition-transform duration-[700ms] group-hover:scale-[1.04]"
+                      className="object-cover transition-transform duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
                     />
                   )}
                 </div>
                 <div className="pt-3 space-y-1">
-                  <p className="font-mono text-[10px] uppercase tracking-widest text-muted">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted">
                     {p.brand ?? p.retailer}
                   </p>
-                  <p className="text-sm font-medium leading-snug line-clamp-2">
+                  <p className="text-[15px] font-medium leading-snug line-clamp-2">
                     {p.title}
                   </p>
-                  <p className="font-mono text-sm">
-                    {p.price} {p.currency}
+                  <p className="font-mono text-sm pt-1">
+                    {p.price} <span className="text-muted">{p.currency}</span>
                   </p>
                 </div>
               </Link>
@@ -526,17 +547,17 @@ function YouMayAlsoLike({
 
 function Skeleton() {
   return (
-    <div className="relative z-10">
+    <div className="commerce relative z-10 min-h-screen">
       <CommerceHeader />
-      <main className="mx-auto max-w-[1440px] px-6 pb-24 pt-8 lg:px-10">
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_440px] lg:gap-16">
-          <div className="skeleton aspect-[3/4] w-full hairline" />
+      <main className="mx-auto max-w-[1480px] px-6 pb-24 pt-10 lg:px-12">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_440px] lg:gap-20">
+          <div className="skeleton aspect-[4/5] w-full" />
           <div className="space-y-6">
             <div className="skeleton h-3 w-1/3" />
-            <div className="skeleton h-8 w-2/3" />
-            <div className="skeleton h-6 w-1/3" />
-            <div className="skeleton h-12 w-full" />
-            <div className="skeleton h-12 w-full" />
+            <div className="skeleton h-14 w-2/3" />
+            <div className="skeleton h-8 w-1/3" />
+            <div className="skeleton h-14 w-full" />
+            <div className="skeleton h-14 w-full" />
           </div>
         </div>
       </main>
@@ -546,14 +567,14 @@ function Skeleton() {
 
 function NotFound({ id }: { id: string }) {
   return (
-    <div className="relative z-10">
+    <div className="commerce relative z-10 min-h-screen">
       <CommerceHeader />
-      <main className="mx-auto max-w-[1280px] px-6 py-24 lg:px-10 text-center space-y-4">
-        <h1 className="font-serif italic text-4xl">Product not found.</h1>
+      <main className="mx-auto max-w-[1280px] px-6 py-32 lg:px-10 text-center space-y-6">
+        <h1 className="font-display text-6xl tracking-[-0.05em]">Not found.</h1>
         <p className="text-sm text-muted">No product with id or slug “{id}”.</p>
         <Link
           href="/products"
-          className="inline-block bg-foreground text-background px-6 py-3 font-mono text-[11px] uppercase tracking-widest hover:bg-foreground/90"
+          className="inline-block bg-foreground text-background px-6 py-3 font-mono text-[11px] uppercase tracking-[0.18em] hover:bg-foreground/90"
         >
           Browse products
         </Link>
