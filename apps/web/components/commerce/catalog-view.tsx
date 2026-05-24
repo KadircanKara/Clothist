@@ -1,6 +1,6 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
@@ -9,6 +9,8 @@ import { CatalogSidebar, type CatalogFilters } from "@/components/commerce/catal
 import { CommerceHeader } from "@/components/commerce/commerce-header";
 import { getFacets, searchProducts } from "@/lib/api";
 import type { Product, SortKey } from "@/lib/types";
+
+const PAGE_SIZE = 48;
 
 type Props = {
   title: string;
@@ -26,7 +28,7 @@ const SORT_LABELS: { value: SortKey; label: string }[] = [
 
 export function CatalogView({ title, eyebrow, gender }: Props) {
   const [filters, setFilters] = useState<CatalogFilters>({
-    category: undefined,
+    categories: [],
     color: undefined,
     features: [],
     inStockOnly: false,
@@ -42,26 +44,46 @@ export function CatalogView({ title, eyebrow, gender }: Props) {
     staleTime: 60_000,
   });
 
-  const params = useMemo(
+  // Unfiltered total for the "All" chip in the sidebar. Sum the facet
+  // category counts (already gender-scoped, "excluded" already dropped).
+  const allCount = useMemo(
+    () => (facets.data?.categories ?? []).reduce((sum, c) => sum + c.count, 0),
+    [facets.data],
+  );
+
+  const baseParams = useMemo(
     () => ({
       // gender omitted on the /products tab → backend doesn't filter
       ...(gender ? { gender } : {}),
-      category: filters.category,
+      // Multi-select: pass the array; the API accepts repeated
+      // ?category= keys via FastAPI's Query(default_factory=list).
+      ...(filters.categories.length ? { category: filters.categories } : {}),
       color: filters.color,
       features: filters.features.length ? filters.features : undefined,
       in_stock_only: filters.inStockOnly || undefined,
       sort,
-      limit: 48,
     }),
     [gender, filters, sort],
   );
-  const results = useQuery({
-    queryKey: ["catalog", params],
-    queryFn: () => searchProducts(params),
+
+  // Infinite pagination so categories with >48 products are fully
+  // browsable. Each page fetches PAGE_SIZE; load-more appends the next.
+  const results = useInfiniteQuery({
+    queryKey: ["catalog", baseParams],
+    queryFn: ({ pageParam = 0 }) =>
+      searchProducts({ ...baseParams, limit: PAGE_SIZE, offset: pageParam }),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, allPages) => {
+      const loaded = allPages.reduce((n, p) => n + p.items.length, 0);
+      return loaded < lastPage.total ? loaded : undefined;
+    },
   });
 
-  const items = results.data?.items ?? [];
-  const total = results.data?.total ?? 0;
+  const items = useMemo(
+    () => results.data?.pages.flatMap((p) => p.items) ?? [],
+    [results.data],
+  );
+  const total = results.data?.pages[0]?.total ?? 0;
 
   return (
     <div className="commerce relative z-10 min-h-screen">
@@ -83,7 +105,7 @@ export function CatalogView({ title, eyebrow, gender }: Props) {
               facets={facets.data}
               filters={filters}
               onChange={setFilters}
-              totalCount={total}
+              allCount={allCount}
             />
           </div>
 
@@ -120,17 +142,34 @@ export function CatalogView({ title, eyebrow, gender }: Props) {
                 </p>
               </div>
             ) : (
-              <ul className="mt-6 grid grid-cols-2 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
-                {items.map((p, i) => (
-                  <li
-                    key={p.id}
-                    className="anim-rise"
-                    style={{ animationDelay: `${Math.min(i, 8) * 40}ms` }}
-                  >
-                    <CatalogCard product={p} />
-                  </li>
-                ))}
-              </ul>
+              <>
+                <ul className="mt-6 grid grid-cols-2 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+                  {items.map((p, i) => (
+                    <li
+                      key={p.id}
+                      className="anim-rise"
+                      style={{ animationDelay: `${Math.min(i, 8) * 40}ms` }}
+                    >
+                      <CatalogCard product={p} />
+                    </li>
+                  ))}
+                </ul>
+                {results.hasNextPage && (
+                  <div className="mt-16 flex flex-col items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={() => results.fetchNextPage()}
+                      disabled={results.isFetchingNextPage}
+                      className="border border-foreground px-8 py-3 font-mono text-[11px] uppercase tracking-[0.22em] hover:bg-foreground hover:text-background transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {results.isFetchingNextPage ? "Loading…" : "Load more"}
+                    </button>
+                    <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted">
+                      Showing {items.length} of {total}
+                    </p>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>

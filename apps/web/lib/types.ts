@@ -62,7 +62,9 @@ export type SortKey =
 
 export type SearchParams = {
   q?: string;
-  category?: string;
+  // Multi-select: pass `["tshirts", "hoodies"]` and the API matches
+  // either. Single-value `"tshirts"` still works.
+  category?: string | string[];
   brand?: string;
   gender?: "men" | "women" | "unisex";
   color?: string;

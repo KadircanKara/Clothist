@@ -57,7 +57,9 @@ def _to_search_expr(q: str) -> str | None:
 @dataclass(slots=True)
 class SearchFilters:
     q: str | None = None
-    category: str | None = None
+    # Multi-select: callers pass one OR many categories. Empty list = "no
+    # category filter" (the implicit "All" state in the sidebar).
+    category: list[str] = field(default_factory=list)
     brand: str | None = None
     gender: str | None = None
     color: str | None = None
@@ -84,12 +86,21 @@ def _build_where(f: SearchFilters, *, with_ts: bool) -> tuple[list[str], dict]:
     # if the detection improves, but the search API treats them as if
     # they don't exist. If a caller explicitly asks for `category=excluded`
     # we honor it (admin/debug path), otherwise we filter them out.
-    if f.category != EXCLUDED_CATEGORY:
+    # Hide non-clothing items unless the caller explicitly asks for the
+    # "excluded" bucket (admin/debug path). With multi-select, "explicit"
+    # means EVERY value the caller passed is the excluded sentinel.
+    asking_for_excluded = bool(f.category) and all(
+        c == EXCLUDED_CATEGORY for c in f.category
+    )
+    if not asking_for_excluded:
         parts.append("(category IS NULL OR category != :p_excluded_cat)")
         params["p_excluded_cat"] = EXCLUDED_CATEGORY
     if f.category:
-        parts.append("category = :p_category")
-        params["p_category"] = f.category
+        # Multi-select: `category = ANY(...)` matches any of the requested
+        # categories. Single-category callers still pass `[cat]` → behaves
+        # identically to the old `category = :p_category`.
+        parts.append("category = ANY(CAST(:p_categories AS text[]))")
+        params["p_categories"] = f.category
     if f.brand:
         parts.append("brand = :p_brand")
         params["p_brand"] = f.brand

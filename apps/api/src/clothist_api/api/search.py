@@ -39,7 +39,9 @@ router = APIRouter()
 @router.get("", response_model=SearchResponse)
 async def search(
     q: str | None = Query(default=None, max_length=200, description="Free-text query"),
-    category: str | None = None,
+    # Multi-select: clients may pass `?category=tshirts&category=hoodies` to
+    # filter by either. Single-value `?category=tshirts` still works.
+    category: list[str] = Query(default_factory=list),
     brand: str | None = None,
     gender: str | None = Query(default=None, pattern="^(?:men|women|unisex)$"),
     color: str | None = Query(default=None, max_length=32),
@@ -65,7 +67,7 @@ async def search(
 
     filters = SearchFilters(
         q=q,
-        category=category,
+        category=list(category),
         brand=brand,
         gender=gender,
         color=color,

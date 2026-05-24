@@ -5,7 +5,8 @@ import { colorBackground, humanizeColor } from "@/lib/colors";
 import type { FacetsResponse } from "@/lib/types";
 
 export type CatalogFilters = {
-  category?: string;
+  // Multi-select. Empty = "All" (the implicit catch-all state).
+  categories: string[];
   color?: string;
   features: string[];
   inStockOnly: boolean;
@@ -15,10 +16,14 @@ type Props = {
   facets: FacetsResponse | undefined;
   filters: CatalogFilters;
   onChange: (next: CatalogFilters) => void;
-  totalCount: number;
+  // The unfiltered total for the current GENDER context — what should
+  // appear next to the "All" chip. Distinct from the filtered total
+  // that the page header shows next to the eyebrow.
+  allCount: number;
 };
 
-export function CatalogSidebar({ facets, filters, onChange, totalCount }: Props) {
+export function CatalogSidebar({ facets, filters, onChange, allCount }: Props) {
+  const selectedCategories = new Set(filters.categories);
   return (
     <aside
       aria-label="Catalog filters"
@@ -28,19 +33,28 @@ export function CatalogSidebar({ facets, filters, onChange, totalCount }: Props)
         <ul className="space-y-px">
           <FacetRow
             label="All"
-            count={totalCount}
-            active={!filters.category}
-            onClick={() => onChange({ ...filters, category: undefined })}
+            count={allCount}
+            active={selectedCategories.size === 0}
+            onClick={() => onChange({ ...filters, categories: [] })}
           />
-          {facets?.categories.map((c) => (
-            <FacetRow
-              key={c.value}
-              label={c.value}
-              count={c.count}
-              active={filters.category === c.value}
-              onClick={() => onChange({ ...filters, category: c.value })}
-            />
-          ))}
+          {facets?.categories.map((c) => {
+            const checked = selectedCategories.has(c.value);
+            return (
+              <FacetRow
+                key={c.value}
+                label={c.value}
+                count={c.count}
+                active={checked}
+                onClick={() => {
+                  // Toggle: include if not selected, remove if it is.
+                  const next = checked
+                    ? filters.categories.filter((x) => x !== c.value)
+                    : [...filters.categories, c.value];
+                  onChange({ ...filters, categories: next });
+                }}
+              />
+            );
+          })}
         </ul>
       </Section>
 
@@ -134,12 +148,12 @@ export function CatalogSidebar({ facets, filters, onChange, totalCount }: Props)
         </label>
       </Section>
 
-      {(filters.category || filters.color || filters.features.length > 0 || filters.inStockOnly) && (
+      {(filters.categories.length > 0 || filters.color || filters.features.length > 0 || filters.inStockOnly) && (
         <button
           type="button"
           onClick={() =>
             onChange({
-              category: undefined,
+              categories: [],
               color: undefined,
               features: [],
               inStockOnly: false,
