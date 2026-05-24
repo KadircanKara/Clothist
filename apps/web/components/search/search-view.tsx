@@ -16,7 +16,17 @@ import { IntentChips } from "./intent-chips";
 import { ProductCard } from "./product-card";
 import { SkeletonGrid } from "./skeleton-grid";
 import { ApiError, getFacets, parseIntent, searchProducts } from "@/lib/api";
-import type { IntentResponse, SearchParams, SortKey } from "@/lib/types";
+import type {
+  FacetsResponse,
+  IntentResponse,
+  SearchParams,
+  SortKey,
+} from "@/lib/types";
+
+function toArr(v: string | string[] | undefined): string[] {
+  if (!v) return [];
+  return Array.isArray(v) ? v : [v];
+}
 
 const PAGE_SIZE = 24;
 
@@ -42,8 +52,16 @@ function paramsFromUrl(sp: URLSearchParams): SearchParams {
   );
   return {
     q: sp.get("q") ?? undefined,
-    category: sp.get("category") ?? undefined,
-    brand: sp.get("brand") ?? undefined,
+    // Multi-select: collect repeated ?category=&category= keys, fall
+    // back to undefined when nothing's set. Same for brand.
+    category: (() => {
+      const all = sp.getAll("category");
+      return all.length === 0 ? undefined : all.length === 1 ? all[0] : all;
+    })(),
+    brand: (() => {
+      const all = sp.getAll("brand");
+      return all.length === 0 ? undefined : all.length === 1 ? all[0] : all;
+    })(),
     color: sp.get("color") ?? undefined,
     min_price: num("min_price"),
     max_price: num("max_price"),
@@ -59,8 +77,18 @@ function paramsFromUrl(sp: URLSearchParams): SearchParams {
 function paramsToUrl(p: SearchParams): string {
   const usp = new URLSearchParams();
   if (p.q) usp.set("q", p.q);
-  if (p.category) usp.set("category", p.category);
-  if (p.brand) usp.set("brand", p.brand);
+  // category + brand accept string | string[] — multi-select pushes
+  // arrays into the URL as repeated keys.
+  if (p.category) {
+    for (const c of Array.isArray(p.category) ? p.category : [p.category]) {
+      usp.append("category", c);
+    }
+  }
+  if (p.brand) {
+    for (const b of Array.isArray(p.brand) ? p.brand : [p.brand]) {
+      usp.append("brand", b);
+    }
+  }
   if (p.color) usp.set("color", p.color);
   if (p.min_price !== undefined) usp.set("min_price", String(p.min_price));
   if (p.max_price !== undefined) usp.set("max_price", String(p.max_price));
@@ -176,9 +204,12 @@ export function SearchView() {
   };
 
   // Translate URL-based SearchParams to the catalog-sidebar's filter shape.
+  // Sidebar uses multi-select arrays; URL filters accept either a single
+  // string (legacy ?category=x) or an array (?category=x&category=y).
   const sidebarFilters: CatalogFilters = useMemo(
     () => ({
-      category: filters.category,
+      categories: toArr(filters.category),
+      brands: toArr(filters.brand),
       color: filters.color,
       features: filters.features ?? [],
       inStockOnly: !!filters.in_stock_only,
@@ -189,7 +220,8 @@ export function SearchView() {
   const onSidebarChange = (next: CatalogFilters) => {
     pushFilters({
       ...filters,
-      category: next.category,
+      category: next.categories.length ? next.categories : undefined,
+      brand: next.brands.length ? next.brands : undefined,
       color: next.color,
       features: next.features.length ? next.features : undefined,
       in_stock_only: next.inStockOnly || undefined,
@@ -314,7 +346,13 @@ export function SearchView() {
               facets={facets.data}
               filters={sidebarFilters}
               onChange={onSidebarChange}
-              totalCount={total}
+              // Unfiltered total = sum of category-facet counts (already
+              // gender-scoped and excluded-filtered by the API). Cast
+              // because the surrounding useQuery type-erases facets.data.
+              allCount={
+                ((facets.data as FacetsResponse | undefined)?.categories ?? [])
+                  .reduce((sum, c) => sum + c.count, 0)
+              }
             />
           </div>
 
