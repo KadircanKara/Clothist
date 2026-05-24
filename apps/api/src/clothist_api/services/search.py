@@ -60,7 +60,10 @@ class SearchFilters:
     # Multi-select: callers pass one OR many categories. Empty list = "no
     # category filter" (the implicit "All" state in the sidebar).
     category: list[str] = field(default_factory=list)
-    brand: str | None = None
+    # Multi-select brands. Same shape + semantics as `category` — the
+    # WHERE clause uses `brand = ANY(...)` so {Kith Women, Jordan}
+    # returns the union of both.
+    brand: list[str] = field(default_factory=list)
     gender: str | None = None
     color: str | None = None
     min_price: Decimal | None = None
@@ -102,8 +105,8 @@ def _build_where(f: SearchFilters, *, with_ts: bool) -> tuple[list[str], dict]:
         parts.append("category = ANY(CAST(:p_categories AS text[]))")
         params["p_categories"] = f.category
     if f.brand:
-        parts.append("brand = :p_brand")
-        params["p_brand"] = f.brand
+        parts.append("brand = ANY(CAST(:p_brands AS text[]))")
+        params["p_brands"] = f.brand
     if f.gender:
         # Strict gender match — each route is exclusive (Men, Unisex, Women).
         parts.append("gender = :p_gender")

@@ -65,7 +65,8 @@ export type SearchParams = {
   // Multi-select: pass `["tshirts", "hoodies"]` and the API matches
   // either. Single-value `"tshirts"` still works.
   category?: string | string[];
-  brand?: string;
+  // Multi-select brand: same shape as category.
+  brand?: string | string[];
   gender?: "men" | "women" | "unisex";
   color?: string;
   min_price?: number;

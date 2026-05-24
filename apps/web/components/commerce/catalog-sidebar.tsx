@@ -7,6 +7,8 @@ import type { FacetsResponse } from "@/lib/types";
 export type CatalogFilters = {
   // Multi-select. Empty = "All" (the implicit catch-all state).
   categories: string[];
+  // Multi-select brand. Same shape as categories.
+  brands: string[];
   color?: string;
   features: string[];
   inStockOnly: boolean;
@@ -24,6 +26,7 @@ type Props = {
 
 export function CatalogSidebar({ facets, filters, onChange, allCount }: Props) {
   const selectedCategories = new Set(filters.categories);
+  const selectedBrands = new Set(filters.brands);
   return (
     <aside
       aria-label="Catalog filters"
@@ -79,7 +82,31 @@ export function CatalogSidebar({ facets, filters, onChange, allCount }: Props) {
         </ul>
       </Section>
 
-      <Section title="Features" index="03" collapsible defaultOpen={false}>
+      <Section title="Brand" index="03" collapsible defaultOpen={false}>
+        <ul className="space-y-px">
+          {facets?.brands.map((b) => {
+            const checked = selectedBrands.has(b.value);
+            return (
+              <FacetRow
+                key={b.value}
+                label={b.value}
+                count={b.count}
+                active={checked}
+                checkbox
+                onClick={() => {
+                  // Multi-select toggle, mirrors the Category section.
+                  const next = checked
+                    ? filters.brands.filter((x) => x !== b.value)
+                    : [...filters.brands, b.value];
+                  onChange({ ...filters, brands: next });
+                }}
+              />
+            );
+          })}
+        </ul>
+      </Section>
+
+      <Section title="Features" index="04" collapsible defaultOpen={false}>
         <ul className="grid grid-cols-1 gap-1.5">
           {facets?.features.map((f) => {
             const checked = filters.features.includes(f);
@@ -122,7 +149,7 @@ export function CatalogSidebar({ facets, filters, onChange, allCount }: Props) {
         </ul>
       </Section>
 
-      <Section title="Availability" index="04">
+      <Section title="Availability" index="05">
         <label className="flex cursor-pointer items-center gap-3 select-none group">
           <span
             className={[
@@ -151,12 +178,13 @@ export function CatalogSidebar({ facets, filters, onChange, allCount }: Props) {
         </label>
       </Section>
 
-      {(filters.categories.length > 0 || filters.color || filters.features.length > 0 || filters.inStockOnly) && (
+      {(filters.categories.length > 0 || filters.brands.length > 0 || filters.color || filters.features.length > 0 || filters.inStockOnly) && (
         <button
           type="button"
           onClick={() =>
             onChange({
               categories: [],
+              brands: [],
               color: undefined,
               features: [],
               inStockOnly: false,

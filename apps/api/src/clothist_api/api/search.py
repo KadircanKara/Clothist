@@ -42,7 +42,8 @@ async def search(
     # Multi-select: clients may pass `?category=tshirts&category=hoodies` to
     # filter by either. Single-value `?category=tshirts` still works.
     category: list[str] = Query(default_factory=list),
-    brand: str | None = None,
+    # Multi-select brand — same shape as category.
+    brand: list[str] = Query(default_factory=list),
     gender: str | None = Query(default=None, pattern="^(?:men|women|unisex)$"),
     color: str | None = Query(default=None, max_length=32),
     min_price: Decimal | None = Query(default=None, ge=0),
@@ -68,7 +69,7 @@ async def search(
     filters = SearchFilters(
         q=q,
         category=list(category),
-        brand=brand,
+        brand=list(brand),
         gender=gender,
         color=color,
         min_price=min_price,

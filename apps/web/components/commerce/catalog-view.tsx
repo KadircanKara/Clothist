@@ -29,6 +29,7 @@ const SORT_LABELS: { value: SortKey; label: string }[] = [
 export function CatalogView({ title, eyebrow, gender }: Props) {
   const [filters, setFilters] = useState<CatalogFilters>({
     categories: [],
+    brands: [],
     color: undefined,
     features: [],
     inStockOnly: false,
@@ -56,8 +57,9 @@ export function CatalogView({ title, eyebrow, gender }: Props) {
       // gender omitted on the /products tab → backend doesn't filter
       ...(gender ? { gender } : {}),
       // Multi-select: pass the array; the API accepts repeated
-      // ?category= keys via FastAPI's Query(default_factory=list).
+      // ?category= / ?brand= keys via FastAPI's Query(default_factory=list).
       ...(filters.categories.length ? { category: filters.categories } : {}),
+      ...(filters.brands.length ? { brand: filters.brands } : {}),
       color: filters.color,
       features: filters.features.length ? filters.features : undefined,
       in_stock_only: filters.inStockOnly || undefined,
