@@ -33,9 +33,16 @@ from clothist_api.cv.types import CVVerdict
 
 # ----------------------- Category cascade ----------------------- #
 
-# The threshold a source's confidence must clear to "decide" the category.
-# When NO source clears it, the product is bucketed as `"other"`.
-CASCADE_THRESHOLD = 0.95
+# The threshold each source's confidence must clear to "decide" the
+# category. When NO source clears its threshold the product is bucketed
+# as `"other"`. Text and LLM remain at 0.95 (both are calibrated to emit
+# high values only on clear matches), but CV gets a lower floor: CLIP's
+# 13-class softmax dilutes probability mass, so legitimate "this is
+# obviously a sneaker" verdicts often land 0.85-0.94. Raising the gate
+# would dump them into "other" and bloat the catch-all bucket — the
+# user's reported "Other contains shoes/socks/vests" regression.
+CASCADE_THRESHOLD = 0.95          # text + LLM
+CASCADE_CV_THRESHOLD = 0.85       # CV-specific, looser per the above
 OTHER_CATEGORY = "other"
 
 
@@ -110,6 +117,7 @@ def reconcile(
     text_vote: TextCatVote | None = None,
     llm_vote: LLMCatVote | None = None,
     cascade_threshold: float = CASCADE_THRESHOLD,
+    cv_cascade_threshold: float = CASCADE_CV_THRESHOLD,
 ) -> ReconciledRow:
     """Apply the cascade for category, plus the existing 2-way policy for
     gender and color. Pure function — no I/O.
@@ -135,7 +143,9 @@ def reconcile(
         llm_vote = LLMCatVote(category=None, confidence=0.0)
 
     final_category, cat_evt, cascade_breakdown = _cascade_category(
-        text=text_vote, llm=llm_vote, verdict=verdict, threshold=cascade_threshold,
+        text=text_vote, llm=llm_vote, verdict=verdict,
+        text_llm_threshold=cascade_threshold,
+        cv_threshold=cv_cascade_threshold,
     )
     final_gender, gen_evt = _reconcile_gender(
         scraper_gender, verdict.gender, verdict.gender_confidence,
@@ -159,9 +169,15 @@ def _cascade_category(
     text: TextCatVote,
     llm: LLMCatVote,
     verdict: CVVerdict,
-    threshold: float,
+    text_llm_threshold: float,
+    cv_threshold: float,
 ) -> tuple[str, CategoryEvent, dict]:
-    """Strict cascade — first source ≥ threshold wins; fall back to "other"."""
+    """Strict cascade — first source ≥ threshold wins; fall back to "other".
+
+    The text and LLM stages share `text_llm_threshold` (default 0.95). The
+    CV stage uses the looser `cv_threshold` (default 0.85) since CLIP's
+    13-class softmax rarely peaks at 0.95 on real fashion photos.
+    """
     cv_cat = verdict.category
     cv_conf = verdict.category_confidence
 
@@ -169,16 +185,17 @@ def _cascade_category(
         "text": [text.category, round(text.confidence, 4)],
         "llm":  [llm.category,  round(llm.confidence, 4)],
         "cv":   [cv_cat,        round(cv_conf, 4)],
-        "threshold": threshold,
+        "threshold_text_llm": text_llm_threshold,
+        "threshold_cv":       cv_threshold,
     }
 
-    if text.category and text.confidence >= threshold:
+    if text.category and text.confidence >= text_llm_threshold:
         return (text.category, "cascade_text",
                 {**breakdown_base, "winner_stage": "text"})
-    if llm.category and llm.confidence >= threshold:
+    if llm.category and llm.confidence >= text_llm_threshold:
         return (llm.category, "cascade_llm",
                 {**breakdown_base, "winner_stage": "llm"})
-    if cv_cat and cv_conf >= threshold:
+    if cv_cat and cv_conf >= cv_threshold:
         return (cv_cat, "cascade_cv",
                 {**breakdown_base, "winner_stage": "cv"})
     return (OTHER_CATEGORY, "cascade_other",

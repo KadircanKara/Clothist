@@ -13,7 +13,8 @@ import type { Product, SortKey } from "@/lib/types";
 type Props = {
   title: string;
   eyebrow: string;
-  gender: "men" | "women" | "unisex";
+  // Omit to show ALL products regardless of gender (the /products tab).
+  gender?: "men" | "women" | "unisex";
 };
 
 const SORT_LABELS: { value: SortKey; label: string }[] = [
@@ -36,7 +37,8 @@ export function CatalogView({ title, eyebrow, gender }: Props) {
 
   const params = useMemo(
     () => ({
-      gender,
+      // gender omitted on the /products tab → backend doesn't filter
+      ...(gender ? { gender } : {}),
       category: filters.category,
       color: filters.color,
       features: filters.features.length ? filters.features : undefined,

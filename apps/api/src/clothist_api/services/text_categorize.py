@@ -49,42 +49,74 @@ _CANONICAL_TITLE_TOKENS: dict[str, str] = {
 }
 _CANONICAL_TOKEN_SETS = {
     "tshirts":     {"t-shirt", "t-shirts", "tshirt", "tshirts", "tee", "tees",
-                    "tank", "tanks", "polo", "polos"},
+                    "tank", "tanks", "polo", "polos", "shirt", "bodysuit",
+                    "bodysuits", "cami", "top", "tops", "jersey", "jerseys",
+                    "crew", "crewneck"},
     "hoodies":     {"hoodie", "hoodies", "sweatshirt", "sweatshirts"},
     "sweaters":    {"sweater", "sweaters", "cardigan", "cardigans"},
     "jackets":     {"jacket", "jackets", "blazer", "blazers", "coat", "coats",
-                    "parka", "windbreaker"},
+                    "parka", "windbreaker", "vest", "vests"},
     "pants":       {"pant", "pants", "trousers", "trouser", "chino", "chinos",
                     "jogger", "joggers", "sweatpant", "sweatpants", "leggings"},
-    "jeans":       {"jeans", "denim"},
-    "shorts":      {"short", "shorts", "boardshort", "boardshorts"},
+    "jeans":       {"jean", "jeans", "denim"},
+    "shorts":      {"short", "shorts", "shorty", "shorties", "boardshort",
+                    "boardshorts"},
     "skirts":      {"skirt", "skirts"},
     "dresses":     {"dress", "dresses", "gown", "gowns", "romper", "rompers",
-                    "playsuit", "playsuits"},
-    "sneakers":    {"sneaker", "sneakers", "trainer", "trainers", "runner",
-                    "runners", "sandal", "sandals"},
-    "accessories": {"belt", "belts", "hat", "hats", "cap", "caps", "snapback",
+                    "playsuit", "playsuits", "babydoll"},
+    "sneakers":    # Footwear of every kind rolls into sneakers (the MVP taxonomy
+                   # bundles boots / flats / loafers / sandals here — see
+                   # scrapers/normalize.py:CATEGORY_ALIASES comment).
+                   # Also includes a few brand model names that are
+                   # unambiguous footwear: "Jordan", "Piper(s)".
+                   {"sneaker", "sneakers", "trainer", "trainers", "runner",
+                    "runners", "sandal", "sandals", "loafer", "loafers",
+                    "espadrille", "espadrilles", "ballerina", "ballerinas",
+                    "flyer", "flyers", "lounger", "loungers", "clog", "clogs",
+                    "mule", "mules", "slipper", "slippers", "flip-flop",
+                    "flip-flops", "moccasin", "moccasins", "moc", "mocs",
+                    "heel", "heels", "stiletto", "stilettos", "pump", "pumps",
+                    "oxford", "oxfords", "derby", "derbies", "slide", "slides",
+                    "jordan", "piper", "pipers"},
+    "accessories": # Anything non-garment goes here. The list is broader than
+                   # the obvious bags/hats because the corpus has many
+                   # adjacent items (laces, insoles, lighters, ceramic
+                   # homewares, golf gear) that the prior tighter mapping
+                   # was dumping into "other".
+                   {"belt", "belts", "hat", "hats", "cap", "caps", "snapback",
                     "snapbacks", "beanie", "beanies", "scarf", "scarves",
                     "bag", "bags", "tote", "totes", "backpack", "backpacks",
-                    "wallet", "wallets", "cardholder", "keychain", "keychains",
-                    "bandana", "bandanas", "glove", "gloves", "sunglasses",
-                    "glasses", "jewelry", "necklace", "necklaces", "bracelet",
+                    "duffel", "duffels", "sling", "slings", "pouch", "pouches",
+                    "clutch", "clutches", "crossbody", "satchel", "satchels",
+                    "wallet", "wallets", "cardholder", "card", "keychain",
+                    "keychains", "bandana", "bandanas", "glove", "gloves",
+                    "mitten", "mittens", "sunglasses", "glasses", "goggle",
+                    "goggles", "jewelry", "necklace", "necklaces", "bracelet",
                     "bracelets", "ring", "rings", "earring", "earrings",
-                    "towel", "towels", "cover", "covers", "case", "cases",
-                    "mask", "masks"},
+                    "watch", "watches", "towel", "towels", "cover", "covers",
+                    "case", "cases", "mask", "masks", "sock", "socks",
+                    "lace", "laces", "strap", "straps", "insole", "insoles",
+                    "flask", "flasks", "lighter", "lighters", "cutter",
+                    "cutters", "tool", "tools", "holder", "holders",
+                    "ceramic", "basket", "baskets", "pin", "pins",
+                    "patch", "patches", "umbrella", "umbrellas",
+                    "headband", "headbands", "wristband", "wristbands",
+                    "charm", "charms"},
     "swimwear":    {"bikini", "bikinis", "swimsuit", "swimsuits", "swimwear"},
     "underwear":   {"underwear", "lingerie", "bra", "bras", "briefs", "boxer",
                     "boxers", "trunk", "trunks"},
 }
 
 
-# Multi-word aliases (≥2 tokens) → canonical. These hit at 0.90 confidence.
+# Multi-word aliases (≥2 tokens) → canonical. These hit at 0.97 confidence.
 _STRONG_MULTI_WORD_ALIASES: dict[str, str] = {
     "tank top": "tshirts",
     "crop top": "tshirts",
     "polo shirt": "tshirts",
     "button up": "tshirts",
     "button-up": "tshirts",
+    "button down": "tshirts",
+    "camp shirt": "tshirts",
     "midi skirt": "skirts",
     "maxi skirt": "skirts",
     "mini skirt": "skirts",
@@ -95,11 +127,28 @@ _STRONG_MULTI_WORD_ALIASES: dict[str, str] = {
     "low top": "sneakers",
     "air jordan": "sneakers",
     "mary jane": "sneakers",
+    "flip flop": "sneakers",
+    "flip flops": "sneakers",
+    "slip on": "sneakers",
+    "slip-on": "sneakers",
     "track pant": "pants",
     "track pants": "pants",
     "board shorts": "swimwear",
     "swim shorts": "swimwear",
+    "swim trunks": "swimwear",
     "beach towel": "accessories",  # the Striped Beach Towel case
+    "tote bag": "accessories",
+    "duffel bag": "accessories",
+    "bucket bag": "accessories",
+    "pint basket": "accessories",
+    "card case": "accessories",
+    "card holder": "accessories",
+    "face mask": "accessories",
+    "tie top": "swimwear",          # Kith Women bikini tops
+    "tie bottom": "swimwear",       # Kith Women bikini bottoms
+    "triangle top": "swimwear",
+    "halter top": "tshirts",
+    "strapless top": "tshirts",
 }
 
 
@@ -179,32 +228,38 @@ def categorize_by_text(*, title: str, brand: str | None = None) -> TextCategoryV
     haystack = title.lower()
 
     # 1. Gather every strong match (canonical-token or multi-word) with
-    #    its (start_pos, category, alias). Pick the LAST-position winner.
-    strong_matches: list[tuple[int, str, str]] = []
+    #    its (end_pos, length, category, alias). Pick the LAST-ending
+    #    winner. Sorting by end-pos (rather than start-pos) means
+    #    "Swim Trunks Navy" routes via "swim trunks" → swimwear instead
+    #    of bare "trunks" → underwear: both end at the same position, so
+    #    the longer (more specific) alias wins the tiebreak.
+    strong_matches: list[tuple[int, int, str, str]] = []
     for m in _MULTI_WORD_RE.finditer(haystack):
         alias = m.group(1).lower()
-        strong_matches.append((m.start(), _STRONG_MULTI_WORD_ALIASES[alias], alias))
+        strong_matches.append((m.end(), len(alias),
+                                _STRONG_MULTI_WORD_ALIASES[alias], alias))
     for cat, pattern in _CANONICAL_TOKEN_RE.items():
         for m in pattern.finditer(haystack):
-            strong_matches.append((m.start(), cat, m.group(1).lower()))
+            strong_matches.append((m.end(), len(m.group(1)),
+                                    cat, m.group(1).lower()))
     if strong_matches:
-        # Latest position wins; ties broken by longer alias (more specific).
-        strong_matches.sort(key=lambda t: (t[0], len(t[2])))
-        _, cat, alias = strong_matches[-1]
+        strong_matches.sort(key=lambda t: (t[0], t[1]))
+        _, _, cat, alias = strong_matches[-1]
         return TextCategoryVerdict(
             category=cat,
             confidence=CANONICAL_TITLE_CONF,
             matched_alias=alias,
         )
 
-    # 2. Weak single-word alias — also last-position.
-    weak_matches: list[tuple[int, str, str]] = []
+    # 2. Weak single-word alias — also end-position + length tiebreak.
+    weak_matches: list[tuple[int, int, str, str]] = []
     for m in _WEAK_RE.finditer(haystack):
         alias = m.group(1).lower()
-        weak_matches.append((m.start(), _WEAK_SINGLE_WORD_ALIASES[alias], alias))
+        weak_matches.append((m.end(), len(alias),
+                              _WEAK_SINGLE_WORD_ALIASES[alias], alias))
     if weak_matches:
-        weak_matches.sort(key=lambda t: (t[0], len(t[2])))
-        _, cat, alias = weak_matches[-1]
+        weak_matches.sort(key=lambda t: (t[0], t[1]))
+        _, _, cat, alias = weak_matches[-1]
         return TextCategoryVerdict(
             category=cat,
             confidence=WEAK_ALIAS_CONF,

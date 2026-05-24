@@ -12,6 +12,7 @@ from __future__ import annotations
 import pytest
 
 from clothist_api.cv.reconcile import (
+    CASCADE_CV_THRESHOLD,
     CASCADE_THRESHOLD,
     OTHER_CATEGORY,
     THRESHOLDS,
@@ -100,19 +101,32 @@ def test_cascade_falls_through_to_cv():
 
 
 def test_cascade_falls_through_to_other():
-    """No source clears 0.95 → category is 'other'. The user's "Striped Beach
-    Towel" regression: text says accessories @0.90, LLM abstains, CV says
-    tshirts @0.80 — none clear 0.95 so it lands in 'other' rather than
-    tshirts."""
+    """No source clears its threshold → category is 'other'. text/LLM gate
+    is 0.95; CV gate is 0.85. Here every source sits below its own gate."""
     d = reconcile(
         scraper_category=None, scraper_gender=None, scraper_colors=None,
-        verdict=_verdict(category="tshirts", category_confidence=0.80),
-        text_vote=TextCatVote("accessories", 0.90),
+        verdict=_verdict(category="tshirts", category_confidence=0.80),  # < 0.85
+        text_vote=TextCatVote("accessories", 0.90),                       # < 0.95
         llm_vote=LLMCatVote(None, 0.0),
     )
     assert d.category == OTHER_CATEGORY
     assert d.category_event == "cascade_other"
     assert d.category_cascade["winner_stage"] == "other"
+
+
+def test_cascade_cv_wins_between_thresholds():
+    """CV at 0.88 — above CV's 0.85 gate, below the text/LLM 0.95 gate —
+    now decides the category. Before the dual-threshold split this would
+    have fallen to 'other' even though CV was clearly confident enough.
+    Tracks the "shoes in Other" regression the user reported."""
+    d = reconcile(
+        scraper_category=None, scraper_gender=None, scraper_colors=None,
+        verdict=_verdict(category="sneakers", category_confidence=0.88),
+        text_vote=TextCatVote(None, 0.0),
+        llm_vote=LLMCatVote(None, 0.0),
+    )
+    assert d.category == "sneakers"
+    assert d.category_event == "cascade_cv"
 
 
 def test_cascade_all_sources_silent_to_other():
@@ -149,7 +163,8 @@ def test_cascade_breakdown_carries_all_three_stages():
     assert d.category_cascade["text"] == ["sneakers", 0.9]
     assert d.category_cascade["llm"]  == ["dresses", 0.85]
     assert d.category_cascade["cv"]   == ["hoodies", 0.8]
-    assert d.category_cascade["threshold"] == CASCADE_THRESHOLD
+    assert d.category_cascade["threshold_text_llm"] == CASCADE_THRESHOLD
+    assert d.category_cascade["threshold_cv"] == CASCADE_CV_THRESHOLD
 
 
 def test_cascade_backwards_compat_no_text_or_llm():
@@ -179,7 +194,7 @@ def test_cascade_text_with_null_category_at_high_conf_is_ignored():
 
 
 def test_cascade_custom_threshold():
-    """The caller can lower the threshold for ablation experiments."""
+    """The caller can lower either threshold for ablation experiments."""
     d = reconcile(
         scraper_category=None, scraper_gender=None, scraper_colors=None,
         verdict=_verdict(category="sneakers", category_confidence=0.50),
@@ -300,4 +315,5 @@ def test_thresholds_pinned():
         "color_avg":         0.30,
     }
     assert CASCADE_THRESHOLD == 0.95
+    assert CASCADE_CV_THRESHOLD == 0.85
     assert OTHER_CATEGORY == "other"

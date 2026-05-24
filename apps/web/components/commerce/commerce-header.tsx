@@ -6,6 +6,7 @@ import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { cartTotals, useCart } from "@/lib/cart-store";
 
 const NAV = [
+  { href: "/products", label: "All" },
   { href: "/men", label: "Men" },
   { href: "/unisex", label: "Unisex" },
   { href: "/women", label: "Women" },
