@@ -67,8 +67,11 @@ _CANONICAL_TOKEN_SETS = {
     "footwear":    # Footwear of every kind rolls into footwear (the MVP taxonomy
                    # bundles boots / flats / loafers / sandals here — see
                    # scrapers/normalize.py:CATEGORY_ALIASES comment).
-                   # Also includes a few brand model names that are
-                   # unambiguous footwear: "Jordan", "Piper(s)".
+                   # Brand model names like "Jordan" and "Piper" are NOT
+                   # in this set — bare "piper" wrongly caught the Kith
+                   # Women "Stripe Raffia Piper" (a handbag). Those live
+                   # as specific multi-word aliases below ("air jordan",
+                   # "jordan 12", "tree piper", "wool piper", etc.).
                    {"sneaker", "footwear", "trainer", "trainers", "runner",
                     "runners", "sandal", "sandals", "loafer", "loafers",
                     "espadrille", "espadrilles", "ballerina", "ballerinas",
@@ -77,7 +80,9 @@ _CANONICAL_TOKEN_SETS = {
                     "flip-flops", "moccasin", "moccasins", "moc", "mocs",
                     "heel", "heels", "stiletto", "stilettos", "pump", "pumps",
                     "oxford", "oxfords", "derby", "derbies", "slide", "slides",
-                    "jordan", "piper", "pipers"},
+                    # Footwear-only brand names — safe additions because
+                    # these brands don't sell apparel.
+                    "hoka", "asics"},
     "accessories": # Clothing-adjacent items: wearable (hats, jewelry, watches,
                    # gloves, sunglasses) OR made of cloth/leather (bags,
                    # wallets, scarves, socks, towels). Non-clothing items
@@ -120,12 +125,31 @@ _STRONG_MULTI_WORD_ALIASES: dict[str, str] = {
     "mini dress": "dresses",
     "high top": "footwear",
     "low top": "footwear",
-    "air jordan": "footwear",
     "mary jane": "footwear",
     "flip flop": "footwear",
     "flip flops": "footwear",
     "slip on": "footwear",
     "slip-on": "footwear",
+    # Brand+model patterns. Specific enough that they can't false-positive
+    # on the Kith "Raffia Piper" handbag or a hypothetical "Jordan Tee".
+    "air jordan": "footwear",
+    "jordan 1": "footwear",
+    "jordan 3": "footwear",
+    "jordan 4": "footwear",
+    "jordan 5": "footwear",
+    "jordan 6": "footwear",
+    "jordan 11": "footwear",
+    "jordan 12": "footwear",
+    "jordan retro": "footwear",
+    # Allbirds Piper family — "Tree Piper", "Wool Piper", "Piper Mid",
+    # "Piper Woven", plus plural variants.
+    "tree piper": "footwear",
+    "tree pipers": "footwear",
+    "wool piper": "footwear",
+    "wool pipers": "footwear",
+    "piper mid": "footwear",
+    "piper mids": "footwear",
+    "piper woven": "footwear",
     "track pant": "pants",
     "track pants": "pants",
     "board shorts": "swimwear",
