@@ -104,17 +104,17 @@ body {
    Adopt the off-white aesthetic without copying any single font. */
 .font-display {
   font-family: "Bricolage Grotesque", "Switzer", ui-sans-serif, system-ui, sans-serif;
-  font-variation-settings: "wdth" 92, "opsz" 64;
+  font-variation-settings: "wdth" 94, "opsz" 64;
   font-weight: 700;
-  letter-spacing: -0.045em;
-  line-height: 0.92;
+  letter-spacing: -0.04em;
+  line-height: 0.96;
 }
 .font-display-tight {
   font-family: "Bricolage Grotesque", "Switzer", ui-sans-serif, sans-serif;
-  font-variation-settings: "wdth" 88, "opsz" 96;
-  font-weight: 800;
-  letter-spacing: -0.06em;
-  line-height: 0.86;
+  font-variation-settings: "wdth" 90, "opsz" 72;
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  line-height: 0.92;
 }
 
 .kicker {

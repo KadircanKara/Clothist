@@ -51,6 +51,7 @@ class PriceRange(BaseModel):
 class FacetsResponse(BaseModel):
     categories: list[FacetValue]
     brands: list[FacetValue]
+    colors: list[FacetValue] = Field(default_factory=list)
     price: PriceRange
     features: list[str] = Field(default_factory=list)
     fx_date: str | None = None

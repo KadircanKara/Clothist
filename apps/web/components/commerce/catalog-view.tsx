@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 
+import { CatalogSidebar, type CatalogFilters } from "@/components/commerce/catalog-sidebar";
 import { CommerceHeader } from "@/components/commerce/commerce-header";
 import { getFacets, searchProducts } from "@/lib/api";
 import type { Product, SortKey } from "@/lib/types";
@@ -12,7 +13,7 @@ import type { Product, SortKey } from "@/lib/types";
 type Props = {
   title: string;
   eyebrow: string;
-  gender?: "men" | "women";
+  gender: "men" | "women" | "unisex";
 };
 
 const SORT_LABELS: { value: SortKey; label: string }[] = [
@@ -23,14 +24,27 @@ const SORT_LABELS: { value: SortKey; label: string }[] = [
 ];
 
 export function CatalogView({ title, eyebrow, gender }: Props) {
-  const [category, setCategory] = useState<string | undefined>(undefined);
+  const [filters, setFilters] = useState<CatalogFilters>({
+    category: undefined,
+    color: undefined,
+    features: [],
+    inStockOnly: false,
+  });
   const [sort, setSort] = useState<SortKey>("relevance");
 
   const facets = useQuery({ queryKey: ["facets"], queryFn: getFacets, staleTime: 60_000 });
 
   const params = useMemo(
-    () => ({ gender, category, sort, limit: 48 }),
-    [gender, category, sort],
+    () => ({
+      gender,
+      category: filters.category,
+      color: filters.color,
+      features: filters.features.length ? filters.features : undefined,
+      in_stock_only: filters.inStockOnly || undefined,
+      sort,
+      limit: 48,
+    }),
+    [gender, filters, sort],
   );
   const results = useQuery({
     queryKey: ["catalog", params],
@@ -44,108 +58,75 @@ export function CatalogView({ title, eyebrow, gender }: Props) {
     <div className="commerce relative z-10 min-h-screen">
       <CommerceHeader />
 
-      <section className="mx-auto max-w-[1600px] px-6 pb-2 pt-10 lg:px-12 lg:pt-16">
+      <section className="mx-auto max-w-[1600px] px-6 pt-10 lg:px-12 lg:pt-14">
         <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted">
           {eyebrow}
         </p>
-        <h1 className="font-display-tight text-[18vw] sm:text-[14vw] lg:text-[11vw] leading-[0.86] tracking-[-0.06em] mt-4">
+        <h1 className="font-display-tight text-[64px] sm:text-[88px] lg:text-[112px] leading-[0.92] tracking-[-0.04em] mt-3">
           {title}
         </h1>
       </section>
 
-      <section className="mx-auto max-w-[1600px] px-6 pb-32 lg:px-12">
-        <div className="border-t border-line/10 flex flex-wrap items-center justify-between gap-4 py-5">
-          <div className="flex items-center gap-2 overflow-x-auto -mx-1 px-1">
-            <CategoryChip
-              active={!category}
-              onClick={() => setCategory(undefined)}
-              label="All"
-              count={total}
+      <section className="mx-auto max-w-[1600px] px-6 pb-32 pt-8 lg:px-12">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-14">
+          <div className="hidden lg:block">
+            <CatalogSidebar
+              facets={facets.data}
+              filters={filters}
+              onChange={setFilters}
+              totalCount={total}
             />
-            {facets.data?.categories.map((c) => (
-              <CategoryChip
-                key={c.value}
-                active={category === c.value}
-                onClick={() => setCategory(c.value)}
-                label={c.value}
-                count={c.count}
-              />
-            ))}
           </div>
-          <div className="flex items-center gap-4">
-            <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
-              {total} {total === 1 ? "piece" : "pieces"}
-            </span>
-            <label className="inline-flex items-center gap-2">
-              <span className="sr-only">Sort</span>
-              <select
-                value={sort}
-                onChange={(e) => setSort(e.target.value as SortKey)}
-                className="bg-transparent border border-line/15 px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.18em] focus:outline-none focus:border-foreground transition-colors cursor-pointer"
-              >
-                {SORT_LABELS.map((o) => (
-                  <option key={o.value} value={o.value}>
-                    {o.label}
-                  </option>
+
+          <div>
+            <div className="border-t border-line/10 flex flex-wrap items-center justify-between gap-4 py-4">
+              <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
+                {total} {total === 1 ? "piece" : "pieces"}
+              </span>
+              <label className="inline-flex items-center gap-2">
+                <span className="sr-only">Sort</span>
+                <select
+                  value={sort}
+                  onChange={(e) => setSort(e.target.value as SortKey)}
+                  className="bg-transparent border border-line/15 px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.18em] focus:outline-none focus:border-foreground transition-colors cursor-pointer"
+                >
+                  {SORT_LABELS.map((o) => (
+                    <option key={o.value} value={o.value}>
+                      {o.label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+
+            {results.isLoading ? (
+              <Skeleton />
+            ) : items.length === 0 ? (
+              <div className="border border-line/10 mt-2 flex flex-col items-center gap-3 py-24 text-center">
+                <span className="font-display text-4xl tracking-[-0.04em]">
+                  No pieces matched.
+                </span>
+                <p className="text-sm text-muted">
+                  Drop a filter or browse another category.
+                </p>
+              </div>
+            ) : (
+              <ul className="mt-6 grid grid-cols-2 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+                {items.map((p, i) => (
+                  <li
+                    key={p.id}
+                    className="anim-rise"
+                    style={{ animationDelay: `${Math.min(i, 8) * 40}ms` }}
+                  >
+                    <CatalogCard product={p} />
+                  </li>
                 ))}
-              </select>
-            </label>
+              </ul>
+            )}
           </div>
         </div>
-
-        {results.isLoading ? (
-          <Skeleton />
-        ) : items.length === 0 ? (
-          <div className="border border-line/10 mt-10 flex flex-col items-center gap-3 py-24 text-center">
-            <span className="font-display text-4xl tracking-[-0.04em]">No pieces matched.</span>
-            <p className="text-sm text-muted">Try a different category.</p>
-          </div>
-        ) : (
-          <ul className="mt-8 grid grid-cols-2 gap-x-6 gap-y-14 sm:grid-cols-3 lg:grid-cols-4">
-            {items.map((p, i) => (
-              <li
-                key={p.id}
-                className="anim-rise"
-                style={{ animationDelay: `${Math.min(i, 8) * 40}ms` }}
-              >
-                <CatalogCard product={p} />
-              </li>
-            ))}
-          </ul>
-        )}
       </section>
     </div>
-  );
-}
-
-function CategoryChip({
-  active,
-  onClick,
-  label,
-  count,
-}: {
-  active: boolean;
-  onClick: () => void;
-  label: string;
-  count: number;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-pressed={active}
-      className={[
-        "group relative shrink-0 px-4 h-9 font-mono text-[11px] uppercase tracking-[0.18em] transition-colors capitalize",
-        active
-          ? "bg-foreground text-background"
-          : "border border-line/15 text-foreground hover:border-foreground",
-      ].join(" ")}
-    >
-      {label}{" "}
-      <span className={active ? "text-background/60 ml-1" : "text-muted ml-1"}>
-        {count}
-      </span>
-    </button>
   );
 }
 
@@ -208,8 +189,8 @@ function CatalogCard({ product }: { product: Product }) {
 
 function Skeleton() {
   return (
-    <ul className="mt-8 grid grid-cols-2 gap-x-6 gap-y-14 sm:grid-cols-3 lg:grid-cols-4">
-      {Array.from({ length: 8 }).map((_, i) => (
+    <ul className="mt-6 grid grid-cols-2 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+      {Array.from({ length: 6 }).map((_, i) => (
         <li key={i} aria-hidden>
           <div className="skeleton aspect-[4/5] w-full" />
           <div className="mt-3 space-y-2">

@@ -80,14 +80,9 @@ def _build_where(f: SearchFilters, *, with_ts: bool) -> tuple[list[str], dict]:
         parts.append("brand = :p_brand")
         params["p_brand"] = f.brand
     if f.gender:
-        # Men/Women catalog pages include unisex items by convention; an
-        # explicit unisex filter still narrows to unisex-only.
-        if f.gender in ("men", "women"):
-            parts.append("(gender = :p_gender OR gender = 'unisex')")
-            params["p_gender"] = f.gender
-        else:
-            parts.append("gender = :p_gender")
-            params["p_gender"] = f.gender
+        # Strict gender match — each route is exclusive (Men, Unisex, Women).
+        parts.append("gender = :p_gender")
+        params["p_gender"] = f.gender
     if f.color:
         parts.append("colors @> ARRAY[:p_color]::text[]")
         params["p_color"] = f.color.lower()
@@ -243,12 +238,23 @@ async def _compute_facets(session: AsyncSession) -> dict:
             .order_by(func.count(Product.id).desc())
         )
     ).all()
+    # Colors come from the text[] array column — unnest, count, sort.
+    color_rows = (
+        await session.execute(
+            text(
+                "SELECT c, COUNT(*) FROM products, "
+                "unnest(coalesce(colors, ARRAY[]::text[])) AS c "
+                "GROUP BY c ORDER BY COUNT(*) DESC"
+            )
+        )
+    ).all()
     price_row = (
         await session.execute(select(func.min(Product.price_usd), func.max(Product.price_usd)))
     ).one()
     return {
         "categories": [{"value": v, "count": c} for v, c in cat_rows],
         "brands": [{"value": v, "count": c} for v, c in brand_rows],
+        "colors": [{"value": v, "count": c} for v, c in color_rows],
         "price": {"min": price_row[0], "max": price_row[1]},
         "features": list(get_features_vocabulary()),
         "fx_date": snapshot_date(),

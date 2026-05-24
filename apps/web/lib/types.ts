@@ -41,6 +41,7 @@ export type FacetValue = { value: string; count: number };
 export type FacetsResponse = {
   categories: FacetValue[];
   brands: FacetValue[];
+  colors: FacetValue[];
   price: { min: string | null; max: string | null };
   features: string[];
   fx_date: string | null;

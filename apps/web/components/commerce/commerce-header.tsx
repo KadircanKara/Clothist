@@ -6,8 +6,8 @@ import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { cartTotals, useCart } from "@/lib/cart-store";
 
 const NAV = [
-  { href: "/products", label: "Products" },
   { href: "/men", label: "Men" },
+  { href: "/unisex", label: "Unisex" },
   { href: "/women", label: "Women" },
 ];
 
@@ -22,7 +22,7 @@ export function CommerceHeader() {
       <div className="mx-auto grid max-w-[1600px] grid-cols-[1fr_auto_1fr] items-center gap-6 px-6 py-5 lg:px-12 lg:py-6">
         {/* Left: nav (desktop) */}
         <nav
-          className="hidden md:flex items-center gap-9"
+          className="hidden md:flex items-center gap-10"
           aria-label="Catalog navigation"
         >
           {NAV.map((n) => {
@@ -32,7 +32,7 @@ export function CommerceHeader() {
                 key={n.href}
                 href={n.href}
                 className={[
-                  "relative font-mono text-[11px] uppercase tracking-[0.18em] transition-colors",
+                  "relative font-mono text-[13px] uppercase tracking-[0.16em] transition-colors",
                   active ? "text-foreground" : "text-muted hover:text-foreground",
                 ].join(" ")}
               >
@@ -127,7 +127,7 @@ export function CommerceHeader() {
               key={n.href}
               href={n.href}
               className={[
-                "font-mono text-[11px] uppercase tracking-[0.18em]",
+                "font-mono text-[12px] uppercase tracking-[0.16em]",
                 active ? "text-foreground" : "text-muted",
               ].join(" ")}
             >
