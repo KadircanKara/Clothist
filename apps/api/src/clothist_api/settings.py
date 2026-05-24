@@ -51,6 +51,10 @@ class Settings(BaseSettings):
     # instead of logging it verbatim. Dev (default) leaves queries readable.
     log_redact_queries: bool = Field(default=False, alias="LOG_REDACT_QUERIES")
 
+    # Unsplash API key (free tier: 50 req/hour) — used only by the seed-data
+    # refetch script. Optional; refetch_images.py refuses to run without it.
+    unsplash_access_key: str | None = Field(default=None, alias="UNSPLASH_ACCESS_KEY")
+
     @property
     def cors_origins_list(self) -> list[str]:
         return [o.strip() for o in self.api_cors_origins.split(",") if o.strip()]

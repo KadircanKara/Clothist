@@ -113,7 +113,7 @@
     "description": "Lightweight Tech Fleece with full-length zip and side pockets. Tapered fit, ideal for layering.",
     "price": "120.00",
     "currency": "USD",
-    "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20navy%20hoodie%20named%20%27Navy%20Tech%20Fleece%20Full-Zip%20Hoodie%27%2C%20worn%20by%20a%20male%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+    "image_url": "https://images.unsplash.com/photo-1711964429491-a8200d660b6d?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
       "navy"
     ],
@@ -134,8 +134,8 @@
       "variants": [
         {
           "color": "navy",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20navy%20hoodie%20named%20%27Navy%20Tech%20Fleece%20Full-Zip%20Hoodie%27%2C%20worn%20by%20a%20male%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "https://images.unsplash.com/photo-1711964429491-a8200d660b6d?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
         },
         {
           "color": "black",
@@ -162,7 +162,7 @@
     "description": "Relaxed straight-leg cargo pants in heavyweight cotton ripstop with two side cargo pockets, two back pockets, and two front slash pockets.",
     "price": "89.00",
     "currency": "USD",
-    "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20pant%20named%20%27Black%20Cargo%20Pants%20with%206%20Pockets%27%2C%20worn%20by%20a%20male%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+    "image_url": "https://images.unsplash.com/photo-1758267927982-57d1e8f8dcea?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
       "black"
     ],
@@ -184,8 +184,8 @@
       "variants": [
         {
           "color": "black",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20pant%20named%20%27Black%20Cargo%20Pants%20with%206%20Pockets%27%2C%20worn%20by%20a%20male%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "https://images.unsplash.com/photo-1758267927982-57d1e8f8dcea?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
         },
         {
           "color": "khaki",
@@ -212,7 +212,7 @@
     "description": "Loose-fit cargo trousers in olive green with five-pocket layout, drawstring hem and reinforced knees.",
     "price": "1800",
     "currency": "TRY",
-    "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20olive%20pant%20named%20%27Olive%20Tactical%20Cargo%20Pants%27%2C%20worn%20by%20a%20male%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+    "image_url": "https://images.unsplash.com/photo-1778495351275-d14f16e86688?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
       "olive"
     ],
@@ -234,8 +234,8 @@
       "variants": [
         {
           "color": "olive",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20olive%20pant%20named%20%27Olive%20Tactical%20Cargo%20Pants%27%2C%20worn%20by%20a%20male%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "https://images.unsplash.com/photo-1778495351275-d14f16e86688?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
         },
         {
           "color": "khaki",
@@ -319,7 +319,7 @@
     "description": "Slim-fit black trousers in wool-blend with welt pockets.",
     "price": "54.99",
     "currency": "EUR",
-    "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20pant%20named%20%27Slim%20Black%20Dress%20Trousers%27%2C%20worn%20by%20a%20female%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+    "image_url": "https://images.unsplash.com/photo-1654512697681-8434b50096dd?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
       "black"
     ],
@@ -339,8 +339,8 @@
       "variants": [
         {
           "color": "black",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20pant%20named%20%27Slim%20Black%20Dress%20Trousers%27%2C%20worn%20by%20a%20female%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "https://images.unsplash.com/photo-1654512697681-8434b50096dd?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
         },
         {
           "color": "khaki",
@@ -1189,7 +1189,7 @@
     "description": "Sleeveless linen midi dress with side slits and tie waist.",
     "price": "73.50",
     "currency": "EUR",
-    "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20sand%20dresse%20named%20%27Linen%20Midi%20Dress%27%2C%20worn%20by%20a%20female%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+    "image_url": "https://images.unsplash.com/photo-1593913534956-a8d913b9394f?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
       "sand"
     ],
@@ -1207,8 +1207,8 @@
       "variants": [
         {
           "color": "sand",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20sand%20dresse%20named%20%27Linen%20Midi%20Dress%27%2C%20worn%20by%20a%20female%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "https://images.unsplash.com/photo-1593913534956-a8d913b9394f?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
         },
         {
           "color": "black",
@@ -1240,7 +1240,7 @@
     "description": "V-neck wrap dress in soft floral print.",
     "price": "39.99",
     "currency": "USD",
-    "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20floral%20dresse%20named%20%27Floral%20Wrap%20Dress%27%2C%20worn%20by%20a%20female%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+    "image_url": "https://images.unsplash.com/photo-1511130558090-00af810c21b1?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
       "floral"
     ],
@@ -1257,8 +1257,8 @@
       "variants": [
         {
           "color": "floral",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20floral%20dresse%20named%20%27Floral%20Wrap%20Dress%27%2C%20worn%20by%20a%20female%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "https://images.unsplash.com/photo-1511130558090-00af810c21b1?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
         },
         {
           "color": "black",
@@ -1290,7 +1290,7 @@
     "description": "Bias-cut black satin slip dress with cowl neck.",
     "price": "42.99",
     "currency": "GBP",
-    "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20dresse%20named%20%27Little%20Black%20Slip%20Dress%27%2C%20worn%20by%20a%20female%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+    "image_url": "https://images.unsplash.com/photo-1586024795129-38d4e68bdd0c?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
       "black"
     ],
@@ -1307,8 +1307,8 @@
       "variants": [
         {
           "color": "black",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20dresse%20named%20%27Little%20Black%20Slip%20Dress%27%2C%20worn%20by%20a%20female%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "https://images.unsplash.com/photo-1586024795129-38d4e68bdd0c?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
         },
         {
           "color": "cream",
@@ -1477,7 +1477,7 @@
     "description": "Mini pleated skirt in white with built-in shorts.",
     "price": "29.99",
     "currency": "USD",
-    "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20white%20skirt%20named%20%27Pleated%20Tennis%20Skirt%27%2C%20worn%20by%20a%20female%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+    "image_url": "https://images.unsplash.com/photo-1714291067169-0ad497681c83?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
       "white"
     ],
@@ -1494,8 +1494,8 @@
       "variants": [
         {
           "color": "white",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20white%20skirt%20named%20%27Pleated%20Tennis%20Skirt%27%2C%20worn%20by%20a%20female%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "https://images.unsplash.com/photo-1714291067169-0ad497681c83?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
         },
         {
           "color": "black",
@@ -1527,7 +1527,7 @@
     "description": "High-waist faux leather midi skirt in chocolate brown.",
     "price": "64.50",
     "currency": "EUR",
-    "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20brown%20skirt%20named%20%27Leather%20Midi%20Skirt%27%2C%20worn%20by%20a%20female%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+    "image_url": "https://images.unsplash.com/photo-1714205901200-4662d2911ed0?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
       "brown"
     ],
@@ -1544,8 +1544,8 @@
       "variants": [
         {
           "color": "brown",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20brown%20skirt%20named%20%27Leather%20Midi%20Skirt%27%2C%20worn%20by%20a%20female%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "https://images.unsplash.com/photo-1714205901200-4662d2911ed0?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
         },
         {
           "color": "black",
@@ -1627,7 +1627,7 @@
     "description": "Iconic blanket-lined workwear jacket in sandstone duck canvas. Reviewers note exceptional durability over 5+ years.",
     "price": "149.00",
     "currency": "USD",
-    "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20sand%20jacket%20named%20%27Detroit%20Workwear%20Jacket%27%2C%20worn%20by%20a%20male%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+    "image_url": "https://images.unsplash.com/photo-1632340751148-c7a5df9b34e7?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
       "sand"
     ],
@@ -1647,8 +1647,8 @@
       "variants": [
         {
           "color": "sand",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20sand%20jacket%20named%20%27Detroit%20Workwear%20Jacket%27%2C%20worn%20by%20a%20male%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "https://images.unsplash.com/photo-1632340751148-c7a5df9b34e7?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
         },
         {
           "color": "black",
@@ -1825,7 +1825,7 @@
     "description": "Midweight loopback cotton crewneck sweatshirt in heather grey.",
     "price": "59.00",
     "currency": "USD",
-    "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20grey%20hoodie%20named%20%27Crewneck%20Sweatshirt%20in%20Heather%20Grey%27%2C%20worn%20by%20a%20male%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+    "image_url": "https://images.unsplash.com/photo-1714023498660-e4c470b285b7?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
       "grey"
     ],
@@ -1842,8 +1842,8 @@
       "variants": [
         {
           "color": "grey",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20grey%20hoodie%20named%20%27Crewneck%20Sweatshirt%20in%20Heather%20Grey%27%2C%20worn%20by%20a%20male%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "https://images.unsplash.com/photo-1714023498660-e4c470b285b7?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
         },
         {
           "color": "black",
@@ -2408,7 +2408,7 @@
     "description": "Premium three-layer GORE-TEX waterproof, windproof and breathable shell. Helmet-compatible hood, pit zips, fully taped seams.",
     "price": "475.00",
     "currency": "USD",
-    "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20jacket%20named%20%27Beta%20AR%20Waterproof%20Shell%20Jacket%27%2C%20worn%20by%20a%20male%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
+    "image_url": "https://images.unsplash.com/photo-1603960098814-684d00219f7b?w=600&h=800&fit=crop&auto=format&q=75",
     "colors": [
       "black"
     ],
@@ -2430,8 +2430,8 @@
       "variants": [
         {
           "color": "black",
-          "image_url": "https://image.pollinations.ai/prompt/Editorial%20fashion%20product%20photo%20of%20a%20black%20jacket%20named%20%27Beta%20AR%20Waterproof%20Shell%20Jacket%27%2C%20worn%20by%20a%20male%20model%2C%20studio%20backdrop%2C%20soft%20natural%20lighting%2C%20e-commerce%20catalog%20framing%2C%20minimalist%20composition%2C%20sharp%20focus%2C%204k?width=600&height=800&nologo=true&model=flux",
-          "ai_generated": true
+          "image_url": "https://images.unsplash.com/photo-1603960098814-684d00219f7b?w=600&h=800&fit=crop&auto=format&q=75",
+          "ai_generated": false
         },
         {
           "color": "olive",
