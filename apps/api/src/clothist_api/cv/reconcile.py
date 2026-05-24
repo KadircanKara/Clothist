@@ -1,15 +1,27 @@
 """Pure-Python reconciliation policy.
 
-Categories: 3-way confidence-weighted vote between text-alias (scraper),
-LLM-by-name (services/llm_categorize), and CV-by-image (cv/classifier).
+Categories: STRICT CASCADE. Each source is consulted in order and the first
+one to hit the confidence threshold (default 0.95) wins. If nothing clears
+the bar the product lands in `"other"`. Order: text-by-title → LLM → CV.
+
+  text — fastest (sub-ms, deterministic regex)
+  llm  — slow (Groq round-trip, batched)
+  cv   — moderate (local CLIP inference)
+
+The cascade has two virtues over the previous parallel 3-way vote:
+  1. Correctness: when text is unambiguous (title contains "T-Shirt"), we
+     don't let the LLM or CV second-guess. CV in particular can be fooled
+     by photography (a "Striped Beach Towel" looks like a striped t-shirt
+     to CLIP) — locking the answer at the title stage avoids that.
+  2. Cost: high-confidence text matches skip the LLM call entirely, saving
+     Groq tokens and wall-clock at scale.
+
 Gender / colors: unchanged 2-way scraper-vs-CV policy.
 
 Has NO torch/transformers/openai dependency so unit tests can run without
-`--extra cv`. The LLM verdict is passed in as a dataclass; we don't make
-any network calls here.
+`--extra cv`. The LLM verdict is passed in as a dataclass; no network here.
 
-Spec: plans/cv_classify/senior_dev_v2.md §6 (original 2-way) +
-the user's hybrid amendment (2026-05-24).
+Spec: user request 2026-05-24 (Striped Beach Towel regression).
 """
 from __future__ import annotations
 
@@ -19,25 +31,19 @@ from typing import Literal
 from clothist_api.cv.types import CVVerdict
 
 
-# ----------------------- Category vote (3-way) ----------------------- #
+# ----------------------- Category cascade ----------------------- #
 
-# Per-source minimum confidence to "qualify" as a vote. Anything below
-# these floors is treated as "no signal" from that source.
-TEXT_VOTE_WEIGHT = 0.85       # text-alias matches are deterministic when they fire
-LLM_MIN_QUALIFY  = 0.30       # below this the LLM admits it's guessing
-CV_MIN_QUALIFY   = 0.25       # matches the old category_gap_fill threshold
+# The threshold a source's confidence must clear to "decide" the category.
+# When NO source clears it, the product is bucketed as `"other"`.
+CASCADE_THRESHOLD = 0.95
+OTHER_CATEGORY = "other"
 
 
 CategoryEvent = Literal[
-    "cat_unanimous",
-    "cat_text_llm_agree",
-    "cat_text_cv_agree",
-    "cat_llm_cv_agree",
-    "cat_text_only",
-    "cat_llm_only",
-    "cat_cv_only",
-    "cat_three_way_split",
-    "cat_no_signal",
+    "cascade_text",   # text-by-title cleared threshold
+    "cascade_llm",    # text didn't; LLM cleared threshold
+    "cascade_cv",     # text + LLM didn't; CV cleared threshold
+    "cascade_other",  # nothing cleared → "other"
 ]
 
 
@@ -59,12 +65,20 @@ ColorEvent = Literal["cv_color_replaced", "cv_color_kept"]
 
 
 @dataclass(slots=True)
-class LLMCatVote:
-    """LLM-by-name verdict. Pure data — no dependency on openai/etc.
+class TextCatVote:
+    """Text-by-title verdict. Pure data — no regex deps here.
 
-    `category=None` ⇒ LLM had no signal (disabled, errored, or "could not
-    tell"). The vote function treats this as an abstention.
+    `category=None` ⇒ no alias matched the title. The cascade treats this
+    as the text stage abstaining; the LLM stage is consulted next.
     """
+    category: str | None
+    confidence: float
+    matched_alias: str | None = None
+
+
+@dataclass(slots=True)
+class LLMCatVote:
+    """LLM-by-name verdict. Pure data — no dependency on openai/etc."""
     category: str | None
     confidence: float
 
@@ -80,24 +94,29 @@ class ReconciledRow:
     gender_event: GenderEvent
     color_event: ColorEvent
     scraper_previous: dict
-    # Per-source breakdown — written to attributes.cv_verdict.category_vote
-    # for auditing. Format: {"text": [cat|null, weight], "llm": [...], "cv": [...]}.
-    category_vote: dict = field(default_factory=dict)
+    # Per-stage breakdown — written to attributes.cv_verdict.category_cascade
+    # for auditing. Format:
+    #   {"text": [cat|null, conf], "llm": [...], "cv": [...],
+    #    "winner_stage": "text"|"llm"|"cv"|"other", "threshold": 0.95}
+    category_cascade: dict = field(default_factory=dict)
 
 
 def reconcile(
     *,
-    scraper_category: str | None,
+    scraper_category: str | None,  # legacy: ignored by the cascade but kept for API compat
     scraper_gender: str | None,
     scraper_colors: list[str] | None,
     verdict: CVVerdict,
+    text_vote: TextCatVote | None = None,
     llm_vote: LLMCatVote | None = None,
+    cascade_threshold: float = CASCADE_THRESHOLD,
 ) -> ReconciledRow:
-    """Apply policy. Pure function — no I/O.
+    """Apply the cascade for category, plus the existing 2-way policy for
+    gender and color. Pure function — no I/O.
 
-    `llm_vote` is optional; pass None (or an LLMCatVote with category=None)
-    to fall back to the 2-source vote (text + CV only). This preserves the
-    pre-hybrid behavior end-to-end when LLM is disabled.
+    `text_vote=None` falls back to a synthetic vote from scraper_category at
+    a moderate confidence (0.85), preserving compatibility with callers that
+    haven't been ported to the new title-based text classifier yet.
     """
     scraper_previous = {
         "category": scraper_category,
@@ -105,22 +124,18 @@ def reconcile(
         "colors":   list(scraper_colors) if scraper_colors else None,
     }
 
-    cv_cat_qualified = (
-        verdict.category if (verdict.category and verdict.category_confidence >= CV_MIN_QUALIFY)
-        else None
-    )
-    cv_cat_conf = verdict.category_confidence if cv_cat_qualified else 0.0
+    if text_vote is None:
+        # Back-compat path: synthesize a text vote from the scraper's stored
+        # category. Below 0.95 → falls through to LLM/CV as expected.
+        text_vote = TextCatVote(
+            category=scraper_category,
+            confidence=0.85 if scraper_category else 0.0,
+        )
+    if llm_vote is None:
+        llm_vote = LLMCatVote(category=None, confidence=0.0)
 
-    llm_cat_qualified: str | None = None
-    llm_cat_conf = 0.0
-    if llm_vote and llm_vote.category and llm_vote.confidence >= LLM_MIN_QUALIFY:
-        llm_cat_qualified = llm_vote.category
-        llm_cat_conf = llm_vote.confidence
-
-    final_category, cat_evt, vote_breakdown = _reconcile_category_3way(
-        text_category=scraper_category,
-        llm_category=llm_cat_qualified, llm_conf=llm_cat_conf,
-        cv_category=cv_cat_qualified,   cv_conf=cv_cat_conf,
+    final_category, cat_evt, cascade_breakdown = _cascade_category(
+        text=text_vote, llm=llm_vote, verdict=verdict, threshold=cascade_threshold,
     )
     final_gender, gen_evt = _reconcile_gender(
         scraper_gender, verdict.gender, verdict.gender_confidence,
@@ -135,97 +150,39 @@ def reconcile(
         gender_event=gen_evt,
         color_event=col_evt,
         scraper_previous=scraper_previous,
-        category_vote=vote_breakdown,
+        category_cascade=cascade_breakdown,
     )
 
 
-def _reconcile_category_3way(
+def _cascade_category(
     *,
-    text_category: str | None,
-    llm_category: str | None, llm_conf: float,
-    cv_category: str | None,  cv_conf: float,
-) -> tuple[str | None, CategoryEvent, dict]:
-    """3-way weighted vote across text-alias, LLM, and CV.
+    text: TextCatVote,
+    llm: LLMCatVote,
+    verdict: CVVerdict,
+    threshold: float,
+) -> tuple[str, CategoryEvent, dict]:
+    """Strict cascade — first source ≥ threshold wins; fall back to "other"."""
+    cv_cat = verdict.category
+    cv_conf = verdict.category_confidence
 
-    Vote weights:
-      text: TEXT_VOTE_WEIGHT (binary — match or no-match; aliases are precise)
-      llm:  the LLM's self-reported confidence (already qualified)
-      cv:   CLIP softmax probability (already qualified)
-
-    Decision:
-      1. Sum weights per candidate category.
-      2. Winner = argmax. Tiebreaker = highest single-source weight.
-      3. Returns the event that BEST describes which sources agreed.
-    """
-    text_w = TEXT_VOTE_WEIGHT if text_category else 0.0
-
-    breakdown = {
-        "text": [text_category, round(text_w, 4)],
-        "llm":  [llm_category,  round(llm_conf, 4)],
-        "cv":   [cv_category,   round(cv_conf, 4)],
+    breakdown_base = {
+        "text": [text.category, round(text.confidence, 4)],
+        "llm":  [llm.category,  round(llm.confidence, 4)],
+        "cv":   [cv_cat,        round(cv_conf, 4)],
+        "threshold": threshold,
     }
 
-    # Sum weights per candidate.
-    weights: dict[str, float] = {}
-    if text_category:
-        weights[text_category] = weights.get(text_category, 0.0) + text_w
-    if llm_category:
-        weights[llm_category] = weights.get(llm_category, 0.0) + llm_conf
-    if cv_category:
-        weights[cv_category] = weights.get(cv_category, 0.0) + cv_conf
-
-    if not weights:
-        return (None, "cat_no_signal", breakdown)
-
-    # Pick the heaviest category. On ties, fall back to whichever single
-    # source has the highest individual qualifying weight.
-    winner = max(weights, key=weights.get)
-    max_weight = weights[winner]
-    if sum(1 for w in weights.values() if w == max_weight) > 1:
-        # Tied on summed weight — break by highest individual weight.
-        per_source = [
-            (text_category, text_w),
-            (llm_category, llm_conf),
-            (cv_category, cv_conf),
-        ]
-        per_source = [(c, w) for c, w in per_source if c is not None]
-        per_source.sort(key=lambda kv: -kv[1])
-        winner = per_source[0][0]
-
-    # Classify the event by which sources backed the winner.
-    backers = {
-        "text": text_category == winner,
-        "llm":  llm_category  == winner,
-        "cv":   cv_category   == winner,
-    }
-    n_backing = sum(backers.values())
-
-    if n_backing >= 3:
-        evt: CategoryEvent = "cat_unanimous"
-    elif n_backing == 2:
-        if backers["text"] and backers["llm"]:
-            evt = "cat_text_llm_agree"
-        elif backers["text"] and backers["cv"]:
-            evt = "cat_text_cv_agree"
-        else:
-            evt = "cat_llm_cv_agree"
-    else:
-        # Exactly one source qualified for the winner. Is it the *only*
-        # qualifying source overall? If yes → "_only" event; if other
-        # sources qualified for a different category → split event.
-        qualified_sources = sum(
-            1 for c in (text_category, llm_category, cv_category) if c is not None
-        )
-        if qualified_sources == 1:
-            evt = (
-                "cat_text_only" if backers["text"]
-                else "cat_llm_only" if backers["llm"]
-                else "cat_cv_only"
-            )
-        else:
-            evt = "cat_three_way_split"
-
-    return (winner, evt, breakdown)
+    if text.category and text.confidence >= threshold:
+        return (text.category, "cascade_text",
+                {**breakdown_base, "winner_stage": "text"})
+    if llm.category and llm.confidence >= threshold:
+        return (llm.category, "cascade_llm",
+                {**breakdown_base, "winner_stage": "llm"})
+    if cv_cat and cv_conf >= threshold:
+        return (cv_cat, "cascade_cv",
+                {**breakdown_base, "winner_stage": "cv"})
+    return (OTHER_CATEGORY, "cascade_other",
+            {**breakdown_base, "winner_stage": "other"})
 
 
 # ----------------------- Gender (unchanged 2-way) ----------------------- #

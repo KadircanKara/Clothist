@@ -1,10 +1,10 @@
 """T2 — reconciliation unit tests.
 
-Pure-Python; does NOT import torch/transformers/openai. Runs without
-`--extra cv` and without an LLM_API_KEY.
+Pure-Python; no torch/transformers/openai. Runs without `--extra cv` and
+without an LLM_API_KEY.
 
-Category: 3-way confidence-weighted vote between text-alias, LLM-by-name,
-and CV-by-image.
+Category: STRICT CASCADE — text → LLM → CV at the 0.95 threshold,
+fallback to "other" if no source clears it.
 Gender / colors: 2-way scraper-vs-CV (unchanged).
 """
 from __future__ import annotations
@@ -12,12 +12,12 @@ from __future__ import annotations
 import pytest
 
 from clothist_api.cv.reconcile import (
-    CV_MIN_QUALIFY,
-    LLM_MIN_QUALIFY,
-    TEXT_VOTE_WEIGHT,
+    CASCADE_THRESHOLD,
+    OTHER_CATEGORY,
     THRESHOLDS,
     LLMCatVote,
     ReconciledRow,
+    TextCatVote,
     reconcile,
 )
 from clothist_api.cv.types import CVVerdict
@@ -45,151 +45,150 @@ def _verdict(
     )
 
 
-# ---------------- Category — 3-way vote ---------------- #
+# ---------------- Cascade ---------------- #
 
 
-def test_cat_unanimous_all_three_agree():
-    """All three sources name the same category → cat_unanimous."""
+def test_cascade_text_wins_at_threshold():
+    """Text at exactly 0.95 clears the bar; LLM and CV are not consulted."""
     d = reconcile(
-        scraper_category="sneakers", scraper_gender=None, scraper_colors=None,
-        verdict=_verdict(category="sneakers", category_confidence=0.7),
-        llm_vote=LLMCatVote("sneakers", 0.9),
+        scraper_category=None, scraper_gender=None, scraper_colors=None,
+        verdict=_verdict(category="sneakers", category_confidence=0.99),  # ignored
+        text_vote=TextCatVote("tshirts", 0.95),
+        llm_vote=LLMCatVote("dresses", 0.99),  # also ignored
     )
-    assert d.category == "sneakers"
-    assert d.category_event == "cat_unanimous"
-    assert d.category_vote == {
-        "text": ["sneakers", round(TEXT_VOTE_WEIGHT, 4)],
-        "llm":  ["sneakers", 0.9],
-        "cv":   ["sneakers", 0.7],
-    }
+    assert d.category == "tshirts"
+    assert d.category_event == "cascade_text"
+    assert d.category_cascade["winner_stage"] == "text"
 
 
-def test_cat_text_llm_agree_outweighs_cv():
-    """text + LLM agree on sneakers; CV says tshirts → sneakers wins."""
+def test_cascade_text_above_threshold_wins():
+    """Text at 0.97 (canonical-token tier) → text wins; LLM skipped logically."""
     d = reconcile(
-        scraper_category="sneakers", scraper_gender=None, scraper_colors=None,
-        verdict=_verdict(category="tshirts", category_confidence=0.50),
-        llm_vote=LLMCatVote("sneakers", 0.85),
+        scraper_category=None, scraper_gender=None, scraper_colors=None,
+        verdict=_verdict(category="dresses", category_confidence=0.85),
+        text_vote=TextCatVote("tshirts", 0.97),
+        llm_vote=LLMCatVote("dresses", 0.90),
     )
-    assert d.category == "sneakers"
-    assert d.category_event == "cat_text_llm_agree"
+    assert d.category == "tshirts"
+    assert d.category_event == "cascade_text"
 
 
-def test_cat_llm_cv_agree_overrides_wrong_text():
-    """LLM + CV agree the product is sneakers; the alias scan put it in
-    tshirts (e.g. "Jordan" matched a generic alias). The two image/name
-    signals override text."""
+def test_cascade_falls_through_to_llm():
+    """Text below threshold → LLM consulted; LLM at 0.97 wins."""
+    d = reconcile(
+        scraper_category=None, scraper_gender=None, scraper_colors=None,
+        verdict=_verdict(category="hoodies", category_confidence=0.50),
+        text_vote=TextCatVote("sneakers", 0.90),  # below 0.95
+        llm_vote=LLMCatVote("dresses", 0.97),
+    )
+    assert d.category == "dresses"
+    assert d.category_event == "cascade_llm"
+    assert d.category_cascade["winner_stage"] == "llm"
+
+
+def test_cascade_falls_through_to_cv():
+    """Text and LLM both below threshold → CV consulted; CV at 0.97 wins."""
+    d = reconcile(
+        scraper_category=None, scraper_gender=None, scraper_colors=None,
+        verdict=_verdict(category="dresses", category_confidence=0.97),
+        text_vote=TextCatVote("sneakers", 0.90),
+        llm_vote=LLMCatVote("hoodies", 0.80),
+    )
+    assert d.category == "dresses"
+    assert d.category_event == "cascade_cv"
+    assert d.category_cascade["winner_stage"] == "cv"
+
+
+def test_cascade_falls_through_to_other():
+    """No source clears 0.95 → category is 'other'. The user's "Striped Beach
+    Towel" regression: text says accessories @0.90, LLM abstains, CV says
+    tshirts @0.80 — none clear 0.95 so it lands in 'other' rather than
+    tshirts."""
+    d = reconcile(
+        scraper_category=None, scraper_gender=None, scraper_colors=None,
+        verdict=_verdict(category="tshirts", category_confidence=0.80),
+        text_vote=TextCatVote("accessories", 0.90),
+        llm_vote=LLMCatVote(None, 0.0),
+    )
+    assert d.category == OTHER_CATEGORY
+    assert d.category_event == "cascade_other"
+    assert d.category_cascade["winner_stage"] == "other"
+
+
+def test_cascade_all_sources_silent_to_other():
+    """Text NULL, LLM abstains, CV uncertain → other."""
+    d = reconcile(
+        scraper_category=None, scraper_gender=None, scraper_colors=None,
+        verdict=_verdict(category="tshirts", category_confidence=0.10),
+        text_vote=TextCatVote(None, 0.0),
+        llm_vote=LLMCatVote(None, 0.0),
+    )
+    assert d.category == OTHER_CATEGORY
+    assert d.category_event == "cascade_other"
+
+
+def test_cascade_threshold_is_exclusive_below():
+    """Confidence at exactly 0.949 does NOT clear 0.95 — boundary check."""
+    d = reconcile(
+        scraper_category=None, scraper_gender=None, scraper_colors=None,
+        verdict=_verdict(category="tshirts", category_confidence=0.10),
+        text_vote=TextCatVote("sneakers", 0.949),
+        llm_vote=LLMCatVote(None, 0.0),
+    )
+    assert d.category == OTHER_CATEGORY
+
+
+def test_cascade_breakdown_carries_all_three_stages():
+    """category_cascade dict surfaces each stage's [cat, conf] for auditing."""
+    d = reconcile(
+        scraper_category=None, scraper_gender=None, scraper_colors=None,
+        verdict=_verdict(category="hoodies", category_confidence=0.80),
+        text_vote=TextCatVote("sneakers", 0.90),
+        llm_vote=LLMCatVote("dresses", 0.85),
+    )
+    assert d.category_cascade["text"] == ["sneakers", 0.9]
+    assert d.category_cascade["llm"]  == ["dresses", 0.85]
+    assert d.category_cascade["cv"]   == ["hoodies", 0.8]
+    assert d.category_cascade["threshold"] == CASCADE_THRESHOLD
+
+
+def test_cascade_backwards_compat_no_text_or_llm():
+    """Legacy callers may omit text_vote/llm_vote — we synthesize a text
+    vote from scraper_category at 0.85 (below threshold) so the cascade
+    falls through. With only CV at 0.97, CV wins."""
     d = reconcile(
         scraper_category="tshirts", scraper_gender=None, scraper_colors=None,
-        verdict=_verdict(category="sneakers", category_confidence=0.60),
-        llm_vote=LLMCatVote("sneakers", 0.85),
+        verdict=_verdict(category="sneakers", category_confidence=0.97),
     )
+    # text_vote synthesized at 0.85, below 0.95 → CV wins.
     assert d.category == "sneakers"
-    assert d.category_event == "cat_llm_cv_agree"
+    assert d.category_event == "cascade_cv"
 
 
-def test_cat_text_cv_agree_overrides_wrong_llm():
-    """text + CV agree on hoodies; LLM picked jackets. Two-of-three wins."""
-    d = reconcile(
-        scraper_category="hoodies", scraper_gender=None, scraper_colors=None,
-        verdict=_verdict(category="hoodies", category_confidence=0.70),
-        llm_vote=LLMCatVote("jackets", 0.70),
-    )
-    assert d.category == "hoodies"
-    assert d.category_event == "cat_text_cv_agree"
-
-
-def test_cat_text_only_when_others_abstain():
-    """Only the alias scan fired; LLM was disabled, CV uncertain."""
-    d = reconcile(
-        scraper_category="hoodies", scraper_gender=None, scraper_colors=None,
-        verdict=_verdict(category="tshirts", category_confidence=0.10),  # below CV_MIN_QUALIFY
-        llm_vote=LLMCatVote(None, 0.0),
-    )
-    assert d.category == "hoodies"
-    assert d.category_event == "cat_text_only"
-
-
-def test_cat_llm_only_when_others_abstain():
-    """Alias scan returned NULL, CV uncertain — only LLM has a signal."""
+def test_cascade_text_with_null_category_at_high_conf_is_ignored():
+    """Text vote with category=None can't 'win' even at high confidence —
+    None means 'no match', not a category to assign."""
     d = reconcile(
         scraper_category=None, scraper_gender=None, scraper_colors=None,
-        verdict=_verdict(category="tshirts", category_confidence=0.10),  # below CV_MIN_QUALIFY
-        llm_vote=LLMCatVote("dresses", 0.80),
+        verdict=_verdict(category="dresses", category_confidence=0.96),
+        text_vote=TextCatVote(None, 0.99),  # contradictory but harmless
+        llm_vote=LLMCatVote(None, 0.0),
     )
     assert d.category == "dresses"
-    assert d.category_event == "cat_llm_only"
+    assert d.category_event == "cascade_cv"
 
 
-def test_cat_cv_only_when_others_abstain():
-    """text NULL + LLM disabled — CV alone fills the gap."""
+def test_cascade_custom_threshold():
+    """The caller can lower the threshold for ablation experiments."""
     d = reconcile(
         scraper_category=None, scraper_gender=None, scraper_colors=None,
-        verdict=_verdict(category="sneakers", category_confidence=0.55),
-        llm_vote=LLMCatVote(None, 0.0),
-    )
-    assert d.category == "sneakers"
-    assert d.category_event == "cat_cv_only"
-
-
-def test_cat_three_way_split_picks_highest_weight():
-    """All three sources qualify but each names a different category. The
-    highest single-source weight wins. LLM @0.92 > text @0.85 > CV @0.50."""
-    d = reconcile(
-        scraper_category="hoodies", scraper_gender=None, scraper_colors=None,
         verdict=_verdict(category="sneakers", category_confidence=0.50),
-        llm_vote=LLMCatVote("dresses", 0.92),
+        text_vote=TextCatVote("dresses", 0.80),
+        llm_vote=LLMCatVote("hoodies", 0.85),
+        cascade_threshold=0.75,
     )
     assert d.category == "dresses"
-    assert d.category_event == "cat_three_way_split"
-
-
-def test_cat_no_signal_returns_null():
-    """No source qualifies — NULL stays NULL."""
-    d = reconcile(
-        scraper_category=None, scraper_gender=None, scraper_colors=None,
-        verdict=_verdict(category="tshirts", category_confidence=0.10),  # below CV_MIN_QUALIFY
-        llm_vote=LLMCatVote(None, 0.0),
-    )
-    assert d.category is None
-    assert d.category_event == "cat_no_signal"
-
-
-def test_cat_llm_low_confidence_filtered_out():
-    """LLM below LLM_MIN_QUALIFY = 0.30 is treated as abstaining."""
-    d = reconcile(
-        scraper_category="hoodies", scraper_gender=None, scraper_colors=None,
-        verdict=_verdict(category="tshirts", category_confidence=0.10),
-        llm_vote=LLMCatVote("dresses", 0.20),  # below floor
-    )
-    assert d.category == "hoodies"
-    assert d.category_event == "cat_text_only"
-
-
-def test_cat_backwards_compat_no_llm_arg():
-    """When llm_vote is omitted (legacy callers), 2-way vote still works:
-    text + CV agree → unanimous-with-only-two-sources reduces to text_cv_agree."""
-    d = reconcile(
-        scraper_category="sneakers", scraper_gender=None, scraper_colors=None,
-        verdict=_verdict(category="sneakers", category_confidence=0.7),
-    )
-    assert d.category == "sneakers"
-    assert d.category_event == "cat_text_cv_agree"
-
-
-def test_cat_vote_breakdown_captures_all_three_sources():
-    """The category_vote dict surfaces per-source verdicts for auditing."""
-    d = reconcile(
-        scraper_category="hoodies", scraper_gender=None, scraper_colors=None,
-        verdict=_verdict(category="sneakers", category_confidence=0.60),
-        llm_vote=LLMCatVote("hoodies", 0.85),
-    )
-    assert "text" in d.category_vote
-    assert "llm" in d.category_vote
-    assert "cv" in d.category_vote
-    assert d.category_vote["text"] == ["hoodies", 0.85]
-    assert d.category_vote["llm"] == ["hoodies", 0.85]
-    assert d.category_vote["cv"] == ["sneakers", 0.6]
+    assert d.category_event == "cascade_text"
 
 
 # ---------------- Gender (2-way, unchanged) ---------------- #
@@ -291,35 +290,14 @@ def test_color_empty_cv_keeps_scraper():
     assert d.color_event == "cv_color_kept"
 
 
-# ---------------- Audit trail ---------------- #
-
-
-def test_scraper_previous_captured_on_override():
-    """The scraper_previous dict holds the pre-CV state for rollback."""
-    d = reconcile(
-        scraper_category="tshirts", scraper_gender="women",
-        scraper_colors=["white", "tan"],
-        verdict=_verdict(
-            category="sneakers", category_confidence=0.60,
-            gender="women", gender_confidence=0.80,
-            colors=[("black", 0.4)],
-        ),
-        llm_vote=LLMCatVote("sneakers", 0.85),
-    )
-    assert d.scraper_previous == {
-        "category": "tshirts",
-        "gender": "women",
-        "colors": ["white", "tan"],
-    }
+# ---------------- Constants ---------------- #
 
 
 def test_thresholds_pinned():
-    """Gender + color thresholds and per-source vote floors are the contract."""
     assert THRESHOLDS == {
         "gender_override":   0.55,
         "gender_gap_fill":   0.35,
         "color_avg":         0.30,
     }
-    assert TEXT_VOTE_WEIGHT == 0.85
-    assert LLM_MIN_QUALIFY  == 0.30
-    assert CV_MIN_QUALIFY   == 0.25
+    assert CASCADE_THRESHOLD == 0.95
+    assert OTHER_CATEGORY == "other"

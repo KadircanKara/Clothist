@@ -23,6 +23,13 @@ CANONICAL_CATEGORIES = frozenset({
     "hoodies", "tshirts", "pants", "jeans", "shorts",
     "skirts", "dresses", "jackets", "sneakers", "sweaters",
     "accessories", "swimwear", "underwear",
+    # Catch-all bucket assigned by the cascade classifier when no source
+    # (text/LLM/CV) clears the 0.95 confidence threshold. Surfaces in the
+    # UI as the "Other" filter chip — keeps non-fashion or genuinely
+    # ambiguous items out of the wrong categories (e.g. ALD's "Walnut
+    # Model Sailboat", a "Striped Beach Towel", or homewares from Kith
+    # Treats). See services/text_categorize.py + cv/reconcile.py.
+    "other",
 })
 
 
