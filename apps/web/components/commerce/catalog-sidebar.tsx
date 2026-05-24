@@ -106,77 +106,11 @@ export function CatalogSidebar({ facets, filters, onChange, allCount }: Props) {
         </ul>
       </Section>
 
-      <Section title="Features" index="04" collapsible defaultOpen={false}>
-        <ul className="grid grid-cols-1 gap-1.5">
-          {facets?.features.map((f) => {
-            const checked = filters.features.includes(f);
-            return (
-              <li key={f}>
-                <label className="flex cursor-pointer items-center gap-3 select-none py-1 group">
-                  <span
-                    className={[
-                      "grid h-4 w-4 place-items-center border transition-colors",
-                      checked
-                        ? "bg-foreground border-foreground"
-                        : "border-line/25 group-hover:border-foreground",
-                    ].join(" ")}
-                    aria-hidden
-                  >
-                    {checked && (
-                      <span className="block h-[2px] w-[2px] bg-background rounded-full" />
-                    )}
-                  </span>
-                  <input
-                    type="checkbox"
-                    className="sr-only"
-                    checked={checked}
-                    onChange={() =>
-                      onChange({
-                        ...filters,
-                        features: checked
-                          ? filters.features.filter((x) => x !== f)
-                          : [...filters.features, f],
-                      })
-                    }
-                  />
-                  <span className="font-mono text-[11px] uppercase tracking-[0.12em] group-hover:text-foreground">
-                    {f.replace(/_/g, " ")}
-                  </span>
-                </label>
-              </li>
-            );
-          })}
-        </ul>
-      </Section>
-
-      <Section title="Availability" index="05">
-        <label className="flex cursor-pointer items-center gap-3 select-none group">
-          <span
-            className={[
-              "grid h-4 w-4 place-items-center border transition-colors",
-              filters.inStockOnly
-                ? "bg-foreground border-foreground"
-                : "border-line/25 group-hover:border-foreground",
-            ].join(" ")}
-            aria-hidden
-          >
-            {filters.inStockOnly && (
-              <span className="block h-[2px] w-[2px] bg-background rounded-full" />
-            )}
-          </span>
-          <input
-            type="checkbox"
-            className="sr-only"
-            checked={filters.inStockOnly}
-            onChange={(e) =>
-              onChange({ ...filters, inStockOnly: e.target.checked })
-            }
-          />
-          <span className="font-mono text-[11px] uppercase tracking-[0.12em]">
-            In stock only
-          </span>
-        </label>
-      </Section>
+      {/* Features and Availability sections removed per UX feedback —
+          they added noise without driving meaningful filter behavior on
+          the current catalog. The CatalogFilters type still carries
+          `features` and `inStockOnly` so URL state round-trips, but the
+          sidebar no longer surfaces controls for them. */}
 
       {(filters.categories.length > 0 || filters.brands.length > 0 || filters.color || filters.features.length > 0 || filters.inStockOnly) && (
         <button

@@ -15,6 +15,10 @@ from decimal import Decimal
 from clothist_api.schemas.intent import ParsedIntent, SortKey
 from clothist_api.services.features_vocab import get_features_set, get_synonyms
 from clothist_api.services.intent_preparse import PrePassResult
+from clothist_api.services.text_categorize import (
+    EXCLUDED_CATEGORY,
+    categorize_by_text,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -133,6 +137,26 @@ def merge(
     category = _expand_synonyms_for_category(raw_category, syn_en, syn_locale, cat_set)
     if raw_category and category is None:
         logger.info("dropped hallucinated category=%r", raw_category)
+
+    # Fallback: when the LLM abstains on category (Groq's Llama 3.3 is
+    # surprisingly strict about closed enums — "hoodie" comes back as
+    # category=null even when the model's own `explanation` says
+    # "Hoodies"), run the same title-driven matcher we use at ingest.
+    # Only applied when the LLM gave us nothing useful, never overrides
+    # an LLM hit. Skips the "excluded" non-clothing bucket — a query
+    # like "ceramic" shouldn't return a filter chip.
+    if category is None and pre.stripped_query:
+        text_verdict = categorize_by_text(title=pre.stripped_query)
+        if (
+            text_verdict.category
+            and text_verdict.category != EXCLUDED_CATEGORY
+            and text_verdict.category in cat_set
+        ):
+            category = text_verdict.category
+            logger.info(
+                "category_text_fallback q=%r → %s via %s",
+                pre.stripped_query, category, text_verdict.matched_alias,
+            )
 
     raw_brand = llm_raw.get("brand")
     brand = _resolve_taxonomy(raw_brand, brand_set)

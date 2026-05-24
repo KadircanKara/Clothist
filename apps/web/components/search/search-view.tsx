@@ -174,7 +174,26 @@ export function SearchView() {
     try {
       const res = await parseIntent(trimmed);
       setIntent(res);
-      applyIntent(res);
+      // Safety net: if the LLM (and the backend's text fallback) both
+      // failed to extract any filter — no category, brand, color,
+      // refined_query, or price — pushing an all-undefined applyIntent
+      // would leave the URL at /search and route us back to the hero.
+      // Always keep at least the literal query so the FTS still runs.
+      const p = res.parsed;
+      const hasAnyFilter =
+        p.category ||
+        p.brand ||
+        p.color ||
+        p.refined_query?.trim() ||
+        p.features.length > 0 ||
+        p.min_price !== null ||
+        p.max_price !== null ||
+        p.in_stock_only;
+      if (hasAnyFilter) {
+        applyIntent(res);
+      } else {
+        pushFilters({ ...filters, q: trimmed, offset: 0 });
+      }
     } catch (err) {
       if (err instanceof ApiError && err.status === 429) {
         setRateLimited(true);
