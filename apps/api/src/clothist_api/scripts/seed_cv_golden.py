@@ -26,7 +26,7 @@ OUT = Path(__file__).resolve().parents[5] / "apps" / "api" / "tests" / "fixtures
 
 CATEGORIES = (
     "hoodies", "tshirts", "pants", "jeans", "shorts", "skirts",
-    "dresses", "jackets", "sneakers", "sweaters", "accessories",
+    "dresses", "jackets", "footwear", "sweaters", "accessories",
     "swimwear", "underwear",
 )
 

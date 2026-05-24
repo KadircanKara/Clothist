@@ -53,7 +53,7 @@ def test_cascade_text_wins_at_threshold():
     """Text at exactly 0.95 clears the bar; LLM and CV are not consulted."""
     d = reconcile(
         scraper_category=None, scraper_gender=None, scraper_colors=None,
-        verdict=_verdict(category="sneakers", category_confidence=0.99),  # ignored
+        verdict=_verdict(category="footwear", category_confidence=0.99),  # ignored
         text_vote=TextCatVote("tshirts", 0.95),
         llm_vote=LLMCatVote("dresses", 0.99),  # also ignored
     )
@@ -79,7 +79,7 @@ def test_cascade_falls_through_to_llm():
     d = reconcile(
         scraper_category=None, scraper_gender=None, scraper_colors=None,
         verdict=_verdict(category="hoodies", category_confidence=0.50),
-        text_vote=TextCatVote("sneakers", 0.90),  # below 0.95
+        text_vote=TextCatVote("footwear", 0.90),  # below 0.95
         llm_vote=LLMCatVote("dresses", 0.97),
     )
     assert d.category == "dresses"
@@ -92,7 +92,7 @@ def test_cascade_falls_through_to_cv():
     d = reconcile(
         scraper_category=None, scraper_gender=None, scraper_colors=None,
         verdict=_verdict(category="dresses", category_confidence=0.97),
-        text_vote=TextCatVote("sneakers", 0.90),
+        text_vote=TextCatVote("footwear", 0.90),
         llm_vote=LLMCatVote("hoodies", 0.80),
     )
     assert d.category == "dresses"
@@ -121,11 +121,11 @@ def test_cascade_cv_wins_between_thresholds():
     Tracks the "shoes in Other" regression the user reported."""
     d = reconcile(
         scraper_category=None, scraper_gender=None, scraper_colors=None,
-        verdict=_verdict(category="sneakers", category_confidence=0.88),
+        verdict=_verdict(category="footwear", category_confidence=0.88),
         text_vote=TextCatVote(None, 0.0),
         llm_vote=LLMCatVote(None, 0.0),
     )
-    assert d.category == "sneakers"
+    assert d.category == "footwear"
     assert d.category_event == "cascade_cv"
 
 
@@ -146,7 +146,7 @@ def test_cascade_threshold_is_exclusive_below():
     d = reconcile(
         scraper_category=None, scraper_gender=None, scraper_colors=None,
         verdict=_verdict(category="tshirts", category_confidence=0.10),
-        text_vote=TextCatVote("sneakers", 0.949),
+        text_vote=TextCatVote("footwear", 0.949),
         llm_vote=LLMCatVote(None, 0.0),
     )
     assert d.category == OTHER_CATEGORY
@@ -157,10 +157,10 @@ def test_cascade_breakdown_carries_all_three_stages():
     d = reconcile(
         scraper_category=None, scraper_gender=None, scraper_colors=None,
         verdict=_verdict(category="hoodies", category_confidence=0.80),
-        text_vote=TextCatVote("sneakers", 0.90),
+        text_vote=TextCatVote("footwear", 0.90),
         llm_vote=LLMCatVote("dresses", 0.85),
     )
-    assert d.category_cascade["text"] == ["sneakers", 0.9]
+    assert d.category_cascade["text"] == ["footwear", 0.9]
     assert d.category_cascade["llm"]  == ["dresses", 0.85]
     assert d.category_cascade["cv"]   == ["hoodies", 0.8]
     assert d.category_cascade["threshold_text_llm"] == CASCADE_THRESHOLD
@@ -173,10 +173,10 @@ def test_cascade_backwards_compat_no_text_or_llm():
     falls through. With only CV at 0.97, CV wins."""
     d = reconcile(
         scraper_category="tshirts", scraper_gender=None, scraper_colors=None,
-        verdict=_verdict(category="sneakers", category_confidence=0.97),
+        verdict=_verdict(category="footwear", category_confidence=0.97),
     )
     # text_vote synthesized at 0.85, below 0.95 → CV wins.
-    assert d.category == "sneakers"
+    assert d.category == "footwear"
     assert d.category_event == "cascade_cv"
 
 
@@ -197,7 +197,7 @@ def test_cascade_custom_threshold():
     """The caller can lower either threshold for ablation experiments."""
     d = reconcile(
         scraper_category=None, scraper_gender=None, scraper_colors=None,
-        verdict=_verdict(category="sneakers", category_confidence=0.50),
+        verdict=_verdict(category="footwear", category_confidence=0.50),
         text_vote=TextCatVote("dresses", 0.80),
         llm_vote=LLMCatVote("hoodies", 0.85),
         cascade_threshold=0.75,

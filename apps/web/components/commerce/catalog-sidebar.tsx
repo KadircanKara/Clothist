@@ -45,8 +45,11 @@ export function CatalogSidebar({ facets, filters, onChange, allCount }: Props) {
                 label={c.value}
                 count={c.count}
                 active={checked}
+                checkbox
                 onClick={() => {
-                  // Toggle: include if not selected, remove if it is.
+                  // Multi-select toggle: clicking adds the category if
+                  // missing, removes it if already selected. Empty array
+                  // = the implicit "All" state.
                   const next = checked
                     ? filters.categories.filter((x) => x !== c.value)
                     : [...filters.categories, c.value];
@@ -207,15 +210,50 @@ function Section({
   );
 }
 
+function FacetCheckbox({ checked }: { checked: boolean }) {
+  // Matches the Features section's checkbox style so multi-select
+  // categories read consistently as "tickable" rather than a one-of
+  // selection.
+  return (
+    <span
+      aria-hidden
+      className={[
+        "grid h-4 w-4 shrink-0 place-items-center border transition-colors",
+        checked
+          ? "bg-foreground border-foreground"
+          : "border-line/25 group-hover:border-foreground",
+      ].join(" ")}
+    >
+      {checked && (
+        <svg
+          viewBox="0 0 10 10"
+          className="h-2.5 w-2.5 stroke-background"
+          strokeWidth="2"
+          fill="none"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M1.5 5.5 L4 8 L8.5 2.5" />
+        </svg>
+      )}
+    </span>
+  );
+}
+
 function FacetRow({
   label,
   count,
   active,
+  checkbox = false,
   onClick,
 }: {
   label: string;
   count: number;
   active: boolean;
+  // When true, show a visible checkbox indicator on the left so the
+  // multi-select state is obvious at a glance. Used for category chips;
+  // omitted for the "All" reset row which is a one-shot action.
+  checkbox?: boolean;
   onClick: () => void;
 }) {
   return (
@@ -225,11 +263,14 @@ function FacetRow({
         onClick={onClick}
         aria-pressed={active}
         className={[
-          "flex w-full items-baseline justify-between py-1.5 text-left transition-colors",
+          "group flex w-full items-center justify-between gap-3 py-1.5 text-left transition-colors",
           active ? "text-foreground" : "text-muted hover:text-foreground",
         ].join(" ")}
       >
-        <span className="text-[14px] capitalize">{label}</span>
+        <span className="flex min-w-0 items-center gap-3">
+          {checkbox && <FacetCheckbox checked={active} />}
+          <span className="truncate text-[14px] capitalize">{label}</span>
+        </span>
         <span className="font-mono text-[10px] tracking-[0.18em]">{count}</span>
       </button>
     </li>

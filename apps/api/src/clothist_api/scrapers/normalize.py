@@ -21,7 +21,7 @@ Gender = Literal["men", "women", "unisex"]
 #   - underwear (briefs, boxers, lingerie, bras)
 CANONICAL_CATEGORIES = frozenset({
     "hoodies", "tshirts", "pants", "jeans", "shorts",
-    "skirts", "dresses", "jackets", "sneakers", "sweaters",
+    "skirts", "dresses", "jackets", "footwear", "sweaters",
     "accessories", "swimwear", "underwear",
     # Catch-all bucket assigned by the cascade classifier when no source
     # (text/LLM/CV) clears its confidence threshold AND the item isn't
@@ -80,22 +80,22 @@ CATEGORY_ALIASES: dict[str, str] = {
     "blazer": "jackets", "blazers": "jackets",
     "vest": "jackets", "vests": "jackets",
     "parka": "jackets",
-    # Footwear — boots & flats roll under sneakers for the MVP taxonomy
-    "sneaker": "sneakers", "sneakers": "sneakers",
-    "shoe": "sneakers", "shoes": "sneakers",
-    "boot": "sneakers", "boots": "sneakers",
-    "flat": "sneakers", "flats": "sneakers",
-    "sandal": "sneakers", "sandals": "sneakers",
-    "loafer": "sneakers", "loafers": "sneakers",
-    "trainer": "sneakers", "trainers": "sneakers",
-    "runner": "sneakers", "runners": "sneakers",
-    "espadrille": "sneakers", "espadrilles": "sneakers",
-    "mary jane": "sneakers", "ballerina": "sneakers", "ballerinas": "sneakers",
-    "clog": "sneakers", "clogs": "sneakers",
-    "heel": "sneakers", "heels": "sneakers",
-    "high top": "sneakers", "high tops": "sneakers",
-    "low top": "sneakers", "low tops": "sneakers",
-    "slide": "sneakers", "slides": "sneakers",
+    # Footwear — boots & flats roll under footwear for the MVP taxonomy
+    "sneaker": "footwear", "footwear": "footwear",
+    "shoe": "footwear", "shoes": "footwear",
+    "boot": "footwear", "boots": "footwear",
+    "flat": "footwear", "flats": "footwear",
+    "sandal": "footwear", "sandals": "footwear",
+    "loafer": "footwear", "loafers": "footwear",
+    "trainer": "footwear", "trainers": "footwear",
+    "runner": "footwear", "runners": "footwear",
+    "espadrille": "footwear", "espadrilles": "footwear",
+    "mary jane": "footwear", "ballerina": "footwear", "ballerinas": "footwear",
+    "clog": "footwear", "clogs": "footwear",
+    "heel": "footwear", "heels": "footwear",
+    "high top": "footwear", "high tops": "footwear",
+    "low top": "footwear", "low tops": "footwear",
+    "slide": "footwear", "slides": "footwear",
     # Accessories — bags, hats, belts, eyewear, jewelry, wallets
     "accessories": "accessories", "accessory": "accessories",
     "bag": "accessories", "bags": "accessories",
@@ -163,7 +163,7 @@ def normalize_category(product_type: str | None) -> str | None:
     Substring scan goes longest-alias-first so multi-word phrases beat their
     constituent substrings: `"high top"` beats `"top"` for "High Top
     Sneakers" — without this, "top" in the alias map (intended for "tank
-    top" / "crop top") wrongly routes Jordan sneakers to `tshirts`. See
+    top" / "crop top") wrongly routes Jordan footwear to `tshirts`. See
     plans/cv_classify/senior_dev_v2.md §0 + §12 #11 for the empirical case.
     """
     if not product_type:

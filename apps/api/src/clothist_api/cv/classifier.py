@@ -49,7 +49,7 @@ CATEGORY_PROMPTS: dict[str, list[str]] = {
     "jackets":     ["a photo of a jacket",
                     "a product photo of an outerwear coat",
                     "a photo of a blazer"],
-    "sneakers":    ["a photo of sneakers",
+    "footwear":    ["a photo of footwear or sneakers",
                     "a product photo of athletic shoes",
                     "a photo of loafers or flats"],
     "sweaters":    ["a photo of a sweater",

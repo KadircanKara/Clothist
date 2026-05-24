@@ -31,7 +31,7 @@ logger = logging.getLogger(__name__)
 
 CANONICAL_CATEGORIES = [
     "tshirts", "hoodies", "sweaters", "jackets", "pants", "jeans", "shorts",
-    "skirts", "dresses", "sneakers", "accessories", "swimwear", "underwear",
+    "skirts", "dresses", "footwear", "accessories", "swimwear", "underwear",
 ]
 
 
@@ -41,12 +41,12 @@ array of up to 10 products. For each product return one of these categories or
 null if no category is a clear fit:
 
   tshirts, hoodies, sweaters, jackets, pants, jeans, shorts, skirts, dresses,
-  sneakers, accessories, swimwear, underwear
+  footwear, accessories, swimwear, underwear
 
 Rules
 - "accessories" includes bags, hats, belts, jewelry, sunglasses, wallets,
   socks-as-accessory, gloves, scarves — anything non-garment.
-- "sneakers" covers ALL footwear (athletic, casual, loafers, flats, heels,
+- "footwear" covers ALL footwear (athletic, casual, loafers, flats, heels,
   boots, slippers, mary janes). Do not split footwear across categories.
 - "underwear" covers briefs, bras, lingerie, intimate socks (sport socks → accessories).
 - "swimwear" covers bikinis, swimsuits, swim shorts, board shorts.
@@ -57,7 +57,7 @@ Rules
 Confidence
 - Return a self-assessed confidence in [0, 1] for each product.
 - 0.95 = the product name unambiguously names this category (e.g. "Cotton T-Shirt")
-- 0.75 = strong signal (e.g. "Air Jordan 1" → sneakers via brand+model)
+- 0.75 = strong signal (e.g. "Air Jordan 1" → footwear via brand+model)
 - 0.50 = weak signal, plausible but other categories possible
 - < 0.30 = guessing — prefer returning null over a low-confidence label
 

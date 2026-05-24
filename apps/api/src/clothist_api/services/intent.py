@@ -104,7 +104,7 @@ Query: "minimalist hoodie"
 Output: {{"category":"hoodie","brand":null,"color":null,"in_stock_only":false,"features":[],"excluded_features":[],"refined_query":"minimalist","sort":null,"explanation":"Minimalist hoodies"}}
 
 Query: "nike running shoes available now"
-Output: {{"category":"sneakers","brand":"Nike","color":null,"in_stock_only":true,"features":[],"excluded_features":[],"refined_query":"running","sort":null,"explanation":"Nike sneakers for running, in stock"}}
+Output: {{"category":"footwear","brand":"Nike","color":null,"in_stock_only":true,"features":[],"excluded_features":[],"refined_query":"running","sort":null,"explanation":"Nike running shoes, in stock"}}
 
 Query: "no logo hoodie"
 Output: {{"category":"hoodie","brand":null,"color":null,"in_stock_only":false,"features":["logo_free"],"excluded_features":["embroidered_logo"],"refined_query":null,"sort":null,"explanation":"Logo-free hoodies"}}

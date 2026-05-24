@@ -34,7 +34,7 @@ SECONDARY_COLORS_BY_CATEGORY: dict[str, list[str]] = {
     "skirts": ["black", "cream", "tan"],
     "dresses": ["black", "cream", "rust"],
     "jackets": ["black", "olive", "tan"],
-    "sneakers": ["white", "black", "grey"],
+    "footwear": ["white", "black", "grey"],
     "sweaters": ["cream", "navy", "rust"],
 }
 DEFAULT_SECONDARY = ["black", "cream", "navy"]
