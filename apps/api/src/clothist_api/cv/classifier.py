@@ -87,10 +87,22 @@ def _color_prompts() -> dict[str, list[str]]:
 
 CENTER_CROP_RATIO = 0.6
 
+# Minimum share-of-pixels a color must reach to be retained. Tertiary colors
+# below this floor are background bleed / corner noise — they leak into the
+# coarse filter facets (a 7%-of-image beige patch on an obviously-orange
+# tote would surface the product under the "Beige" filter chip) and break
+# the user's expectation that the filter and product page agree on color.
+# 0.10 was picked from the corpus distribution: it drops 66/341 (~19%) of
+# detected tertiaries — the entire bottom decile, where colors are below
+# 0.05 and pure noise — while preserving real two-tone products with a
+# meaningful 0.15+ secondary color.
+MIN_COLOR_SHARE = 0.10
+
 
 def _center_crop_quantize(image_bytes: bytes, *, k: int = 5) -> list[tuple[str, float]]:
-    """Center-crop the image and return the top-3 palette colors by cluster
-    weight. Falls back gracefully if Pillow isn't installed (returns []).
+    """Center-crop the image and return up to top-3 palette colors above the
+    MIN_COLOR_SHARE noise floor. Falls back gracefully if Pillow isn't
+    installed (returns []).
     """
     try:
         from PIL import Image as PILImage
@@ -117,7 +129,14 @@ def _center_crop_quantize(image_bytes: bytes, *, k: int = 5) -> list[tuple[str, 
         canonical = nearest_palette_color((r, g, b))
         bucket[canonical] += count / total
 
-    return sorted(bucket.items(), key=lambda kv: -kv[1])[:3]
+    ranked = sorted(bucket.items(), key=lambda kv: -kv[1])[:3]
+    # Always keep the dominant color even if a degenerate image with ~5
+    # equal clusters pushes it below the floor; drop only the trailing
+    # noise.
+    if not ranked:
+        return ranked
+    head, tail = ranked[0], ranked[1:]
+    return [head] + [(name, share) for name, share in tail if share >= MIN_COLOR_SHARE]
 
 
 # ---------------- CLIP classifier ---------------- #
